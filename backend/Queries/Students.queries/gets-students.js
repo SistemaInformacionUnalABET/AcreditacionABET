@@ -1,4 +1,4 @@
-var connetion = require('../../connection');
+var connection = require('../../connection');
 
 function MethodsDB() {
 
@@ -10,7 +10,7 @@ function MethodsDB() {
     // }
 
     this.selectAll = function (response) {
-        connetion.obtain(function (er, cn) {
+        connection.obtain(function (er, cn) {
             cn.query('select * from estudiantes', function (error, result) {
                 cn.release();
                 if (error) {
@@ -23,7 +23,7 @@ function MethodsDB() {
     }
 
     this.selectById = function (id, response) {
-        connetion.obtain(function (er, cn) {
+        connection.obtain(function (er, cn) {
             cn.query('select * from estudiantes where id_estudiante=?', id, function (error, result) {
                 cn.release();
                 if (error) {
@@ -36,7 +36,7 @@ function MethodsDB() {
     }
 
     this.selectByDocument = function (document, response) {
-        connetion.obtain(function (er, cn) {
+        connection.obtain(function (er, cn) {
             cn.query('select * from estudiantes where documento=?', document, function (error, result) {
                 cn.release();
                 if (error) {
@@ -49,7 +49,7 @@ function MethodsDB() {
     }
 
     this.selectByEmail = function (email, response) {
-        connetion.obtain(function (er, cn) {
+        connection.obtain(function (er, cn) {
             cn.query('select * from estudiantes where email=?', email, function (error, result) {
                 cn.release();
                 if (error) {
@@ -62,7 +62,7 @@ function MethodsDB() {
     }
 
     this.selectByName = function (name, response) {
-        connetion.obtain(function (er, cn) {
+        connection.obtain(function (er, cn) {
             cn.query('select * from estudiantes where nombre_completo=?', name, function (error, result) {
                 cn.release();
                 if (error) {
