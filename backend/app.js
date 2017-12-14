@@ -10,18 +10,24 @@ var connection = require('./connection');
 var routesGetsStudents = require('./Routes/Students.routes/gets-students-routes');
 var routesGetsIndicators = require('./Routes/Indicators.routes/gets-indicators-routes');
 
-//Methods Gets
+//Methods Posts
 var routesPostsStudents = require('./Routes/Students.routes/posts-students-routes');
 
+//Methods Puts
+var routesPutsStudents = require('./Routes/Students.routes/puts-students-routes');
 
+//Iniciar la conexion con la bd mysql
 connection.start();
 
 //Methods Gets
 routesGetsStudents.configure(app);
 routesGetsIndicators.configure(app);
 
-//Methods POSTS
+//Methods Pots
 routesPostsStudents.configure(app);
+
+//Methods Puts
+routesPutsStudents.configure(app);
 
 
 var server = app.listen(8000, function(){
