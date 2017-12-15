@@ -2,9 +2,9 @@ var connection = require('../../connection');
 
 function MethodsDB() {
 
-    this.update = function (datas, response) {
+    this.delete = function (id, response) {
         connection.obtain(function (er, cn) {
-            cn.query('update estudiantes set ? where id_estudiante = ?', [datas, datas.id_estudiante], function (error, result) {
+            cn.query('delete from estudiantes where id_estudiante = ?', id, function (error, result) {
                 cn.release();
                 if (error) {
                     response.send({ state: 'Error' });
