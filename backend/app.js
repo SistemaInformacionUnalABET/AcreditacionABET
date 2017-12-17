@@ -9,6 +9,7 @@ var connection = require('./connection');
 //Methods Gets
 var routesGetsStudents = require('./Routes/Students.routes/gets-students-routes');
 var routesGetsIndicators = require('./Routes/Indicators.routes/gets-indicators-routes');
+var routesGetsVGrades = require('./Routes/Grades.routes/gets-grades-routes');
 
 //Methods Posts
 var routesPostsStudents = require('./Routes/Students.routes/posts-students-routes');
@@ -27,6 +28,7 @@ connection.start();
 //Methods Gets
 routesGetsStudents.configure(app);
 routesGetsIndicators.configure(app);
+routesGetsVGrades.configure(app);
 
 //Methods Pots
 routesPostsStudents.configure(app);
