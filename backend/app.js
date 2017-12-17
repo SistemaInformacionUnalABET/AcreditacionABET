@@ -12,11 +12,12 @@ var routesGetsIndicators = require('./Routes/Indicators.routes/gets-indicators-r
 
 //Methods Posts
 var routesPostsStudents = require('./Routes/Students.routes/posts-students-routes');
+var routesPostsIndicators = require('./Routes/Indicators.routes/posts-indicators-routers');
 
 //Methods Puts
 var routesPutsStudents = require('./Routes/Students.routes/puts-students-routes');
 
-//Methods Puts
+//Methods Delete
 var routesDeletesStudents = require('./Routes/Students.routes/deletes-students-routes');
 
 
@@ -29,6 +30,8 @@ routesGetsIndicators.configure(app);
 
 //Methods Pots
 routesPostsStudents.configure(app);
+routesPostsIndicators.configure(app);
+
 
 //Methods Puts
 routesPutsStudents.configure(app);
