@@ -33,8 +33,8 @@ function MethodsDB() {
                     console.log("deficiente --> ", deficient, "porcentaje = ", ((deficient.length / result.length)*100).toFixed(3), "%");
                     console.log("insuficiente --> ", insufficient, "porcentaje = ", ((insufficient.length / result.length)*100).toFixed(3), "%");
                     console.log("aceptable --> ", acceptable, "porcentaje = ", ((acceptable.length / result.length)*100).toFixed(3), "%");
-                    console.log("sobreslaiente --> ", outstanding, "porcentaje = ", ((outstanding.length / result.length)*100).toFixed(3), "%");
-                    console.log("execelente --> ", excellent, "porcentaje = ", ((excellent.length / result.length)*100).toFixed(3), "%");
+                    console.log("sobresaliente --> ", outstanding, "porcentaje = ", ((outstanding.length / result.length)*100).toFixed(3), "%");
+                    console.log("excelente --> ", excellent, "porcentaje = ", ((excellent.length / result.length)*100).toFixed(3), "%");
                 }
             })
         })

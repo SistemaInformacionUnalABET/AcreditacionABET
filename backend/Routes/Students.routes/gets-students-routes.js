@@ -4,12 +4,12 @@ function http() {
     this.configure = function (app) {
 
         app.get('/estudiantes/', function (request, response) {
-            db.selectAll(response);
+            db.selectAll(request.query, response);
             // console.log("CLASE ",db.getPol(3, 4).alto)
         })
 
-        app.get('/estudiantes/:id/',function(request, response){
-            db.selectById(request.params.id, response);
+        app.get('/estudiantes/id/',function(request, response){
+            db.selectById(request.query, response);
         })
 
         app.get('/estudiantes/doc/:document/',function(request, response){

@@ -9,9 +9,14 @@ function MethodsDB() {
     //     }
     // }
 
-    this.selectAll = function (response) {
+    this.selectAll = function (queryParams,response) {
+        var id=queryParams.id?queryParams.id:null
+        var document=queryParams.document?queryParams.document:null
+        var email=queryParams.email?queryParams.email:null
         connection.obtain(function (er, cn) {
-            cn.query('select * from estudiantes', function (error, result) {
+            cn.query('select * from estudiantes where (id_estudiante = '+id+' or '+id+' is NULL ) AND ' + 
+            '(documento = '+document+' or '+document+' is NULL ) AND (email = '+email+' or '+email+' is NULL )',
+                function (error, result) {
                 cn.release();
                 if (error) {
                     response.send({ state: 'Error' })
@@ -23,16 +28,19 @@ function MethodsDB() {
     }
 
     this.selectById = function (id, response) {
-        connection.obtain(function (er, cn) {
-            cn.query('select * from estudiantes where id_estudiante=?', id, function (error, result) {
-                cn.release();
-                if (error) {
-                    response.send({ state: 'Error' })
-                } else {
-                    response.send(result);
-                }
-            })
-        })
+        // connection.obtain(function (er, cn) {
+        //     cn.query('select * from estudiantes where id_estudiante=?', id,
+        //      function (error, result) {
+        //         cn.release();
+        //         if (error) {
+        //             response.send({ state: 'Error' })
+        //         } else {
+        //             response.send(result);
+        //         }
+        //     })
+        // })
+        console.log("    /////   QUERY PARAMS \n ")
+        console.log(id.nombre)
     }
 
     this.selectByDocument = function (document, response) {
