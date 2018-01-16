@@ -22,6 +22,13 @@ var routesPutsStudents = require('./Routes/Students.routes/puts-students-routes'
 var routesDeletesStudents = require('./Routes/Students.routes/deletes-students-routes');
 
 
+///LA PRUEBA LECTURA>
+//lectura 
+var routesLectura = require('./Business/read-files');
+
+//////PRUEBA
+
+
 //Iniciar la conexion con la bd mysql
 connection.start();
 
@@ -40,6 +47,13 @@ routesPutsStudents.configure(app);
 
 //Methods Deletes
 routesDeletesStudents.configure(app);
+
+
+///PRUEBA>
+////LEER
+routesLectura.configure(app);
+///PRUEBA>
+////LEER
 
 var server = app.listen(8000, function(){
     console.log("Escuchando en el puerto ", server.address().port);

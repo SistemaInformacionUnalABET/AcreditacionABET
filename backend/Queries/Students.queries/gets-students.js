@@ -27,47 +27,19 @@ function MethodsDB() {
         })
     }
 
-    this.selectById = function (id, response) {
-        // connection.obtain(function (er, cn) {
-        //     cn.query('select * from estudiantes where id_estudiante=?', id,
-        //      function (error, result) {
-        //         cn.release();
-        //         if (error) {
-        //             response.send({ state: 'Error' })
-        //         } else {
-        //             response.send(result);
-        //         }
-        //     })
-        // })
-        console.log("    /////   QUERY PARAMS \n ")
-        console.log(id.nombre)
-    }
+    // this.selectByDocument = function (document, response) {
+    //     connection.obtain(function (er, cn) {
+    //         cn.query('select * from estudiantes where documento=?', document, function (error, result) {
+    //             cn.release();
+    //             if (error) {
+    //                 response.send({ state: 'Error' })
+    //             } else {
+    //                 response.send(result);
+    //             }
+    //         })
+    //     })
+    // }
 
-    this.selectByDocument = function (document, response) {
-        connection.obtain(function (er, cn) {
-            cn.query('select * from estudiantes where documento=?', document, function (error, result) {
-                cn.release();
-                if (error) {
-                    response.send({ state: 'Error' })
-                } else {
-                    response.send(result);
-                }
-            })
-        })
-    }
-
-    this.selectByEmail = function (email, response) {
-        connection.obtain(function (er, cn) {
-            cn.query('select * from estudiantes where email=?', email, function (error, result) {
-                cn.release();
-                if (error) {
-                    response.send({ state: 'Error' })
-                } else {
-                    response.send(result);
-                }
-            })
-        })
-    }
 
     this.selectByName = function (name, response) {
         connection.obtain(function (er, cn) {

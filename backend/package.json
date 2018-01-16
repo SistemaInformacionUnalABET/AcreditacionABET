@@ -10,9 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "csvjson": "^5.0.0",
+    "csvtojson": "^1.1.9",
     "express": "^4.16.2",
     "mysql": "^2.15.0",
     "pg": "^7.4.0",
-    "pg-promise": "^7.3.2"
+    "pg-promise": "^7.3.2",
+    "sqlstring": "^2.3.0"
   }
 }
