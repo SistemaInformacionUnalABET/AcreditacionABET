@@ -10,6 +10,8 @@ function http() {
 
         let fs = require('fs');
         var datos;
+        var subject = [];
+        var bandera = true;
 
         var options = {
             delimiter: ';', // optional
@@ -28,21 +30,88 @@ function http() {
                 //Insertandolo en la bd el nombre de la asignatura
                 console.log("lo que para query ", datos[0].asignatura);
 
-                for (let i of datos) {
 
-                    connection.obtain(function (er, cn) {
-                        cn.query('insert into comunes set nombre=' + SqlString.escape(i.asignatura), function (error, result) {
-                            cn.release();
+
+                connection.obtain(function (er, cn) {
+
+
+                    //Select all asignaturas
+                    cn.query('SELECT comunes.nombre FROM comunes INNER JOIN asignaturas ON ' +
+                        'comunes.id_comun=asignaturas.id_comun WHERE comunes.id_comun=asignaturas.id_comun', function (error, result) {
                             if (error) {
-                                console.log("ERRORRRR");
+                                response.send({ nombresDeAsignatura: 'Error' })
                             } else {
-                                console.log("Insertado bien");
 
+
+                                console.log("DAtos excel", datos);
+                                console.log("Result query select", result);
+
+
+
+                                for (let i = 0; i < datos.length; i++) {
+                                    bandera = true;
+                                    for (let k = 0; k < result.length; k++) {
+
+                                        // SELECT  FROM comunes ORDER BY id_comun DESC LIMIT 1', function (error, result) {
+                                        //     if (error) {
+                                        //         response.send({ state2: 'Error' })
+                                        //     } else {
+
+                                        if (datos[i].asignatura === result[k].nombre) {
+
+                                            bandera = false;
+                                            // console.log("i.asignatura y result", i.asignatura , result[k].nombre);
+                                            // subject.push(result[k].nombre);
+                                        }
+                                    }
+
+                                    if (bandera) {
+                                        subject.push(datos[i].asignatura)
+                                    }
+
+                                }
+                                for (i of subject) {
+                                    console.log("EL SUBJECT: ", subject);
+                                    cn.query('insert into comunes set nombre=' + SqlString.escape(i), function (error, result) {
+                                        if (error) {
+                                            console.log("ERRORRRR insertando nombre en comunes");
+                                        } else {
+                                            console.log("Insertado bien en comunes");
+                                            //////
+                                            //consultando el ultimo id de comunes
+                                            cn.query('SELECT id_comun FROM comunes ORDER BY id_comun DESC LIMIT 1', function (error, result) {
+                                                if (error) {
+                                                    console.log("ERRORRRR consultando el ultimo");
+                                                } else {
+                                                    console.log("Consultado el ultimo", result);
+                                                    var id_comunS = parseInt(result[0].id_comun)
+                                                    console.log("var id ", typeof(id_comunS))
+                                                    //////
+                                                    //Insertandolo en la bd el id de la asignatura en asignatura
+
+                                                    cn.query('insert into asignaturas set id_comun='+id_comunS+'', function (error, result) {
+                                                        if (error) {
+                                                            console.log("ERRORRRR insertando en asignatura");
+                                                        } else {
+                                                            console.log("Insertado el id de la asignatura");
+                                                        }
+                                                    });
+
+                                                }
+                                            });
+
+                                        }
+                                    });
+                                }
+
+
+                                cn.release();
                             }
                         })
-                    })
 
-                }
+                })
+
+
 
                 ///////
                 //Insertandolo en la bd el nombre de la asignatura
