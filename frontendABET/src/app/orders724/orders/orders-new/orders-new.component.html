@@ -1,8 +1,23 @@
-<p>
-  orders-new works!
-</p>
 
-<mat-form-field>
+      <div class="card bg-info text-white">
+          <div class="card-body">Cargar archivo de EXCEL</div>
+        </div>
+      <br>
+      <br>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+  <div>
+      
+      <input type="file" class="btn btn-success" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
+      <button type="button" class="btn btn-info" (click)="Upload()">Upload</button>
+
+  </div>
+<div>
+    <button class="btn btn-outline-danger">LogOut</button>
+  </div>
+  </nav>
+
+<!-- <mat-form-field>
   <input matInput placeholder="Segundo Nombre ">
 </mat-form-field>
 
@@ -20,4 +35,4 @@
 
 <div>
   <nvd3 [options]="options" [data]="data"></nvd3>
-</div>
+</div> -->

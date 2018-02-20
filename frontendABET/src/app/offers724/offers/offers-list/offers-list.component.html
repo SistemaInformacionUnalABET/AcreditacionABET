@@ -1,3 +1,37 @@
-<p>
+<!-- <p>
   offers-list works!
-</p>
+</p> -->
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      Lista de indicadores
+    </div>
+    <div class="card-block">
+      <table class="table table-hover">
+        <thead class="thead-default">
+          <tr>
+            <th>Id_indicador</th>
+            <th>Id_meta</th>
+            <th>Id_comun</th>
+          </tr>
+
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of lista">
+            <td>{{item.id_indicador}}</td>
+            <td>{{item.id_meta}}</td>
+            <td>{{item.id_comun}}</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+<router-outlet></router-outlet>
+
