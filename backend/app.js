@@ -29,6 +29,12 @@ var routesLectura = require('./Business/read-files');
 //////PRUEBA
 
 
+
+var cors = require('./cors');
+
+app.use(cors.permisos);
+
+
 //Iniciar la conexion con la bd mysql
 connection.start();
 
