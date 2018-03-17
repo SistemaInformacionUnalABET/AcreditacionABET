@@ -9,7 +9,7 @@ import { DashboardModule } from '../dashboard/dashboard.module';
 import { DashboardItemsComponent } from '../dashboard/dashboard-items/dashboard-items.component';
 import { IndexComponent } from './index/index.component';
 import { MaterialModule } from '../app.material';
-import {AuthModule} from '../auth724/auth/auth.module'
+import {AuthModule} from '../auth/auth/auth.module'
 
 
 import 'hammerjs';

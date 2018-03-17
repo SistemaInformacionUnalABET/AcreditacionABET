@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { OrdersItemsComponent } from '../orders724/orders/orders-items/orders-items.component';
-import { OffersItemsComponent } from '../offers724/offers/offers-items/offers-items.component';
-import { OffersListComponent } from '../offers724/offers/offers-list/offers-list.component';
-import { OffersEditComponent } from '../offers724/offers/offers-edit/offers-edit.component';
+import { uploadDataItemsComponent } from '../uploadData/uploadData/uploadData-items/uploadData-items.component';
+import { StatisticsItemsComponent } from '../statistics/statistics/statistics-items/statistics-items.component';
+import { StatisticsListComponent } from '../statistics/statistics/statistics-list/statistics-list.component';
+import { StatisticsEditComponent } from '../statistics/statistics/statistics-edit/statistics-edit.component';
 
-import { NotificationsItemsComponent } from '../notifications724/notifications/notifications-items/notifications-items.component';
+import { NotificationsItemsComponent } from '../notifications/notifications/notifications-items/notifications-items.component';
 
 
 const routes: Routes = [
-  {path: 'orders', component: OrdersItemsComponent},
-  {path: 'offers', component: OffersItemsComponent,
+  {path: 'orders', component: uploadDataItemsComponent},
+  {path: 'offers', component: StatisticsItemsComponent,
   children: [
     {path: '', redirectTo: 'lista', pathMatch: 'full'},
-    {path: 'lista', component: OffersListComponent},
-    {path: 'detalle', component: OffersEditComponent},
-    {path: 'detalle/:id', component: OffersEditComponent}
+    {path: 'lista', component: StatisticsListComponent},
+    {path: 'detalle', component: StatisticsEditComponent},
+    {path: 'detalle/:id', component: StatisticsEditComponent}
     
     
   ]

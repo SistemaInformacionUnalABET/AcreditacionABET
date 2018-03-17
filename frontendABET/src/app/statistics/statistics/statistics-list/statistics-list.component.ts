@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Indicators } from './../offers-new/indicators';
-import { OffersService } from './../offers.service';
+import { Indicators } from './../entities/indicators';
+import { OffersService } from './../statistics.service';
 
 @Component({
-  selector: 'app-offers-list',
-  templateUrl: './offers-list.component.html',
-  styleUrls: ['./offers-list.component.css']
+  selector: 'app-statistics-list',
+  templateUrl: './statistics-list.component.html',
+  styleUrls: ['./statistics-list.component.css']
 })
-export class OffersListComponent implements OnInit {
+export class StatisticsListComponent implements OnInit {
 
   lista: Indicators[];
 

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http'
 
 import {Observable} from 'rxjs/Observable';
-import {Indicators} from './../../offers724/offers/offers-new/indicators';
-import {Commons} from './../../offers724/offers/offers-new/commons'
+import {Indicators} from './../../statistics/statistics/entities/indicators';
+import {Commons} from './../../statistics/statistics/entities/commons'
 
 
 import 'rxjs/add/operator/map';

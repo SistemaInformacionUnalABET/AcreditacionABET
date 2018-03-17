@@ -1,23 +1,23 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import * as XLSX from 'ts-xlsx';
 
-import { OrdersService } from './../orders.service'
+import { OrdersService } from './../uploadData.service'
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Indicators } from '../../../offers724/offers/offers-new/indicators';
-import { Commons } from '../../../offers724/offers/offers-new/commons';
+import { Indicators } from '../../../statistics/statistics/entities/indicators';
+import { Commons } from '../../../statistics/statistics/entities/commons';
 
 import { logging } from 'selenium-webdriver';
 
 @Component({
-  selector: 'app-orders-new',
-  templateUrl: './orders-new.component.html',
+  selector: 'app-uploadData-new',
+  templateUrl: './uploadData-new.component.html',
   providers: [OrdersService],
   //styleUrls: ['./orders-new.component.css'],
   styleUrls: ['../../../../../node_modules/nvd3/build/nv.d3.css'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class OrdersNewComponent implements OnInit {
+export class uploadDataNewComponent implements OnInit {
   indicador: Indicators;
   common: Commons;
 
@@ -68,7 +68,7 @@ export class OrdersNewComponent implements OnInit {
 
         var excelDatas = XLSX.utils.sheet_to_json(worksheet, { raw: true });
 
-        console.log("ELEMENTO [0]", excelDatas[0]);
+        console.log("ELEMENTO TODO", excelDatas);
 
         this.indicador.id_indicador = null;
         this.indicador.id_meta = null;

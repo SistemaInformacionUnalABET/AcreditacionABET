@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http'
 
 import {Observable} from 'rxjs/Observable';
-import {Indicators} from './offers-new/indicators'
+import {Indicators} from './../statistics/entities/indicators'
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';

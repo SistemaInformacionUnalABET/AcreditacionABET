@@ -3,17 +3,17 @@ import { Router, ActivatedRoute, Params} from '@angular/router'
 
 import * as XLSX from 'ts-xlsx';
 
-import { Indicators } from '../../../offers724/offers/offers-new/indicators';
+import { Indicators } from '../../statistics/entities/indicators';
 import { logging } from 'selenium-webdriver';
 
 
 
 @Component({
-  selector: 'app-offers-edit',
-  templateUrl: './offers-edit.component.html',
+  selector: 'app-statistics-edit',
+  templateUrl: './statistics-edit.component.html',
   styleUrls: ['../../../../../node_modules/nvd3/build/nv.d3.css']
 })
-export class OffersEditComponent implements OnInit {
+export class StatisticsEditComponent implements OnInit {
 
 options;
 data;

@@ -3,9 +3,9 @@ import { Routes } from '@angular/router';
 
 import { IndexComponent } from './index/index.component'
 import { DashboardItemsComponent } from '../dashboard/dashboard-items/dashboard-items.component'
-import { AuthModule } from '../auth724/auth/auth.module'
+import { AuthModule } from '../auth/auth/auth.module'
 
-import { AuthLoginComponent } from '../auth724/auth/auth-login/auth-login.component'
+import { AuthLoginComponent } from '../auth/auth/auth-login/auth-login.component'
 
 
 
