@@ -29,7 +29,7 @@ var routesDeletesStudents = require('./Routes/Students.routes/deletes-students-r
 
 ///LA PRUEBA LECTURA>
 //lectura 
-var routesLectura = require('./Business/read-files');
+//**var routesLectura = require('./Business/read-files');
 
 //////PRUEBA
 
@@ -66,7 +66,7 @@ routesDeletesStudents.configure(app);
 
 ///PRUEBA>
 ////LEER
-routesLectura.configure(app);
+//***routesLectura.configure(app);
 ///PRUEBA>
 ////LEER
 
