@@ -2,7 +2,6 @@ var connection = require('../../connection');
 
 function MethodsDB() {
 
-
     this.selectAll = function (response) {
         connection.obtain(function (er, cn) {
             cn.query('select * from indicadores', function (error, result) {
