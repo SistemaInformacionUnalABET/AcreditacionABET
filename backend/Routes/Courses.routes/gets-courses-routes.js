@@ -4,9 +4,8 @@ function http() {
     this.configure = function (app) {
 
         app.get('/courses/', function (request, response) {
-            db.selectAll(response);
+            db.selectQuery(request.query, response);
         })
-
     }
 }
 

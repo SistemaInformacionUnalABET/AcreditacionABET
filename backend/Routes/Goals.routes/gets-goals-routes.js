@@ -11,7 +11,6 @@ function http() {
         app.get('/goals/', function (request, response) {
             db.selectQuery(request.query, response);
         })
-
     }
 }
 
