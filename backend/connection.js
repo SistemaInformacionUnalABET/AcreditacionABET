@@ -6,9 +6,9 @@ function Connection() {
     this.start = function(){ 
     this.pool = mysql.createPool({
         connectionLimit: 10,
-        host: 'localhost',        
-        user: 'root',
-        password: 'root',
+        host: 'mysql4.gear.host',        
+        user: 'acreditacion',
+        password: 'Ro1v423?e~v9',
         database: 'acreditacion'
     }) 
 }

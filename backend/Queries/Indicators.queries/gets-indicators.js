@@ -1,10 +1,10 @@
-var connetion = require('../../connection');
+var connection = require('../../connection');
 
 function MethodsDB() {
 
 
     this.selectAll = function (response) {
-        connetion.obtain(function (er, cn) {
+        connection.obtain(function (er, cn) {
             cn.query('select * from indicadores', function (error, result) {
                 cn.release();
                 if (error) {
@@ -17,7 +17,7 @@ function MethodsDB() {
     }
 
     this.selectById = function (id, response) {
-        connetion.obtain(function (er, cn) {
+        connection.obtain(function (er, cn) {
             cn.query('select * from indicadores where id_indicador=?', id, function (error, result) {
                 cn.release();
                 if (error) {
@@ -30,7 +30,7 @@ function MethodsDB() {
     }
 
     this.selectByIdMeta = function (id_meta, response) {
-        connetion.obtain(function (er, cn) {
+        connection.obtain(function (er, cn) {
             cn.query('select * from indicadores where id_meta=?', id_meta, function (error, result) {
                 cn.release();
                 if (error) {
@@ -43,7 +43,7 @@ function MethodsDB() {
     }
 
     this.selectByIdComun = function (id_comun, response) {
-        connetion.obtain(function (er, cn) {
+        connection.obtain(function (er, cn) {
             cn.query('select * from indicadores where id_comun=?', id_comun, function (error, result) {
                 cn.release();
                 if (error) {
