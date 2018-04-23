@@ -19,6 +19,7 @@ export const AppRouting: Routes = [
   // { path: '',          redirectTo: '', pathMatch: 'full' }
   ...WelcomeRoutingModule,
   //...AuthenticationRouting,
-  //...Tienda724Routing,
+  //...Tienda724Routing,npm cache verify
+
   { path: '*', redirectTo:'/',pathMatch:'full'}
 ];
