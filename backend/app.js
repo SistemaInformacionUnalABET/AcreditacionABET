@@ -16,6 +16,7 @@ var routesGetsCourses =  require('./Routes/Courses.routes/gets-courses-routes');
 var routesGetsGoals = require('./Routes/Goals.routes/gets-goals-routes');
 var routesGetsEvaluations = require('./Routes/Evaluations.routes/gets-evaluations-routes');
 var routesGetsActivities = require('./Routes/Activities.routes/gets-activities-routes');
+var routesGetsGroups = require('./Routes/Groups.routes/gets-groups-routes');
 
 
 
@@ -59,6 +60,8 @@ routesGetsCourses.configure(app);
 routesGetsGoals.configure(app);
 routesGetsEvaluations.configure(app);
 routesGetsActivities.configure(app);
+routesGetsGroups.configure(app);
+
 
 //Methods Pots
 // routesPostsStudents.configure(app);
