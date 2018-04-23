@@ -8,6 +8,7 @@ import {Commons} from './../../statistics/statistics/entities/commons'
 import { Goal } from './../../statistics/statistics/entities/goal'
 import { Course } from './../../statistics/statistics/entities/course'
 import { Group } from '../../statistics/statistics/entities/group';
+import { Evaluation } from '../../statistics/statistics/entities/evaluation';
 
 
 import 'rxjs/add/operator/map';
@@ -28,6 +29,8 @@ export class OrdersService {
   private urlGetIndicators = 'http://localhost:8000/indicators/';
   private urlGetCourses = 'http://localhost:8000/courses/';
   private urlGetGroups = 'http://localhost:8000/groups/';
+  private urlGetEvaluations = 'http://localhost:8000/Evaluations/';
+
 
 
   constructor(private http: Http) { }
@@ -96,6 +99,25 @@ export class OrdersService {
       return newUrl;
   }
 
+  concatenateParamsForGetEvaluations(
+    id_evaluation?: number, 
+    type?: string, 
+    evidence_url?: string,
+    id_course_indicator?: number){
+      var newUrl = this.urlGetEvaluations+"?"
+
+      if(id_evaluation){
+        newUrl = newUrl + "&id=" + id_evaluation;
+      }if(type){
+        newUrl = newUrl + "&type=" + type;
+      }if(evidence_url){
+        newUrl = newUrl + "&url=" + evidence_url;
+      }if(id_course_indicator){
+        newUrl = newUrl + "&id_asig_ind=" + id_course_indicator;
+      }
+
+      return newUrl;
+  }
   getIndicatorsByParams(
     id?: number, 
     goal?: number, 
@@ -123,7 +145,8 @@ export class OrdersService {
         .catch(this.handleError);
   }
 
-  getGroupByParams(id_group?: number, 
+  getGroupByParams(
+    id_group?: number, 
     id_course?: number, 
     number_group?: number): Observable<Group[]> {
       var urlParams = this.concatenateParamsForGetGroups(id_group, id_course, number_group);
@@ -133,6 +156,20 @@ export class OrdersService {
         .map(r => r.json())
         .catch(this.handleError);
   }
+
+  getEvaluationByParams(
+    id_evaluation?: number, 
+    type?: string, 
+    evidence_url?: string,
+    id_course_indicator?: number): Observable<Evaluation[]> {
+      var urlParams = this.concatenateParamsForGetEvaluations(id_evaluation, type, evidence_url,id_course_indicator);
+      let url = `${urlParams}`;
+
+      return this.http.get(url)
+        .map(r => r.json())
+        .catch(this.handleError);
+  }
+
 
   getCommons():Observable<Commons[]>{
     let url = `${this.url3}`;
@@ -161,8 +198,6 @@ export class OrdersService {
       .map(r => r.json)
       .catch(this.handleError)
   }
-
-
 
   private handleError(error: Response | any){
     let errMsg: string;

@@ -6,7 +6,8 @@ import { Indicators } from '../../../statistics/statistics/entities/indicators';
 import { Commons } from '../../../statistics/statistics/entities/commons';
 import { Goal } from '../../../statistics/statistics/entities/goal'
 import { Course } from '../../../statistics/statistics/entities/course'
-import { Group } from '../../../statistics/statistics/entities/Group'
+import { Group } from '../../../statistics/statistics/entities/group'
+import { CourseIndicatorSelected } from '../../../statistics/statistics/entities/courseIndicatorSelected'
 
 
 import { FormBuilder, FormControl, FormGroup, Validators, COMPOSITION_BUFFER_MODE } from '@angular/forms';
@@ -16,6 +17,7 @@ import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 
 import { logging } from 'selenium-webdriver';
+import { Evaluation } from '../../../statistics/statistics/entities/evaluation';
 
 @Component({
   selector: 'app-uploadData-new',
@@ -39,22 +41,27 @@ export class uploadDataNewComponent implements OnInit {
   indicatorList: Indicators[];
   courseList: Course[];
   groupList: Group[];
-
+  evaluationTypeList: String[];
+  activityTypeList: String[];
 
   goalSelected: Goal;
   courseSelected: Course;
 
   form: FormGroup;
 
-  myControl: FormControl = new FormControl();
-  controlIndicator: FormControl = new FormControl();
-  controlCourse: FormControl = new FormControl();
-  controlGroup: FormControl = new FormControl();
+  myControl: FormControl;
+  controlIndicator: FormControl;
+  controlCourse: FormControl;
+  controlGroup: FormControl;
+  controlEvaluationType: FormControl;
+  controlActivityType: FormControl;
 
   filteredOptions: Observable<string[]>;
   filteredOptionsForIndicators: Observable<string[]>;
   filteredOptionsForCourse: Observable<string[]>;
   filteredOptionsForGroups: Observable<string[]>;
+  filteredOptionsForEvaluationsType: Observable<String[]>;
+  filteredOptionsForActivitiesType: Observable<String[]>;
 
   emptyString = " ";
   variable = false;
@@ -73,14 +80,35 @@ export class uploadDataNewComponent implements OnInit {
     this.myControl = new FormControl();
     this.controlIndicator = new FormControl();
     this.controlCourse = new FormControl();
+    this.controlGroup = new FormControl();
+    this.controlEvaluationType = new FormControl();
+    this.controlActivityType = new FormControl();
 
-    this.filteredOptions = null;
-    this.filteredOptionsForIndicators = null;
-    this.filteredOptionsForCourse = null;
 
     this.goalList = [];
     this.indicatorList = [];
     this.courseList = [];
+    this.groupList = [];
+    this.evaluationTypeList = ["Auto-evaluación", "Co-evalución", "Hetero-evaluación"];
+    this.activityTypeList = ["Cuestionario",
+      "Debate",
+      "Informe",
+      "Lectura de articulos",
+      "Parcial",
+      "Práctica de laboratorio",
+      "Presentación de propuesta",
+      "Presentación oral",
+      "Prototipo",
+      "Proyecto de clase",
+      "Proyecto final",
+      "Quíz",
+      "Resúmenes",
+      "Matriz de evaluación (rubrica)",
+      "Simulación",
+      "Solución a un problema",
+      "Sustentación en grupo",
+      "Otro"
+      ];
 
   }
 
@@ -96,8 +124,6 @@ export class uploadDataNewComponent implements OnInit {
         er => console.log(er),
         () => {
 
-          console.log("################# Meta", this.goalList);
-
           //Filtra las metas que aparecen en el formulario para el campo Meta
           //Nota: propio de Angular Material
           this.filteredOptions = this.myControl.valueChanges
@@ -112,9 +138,6 @@ export class uploadDataNewComponent implements OnInit {
         rs => this.courseList = rs,
         er => console.log(er),
         () => {
-
-          console.log("################# course", this.courseList);
-
           //Filtra las Asignaturas que aparecen en el formulario para el campo Asignatura
           //Nota: propio de Angular Material
           this.filteredOptionsForCourse = this.controlCourse.valueChanges
@@ -124,26 +147,27 @@ export class uploadDataNewComponent implements OnInit {
             );
         })
 
-
-  }
-  //Filtro de campo Meta
-  //Nota: Propio de Angular Material
-  filter(val): any[] {
-    return this.goalList.filter(element =>
-      (String(element.identificador_meta).toLowerCase() + " " + String(element.nombre_meta).toLowerCase()).indexOf(val.toLowerCase()) !== -1);
-  }
-
-  //Filtro de campo Asignatura
-  //Nota: Propio de Angular Material
-  filterCourses(val): any[] {
-    return this.courseList.filter(element =>
-      (String(element.codigo).toLowerCase() + " " + String(element.nombre_asisgnatura).toLowerCase()).indexOf(val.toLowerCase()) !== -1);
+      
+      //Filtra las Evaluaciones que aparecen en el formulario para el campo Evaluacion
+      //Nota: propio de Angular Material
+      this.filteredOptionsForEvaluationsType = this.controlEvaluationType.valueChanges
+        .pipe(
+          startWith(''),
+          map(val => this.filterEvaluationsType(val))
+        );
+        
+       //Filtra las Actividades que aparecen en el formulario para el campo Actividad
+      //Nota: propio de Angular Material
+      this.filteredOptionsForActivitiesType = this.controlActivityType.valueChanges
+        .pipe(
+          startWith(''),
+          map(val => this.filterActivitiesType(val))
+        );
   }
 
   fillIndicatorSelector(goal) {
 
     this.variable = true;
-
     this.goalSelected = goal;
     var goalId = this.goalSelected.id_meta;
 
@@ -188,6 +212,19 @@ export class uploadDataNewComponent implements OnInit {
       )
   }
 
+   //Filtro de campo Meta
+  //Nota: Propio de Angular Material
+  filter(val): any[] {
+    return this.goalList.filter(element =>
+      (String(element.identificador_meta).toLowerCase() + " " + String(element.nombre_meta).toLowerCase()).indexOf(val.toLowerCase()) !== -1);
+  }
+
+  //Filtro de campo Asignatura
+  //Nota: Propio de Angular Material
+  filterCourses(val): any[] {
+    return this.courseList.filter(element =>
+      (String(element.codigo).toLowerCase() + " " + String(element.nombre_asisgnatura).toLowerCase()).indexOf(val.toLowerCase()) !== -1);
+  }
 
   //Filtro de campo Indicador
   //Nota: Propio de Angular Material
@@ -196,7 +233,6 @@ export class uploadDataNewComponent implements OnInit {
       (String(element.identificador_indicador).toLowerCase() + " " + String(element.nombre_indicador).toLowerCase()).indexOf(val.toLowerCase()) !== -1);
   }
 
-
   //Filtro de campo Indicador
   //Nota: Propio de Angular Material
   filterGroups(val): any[] {
@@ -204,6 +240,19 @@ export class uploadDataNewComponent implements OnInit {
       ((String(element.numero_grupo)).toLowerCase()).indexOf((String(val)).toLowerCase()) !== -1);
   }
 
+  //Filtro de campo Evaluacion
+  //Nota: Propio de Angular Material
+  filterEvaluationsType(val): String[] {
+    return this.evaluationTypeList.filter(element =>
+      (String(element).toLowerCase()).indexOf((String(val)).toLowerCase()) !== -1);
+  }
+  //Filtro de campo Actividad
+  //Nota: Propio de Angular Material
+  filterActivitiesType(val): String[] {
+    return this.activityTypeList.filter(element =>
+      (String(element).toLowerCase()).indexOf((String(val)).toLowerCase()) !== -1);
+  }
+  
 
   // arrayBuffer: any;
   // file: File;

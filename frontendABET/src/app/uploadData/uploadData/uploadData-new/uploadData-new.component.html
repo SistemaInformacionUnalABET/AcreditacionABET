@@ -33,8 +33,6 @@
         </mat-card-content>
       </mat-card>
 
-
-
       <div *ngIf="variable">
         <mat-card>
           <mat-card-content>
@@ -52,7 +50,6 @@
           </mat-card-content>
 
         </mat-card>
-
       </div>
 
       <div *ngIf="!variable">
@@ -88,63 +85,94 @@
         </mat-card-content>
       </mat-card>
 
+      <div *ngIf="variableCourse">
+          <mat-card>
+            <mat-card-content>
+              <div class="example-container">
 
-<!-- HTML para get grupos -->
-<div *ngIf="variableCourse">
-    <mat-card>
-      <mat-card-content>
-        <div class="example-container">
+                <mat-form-field class="example-full-width">
+                  <input type="text" placeholder="Grupo" aria-label="Number" matInput [formControl]="controlGroup" [matAutocomplete]="autoGroup">
+                  <mat-autocomplete #autoGroup="matAutocomplete">
+                    <mat-option *ngFor="let group of filteredOptionsForGroups | async" [value]="group.numero_grupo">
+                      {{group.numero_grupo}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
 
-          <mat-form-field class="example-full-width">
-            <input type="text" placeholder="Grupo" aria-label="Number" matInput [formControl]="controlGroup" [matAutocomplete]="autoGroup">
-            <mat-autocomplete #autoGroup="matAutocomplete">
-              <mat-option *ngFor="let group of filteredOptionsForGroups | async" [value]="group.numero_grupo">
-                {{group.numero_grupo}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-      </mat-card-content>
+          </mat-card>
+      </div>
 
-    </mat-card>
+      <div *ngIf="!variableCourse">
+        <mat-card>
+          <mat-card-content>
+            <div class="example-container">
 
-  </div>
+              <mat-form-field class="example-full-width">
+                <input type="text" placeholder="Grupo" aria-label="Number" matInput [formControl]="controlGroup">
 
-  <div *ngIf="!variableCourse">
-    <mat-card>
-      <mat-card-content>
-        <div class="example-container">
+              </mat-form-field>
+            </div>
+          </mat-card-content>
 
-          <mat-form-field class="example-full-width">
-            <input type="text" placeholder="Grupo" aria-label="Number" matInput [formControl]="controlGroup">
+        </mat-card>
+      </div>
 
-          </mat-form-field>
-        </div>
-      </mat-card-content>
-
-    </mat-card>
-  </div>
-
-
+      <mat-card>
+          <mat-card-content>
+            <div class="example-container">
+              <mat-form-field class="example-full-width">
+                <input type="text" placeholder="Evaluación" aria-label="Number" matInput [formControl]="controlEvaluationType" [matAutocomplete]="autoEvaluationType">
+                <mat-autocomplete #autoEvaluationType="matAutocomplete">
+  
+                  <mat-option *ngFor="let evaluationType of filteredOptionsForEvaluationsType | async" [value]="evaluationType">
+                    {{evaluationType}}
+                  </mat-option>
+  
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+      </mat-card>
+  
+      <mat-card>
+          <mat-card-content>
+            <div class="example-container">
+              <mat-form-field class="example-full-width">
+                <input type="text" placeholder="Actividad" aria-label="Number" matInput [formControl]="controlActivityType" [matAutocomplete]="autoActivityType">
+                <mat-autocomplete #autoActivityType="matAutocomplete">
+  
+                  <mat-option *ngFor="let activityType of filteredOptionsForActivitiesType | async" [value]="activityType">
+                    {{activityType}}
+                  </mat-option>
+  
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+      </mat-card>
+  
     </div>
   </mat-card-content>
 </mat-card>
 
+<!--
 <mat-form-field>
   <input matInput placeholder="Segundo Nombre ">
 </mat-form-field>
+-->
 
 
-
-<mat-form-field floatPlaceholder="never">
+<!-- <mat-form-field floatPlaceholder="never">
   <input type="text" matInput placeholder="Hola">
-</mat-form-field>
+</mat-form-field> -->
 
-<div>
-  <input type="file" onchange="show(this.files)" accept=".csv" value="Read csv" placeholder="Cargar Arcivo CSV" id="csvUploadFile">
-  <button (click)="show()"> Ver CSV</button>
-</div>
+  <div >
+    <input type="file" onchange="show(this.files)" accept=".csv" value="Read csv" placeholder="Cargar Arcivo CSV" id="csvUploadFile">
+    <button (click)="show()"> Ver CSV</button>
+  </div>
 
-<div>
-  <nvd3 [options]="options" [data]="data"></nvd3>
-</div>
+  <div >
+    <nvd3 [options]="options" [data]="data"></nvd3>
+  </div>
