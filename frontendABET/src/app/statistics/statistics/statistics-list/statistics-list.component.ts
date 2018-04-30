@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Indicators } from './../entities/indicators';
+import { Indicator } from './../entities/indicator';
 import { OffersService } from './../statistics.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { OffersService } from './../statistics.service';
 })
 export class StatisticsListComponent implements OnInit {
 
-  lista: Indicators[];
+  lista: Indicator[];
 
   constructor(
     private servicio: OffersService

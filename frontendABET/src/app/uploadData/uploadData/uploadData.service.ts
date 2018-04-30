@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http'
 
 import {Observable} from 'rxjs/Observable';
-import {Indicators} from './../../statistics/statistics/entities/indicators';
+import {Indicator} from './../../statistics/statistics/entities/indicator';
 import {Commons} from './../../statistics/statistics/entities/commons'
 import { Goal } from './../../statistics/statistics/entities/goal'
 import { Course } from './../../statistics/statistics/entities/course'
 import { Group } from '../../statistics/statistics/entities/group';
 import { Evaluation } from '../../statistics/statistics/entities/evaluation';
+import { Student } from '../../statistics/statistics/entities/student';
 
 
 import 'rxjs/add/operator/map';
@@ -30,7 +31,7 @@ export class OrdersService {
   private urlGetCourses = 'http://localhost:8000/courses/';
   private urlGetGroups = 'http://localhost:8000/groups/';
   private urlGetEvaluations = 'http://localhost:8000/Evaluations/';
-
+  private urlPostStudents = 'http://localhost:8000/students/';
 
 
   constructor(private http: Http) { }
@@ -123,7 +124,7 @@ export class OrdersService {
     goal?: number, 
     identificator?: string, 
     name?: string, 
-    description?: string): Observable<Indicators[]> {
+    description?: string): Observable<Indicator[]> {
       var urlParams = this.concatenateParamsForGetIndicators(id, goal, identificator, name, description);
       let url = `${urlParams}`;
 
@@ -170,6 +171,15 @@ export class OrdersService {
         .catch(this.handleError);
   }
 
+  addStudents(student: Student){
+    let url = `${this.urlPostStudents}`;
+    let iJson = JSON.stringify(student);
+    console.log("HACIENDO EL ADD DE student", iJson);
+    
+    return this.http.post(url, iJson,  {headers: this.headers})
+      .map(r => r.json)
+      .catch(this.handleError)
+  }
 
   getCommons():Observable<Commons[]>{
     let url = `${this.url3}`;
@@ -179,7 +189,7 @@ export class OrdersService {
   }
 
 
-  addIndicators(indicators: Indicators){
+  addIndicators(indicators: Indicator){
     let url = `${this.url}`;
     let iJson = JSON.stringify(indicators);
     console.log("HACIENDO EL ADD ", iJson);

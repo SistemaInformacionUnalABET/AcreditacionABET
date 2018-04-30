@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params} from '@angular/router'
 
 import * as XLSX from 'ts-xlsx';
 
-import { Indicators } from '../../statistics/entities/indicators';
+import { Indicator } from '../../statistics/entities/indicator';
 import { logging } from 'selenium-webdriver';
 
 

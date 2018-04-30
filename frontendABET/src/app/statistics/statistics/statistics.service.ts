@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http'
 
 import {Observable} from 'rxjs/Observable';
-import {Indicators} from './../statistics/entities/indicators'
+import {Indicator} from './../statistics/entities/indicator'
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
@@ -16,7 +16,7 @@ export class OffersService {
 
   constructor(private http: Http) { }
 
-  getIndicators():Observable<Indicators[]>{
+  getIndicators():Observable<Indicator[]>{
     let url = `${this.url}`;
     return this.http.get(url)
       .map(r => r.json())

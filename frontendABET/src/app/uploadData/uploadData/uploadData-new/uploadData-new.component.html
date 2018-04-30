@@ -15,6 +15,7 @@
   <!-- <mat-card-title> Listado de intems </mat-card-title> -->
   <mat-card-content>
     <div class="container">
+      <form ng-form="">
       <mat-card>
         <mat-card-content>
           <div class="example-container">
@@ -23,7 +24,7 @@
               <mat-autocomplete #autoGoal="matAutocomplete">
 
                 <mat-option *ngFor="let goal of filteredOptions | async" [value]="goal.identificador_meta+ emptyString +goal.nombre_meta"
-                  (click)="fillIndicatorSelector(goal)">
+                  (click)="saveGoalSelected(goal)">
                   {{goal.identificador_meta}} {{goal.nombre_meta}}
                 </mat-option>
 
@@ -41,7 +42,8 @@
               <mat-form-field class="example-full-width">
                 <input type="text" placeholder="Indicador" aria-label="Number" matInput [formControl]="controlIndicator" [matAutocomplete]="autoIndicator">
                 <mat-autocomplete #autoIndicator="matAutocomplete">
-                  <mat-option *ngFor="let indicator of filteredOptionsForIndicators | async" [value]="indicator.identificador_indicador+ emptyString +indicator.nombre_indicador">
+                  <mat-option *ngFor="let indicator of filteredOptionsForIndicators | async" [value]="indicator.identificador_indicador+ emptyString +indicator.nombre_indicador" 
+                  (click)="saveIndicatorSelected(indicator)">
                     {{indicator.identificador_indicador}} {{indicator.nombre_indicador}}
                   </mat-option>
                 </mat-autocomplete>
@@ -75,7 +77,7 @@
               <mat-autocomplete #autoCourse="matAutocomplete">
 
                 <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.codigo+ emptyString +course.nombre_asignatura"
-                  (click)="fillGroupSelector(course)">
+                  (click)="saveCourseSelected(course)">
                   {{course.codigo}} {{course.nombre_asignatura}}
                 </mat-option>
 
@@ -93,7 +95,8 @@
                 <mat-form-field class="example-full-width">
                   <input type="text" placeholder="Grupo" aria-label="Number" matInput [formControl]="controlGroup" [matAutocomplete]="autoGroup">
                   <mat-autocomplete #autoGroup="matAutocomplete">
-                    <mat-option *ngFor="let group of filteredOptionsForGroups | async" [value]="group.numero_grupo">
+                    <mat-option *ngFor="let group of filteredOptionsForGroups | async" [value]="group.numero_grupo"
+                    (click)="saveGroupSelected(group)">
                       {{group.numero_grupo}}
                     </mat-option>
                   </mat-autocomplete>
@@ -126,7 +129,9 @@
                 <input type="text" placeholder="Evaluación" aria-label="Number" matInput [formControl]="controlEvaluationType" [matAutocomplete]="autoEvaluationType">
                 <mat-autocomplete #autoEvaluationType="matAutocomplete">
   
-                  <mat-option *ngFor="let evaluationType of filteredOptionsForEvaluationsType | async" [value]="evaluationType">
+                  <mat-option *ngFor="let evaluationType of filteredOptionsForEvaluationsType | async" [value]="evaluationType"
+                    (click)="saveEvaluationSelected(evaluationType)">
+
                     {{evaluationType}}
                   </mat-option>
   
@@ -143,7 +148,8 @@
                 <input type="text" placeholder="Actividad" aria-label="Number" matInput [formControl]="controlActivityType" [matAutocomplete]="autoActivityType">
                 <mat-autocomplete #autoActivityType="matAutocomplete">
   
-                  <mat-option *ngFor="let activityType of filteredOptionsForActivitiesType | async" [value]="activityType">
+                  <mat-option *ngFor="let activityType of filteredOptionsForActivitiesType | async" [value]="activityType"
+                  (click)="saveActivitySelected(activityType)">
                     {{activityType}}
                   </mat-option>
   
@@ -153,6 +159,16 @@
           </mat-card-content>
       </mat-card>
   
+      <div >
+        <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Cargar Lista" accept=".xlsx">
+        <button type="submit" class="btn btn-info" [disabled]="!isFile" (click)="upload()" >Enviar</button>
+        <button type="button" class="btn btn-success" (click)="show()"> Ver CSV</button>
+      </div>
+    
+      <!-- <div >
+        <nvd3 [options]="options" [data]="data"></nvd3>
+      </div> -->
+    </form>
     </div>
   </mat-card-content>
 </mat-card>
@@ -168,11 +184,4 @@
   <input type="text" matInput placeholder="Hola">
 </mat-form-field> -->
 
-  <div >
-    <input type="file" onchange="show(this.files)" accept=".csv" value="Read csv" placeholder="Cargar Arcivo CSV" id="csvUploadFile">
-    <button (click)="show()"> Ver CSV</button>
-  </div>
-
-  <div >
-    <nvd3 [options]="options" [data]="data"></nvd3>
-  </div>
+ 

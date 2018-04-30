@@ -1,4 +1,4 @@
-export class Indicators{
+export class Indicator{
     constructor(
         public id_indicador: number,
         public id_meta: number,
