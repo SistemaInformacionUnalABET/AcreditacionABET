@@ -11,8 +11,6 @@ var connection = require('./connection');
 // var routesGetsStudents = require('./Routes/Students.routes/gets-students-routes');
 var routesGetsIndicators = require('./Routes/Indicators.routes/gets-indicators-routes');
 var routesGetsCourses =  require('./Routes/Courses.routes/gets-courses-routes');
-// var routesGetsVGrades = require('./Routes/Grades.routes/gets-grades-routes');
-// var routesGetsCommons = require('./Routes/Commons.routes/gets-commons-routes');
 var routesGetsGoals = require('./Routes/Goals.routes/gets-goals-routes');
 var routesGetsEvaluations = require('./Routes/Evaluations.routes/gets-evaluations-routes');
 var routesGetsActivities = require('./Routes/Activities.routes/gets-activities-routes');
@@ -23,7 +21,7 @@ var routesGetsGroups = require('./Routes/Groups.routes/gets-groups-routes');
 
 
 //Methods Posts
-// var routesPostsStudents = require('./Routes/Students.routes/posts-students-routes');
+var routesPostsStudents = require('./Routes/Students.routes/posts-students-routes');
 // var routesPostsIndicators = require('./Routes/Indicators.routes/posts-indicators-routers');
 // var routesPostsCommons = require('./Routes/Commons.routes/posts-commons-routes');
 
@@ -64,7 +62,7 @@ routesGetsGroups.configure(app);
 
 
 //Methods Pots
-// routesPostsStudents.configure(app);
+routesPostsStudents.configure(app);
 // routesPostsIndicators.configure(app);
 // routesPostsCommons.configure(app);
 
