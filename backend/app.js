@@ -8,7 +8,7 @@ app.use(bodyparser.json());
 var connection = require('./connection');
 
 //Methods Gets
-// var routesGetsStudents = require('./Routes/Students.routes/gets-students-routes');
+var routesGetsStudents = require('./Routes/Students.routes/gets-students-routes');
 var routesGetsIndicators = require('./Routes/Indicators.routes/gets-indicators-routes');
 var routesGetsCourses =  require('./Routes/Courses.routes/gets-courses-routes');
 var routesGetsGoals = require('./Routes/Goals.routes/gets-goals-routes');
@@ -50,7 +50,7 @@ app.use(cors.permisos);
 connection.start();
 
 //Methods Gets
-// routesGetsStudents.configure(app);
+routesGetsStudents.configure(app);
 routesGetsIndicators.configure(app);
 routesGetsCourses.configure(app);
 // routesGetsVGrades.configure(app);
