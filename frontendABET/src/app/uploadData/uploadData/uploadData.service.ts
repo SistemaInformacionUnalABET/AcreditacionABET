@@ -10,6 +10,8 @@ import { Course } from './../../statistics/statistics/entities/course'
 import { Group } from '../../statistics/statistics/entities/group';
 import { Evaluation } from '../../statistics/statistics/entities/evaluation';
 import { Student } from '../../statistics/statistics/entities/student';
+import { StudentGroup } from '../../statistics/statistics/entities/studentGroup';
+import { CourseIndicator } from '../../statistics/statistics/entities/courseIndicator';
 
 
 import 'rxjs/add/operator/map';
@@ -31,7 +33,14 @@ export class OrdersService {
   private urlGetCourses = 'http://localhost:8000/courses/';
   private urlGetGroups = 'http://localhost:8000/groups/';
   private urlGetEvaluations = 'http://localhost:8000/Evaluations/';
+  private urlGetStudents = 'http://localhost:8000/students/';
+  private urlGetStudentGroups = 'http://localhost:8000/studentGroups/';
+  private urlGetCourseIndicators = 'http://localhost:8000/courseIndicators/'
+
+ //Urls Post
   private urlPostStudents = 'http://localhost:8000/students/';
+  private urlPostStudentGroups = 'http://localhost:8000/studentGroups/';
+  private urlPostCourseIndicators = 'http://localhost:8000/courseIndicators/'
 
 
   constructor(private http: Http) { }
@@ -43,6 +52,8 @@ export class OrdersService {
       .catch(this.handleError);
   }
 
+
+  //Mange params
   concatenateParamsForGetIndicators(
     id?: number, 
     goal?: number, 
@@ -119,6 +130,68 @@ export class OrdersService {
 
       return newUrl;
   }
+
+  concatenateParamsForGetStudents(
+    id?: number, 
+    document?: string, 
+    name?: string,
+    email?: string){
+      var newUrl = this.urlGetStudents+"?"
+
+      if(id){
+        newUrl = newUrl + "&id=" + id;
+      }if(document){
+        newUrl = newUrl + "&document=" + document;
+      }if(name){
+        newUrl = newUrl + "&name=" + name;
+      }if(email){
+        newUrl = newUrl + "&email=" + email;
+      }
+
+      return newUrl;
+  }
+  concatenateParamsForGetStudentGroups(
+    id?: number, 
+    id_group?: number, 
+    id_student?: number, 
+    id_course?: number){
+
+      var newUrl = this.urlGetStudentGroups+"?"
+
+      if(id){
+        newUrl = newUrl + "&id=" + id;
+      }if(id_group){
+        newUrl = newUrl + "&id_group=" + id_group;
+      }if(id_student){
+        newUrl = newUrl + "&id_student=" + id_student;
+      }if(id_course){
+        newUrl = newUrl + "&eid_course=" + id_course;
+      }
+
+      return newUrl;
+  }
+
+  concatenateParamsForGetCourseIndicators(
+    id?: number, 
+    id_course?: number, 
+    id_indicator?: number
+  ){
+    var newUrl = this.urlGetCourseIndicators+"?"
+
+      if(id){
+        newUrl = newUrl + "&id=" + id;
+      }
+      if(id_course){
+        newUrl = newUrl + "&eid_course=" + id_course;
+      }
+      if(id_indicator){
+        newUrl = newUrl + "&eid_indicator=" + id_indicator;
+      }
+
+      return newUrl;
+  }
+
+  //GETS
   getIndicatorsByParams(
     id?: number, 
     goal?: number, 
@@ -171,16 +244,80 @@ export class OrdersService {
         .catch(this.handleError);
   }
 
+  getStudentsByParams(
+    id?: number, 
+    document?: string, 
+    name?: string, 
+    email?: string): Observable<Student[]> {
+      var urlParams = this.concatenateParamsForGetStudents(id, document, name, email);
+      let url = `${urlParams}`;
+
+      return this.http.get(url)
+        .map(r => r.json())
+        .catch(this.handleError);
+  }
+
+  getStudentGroupsByParams(
+    id?: number, 
+    id_group?: number, 
+    id_student?: number, 
+    id_course?: number
+  ): Observable<StudentGroup[]> {
+      var urlParams = this.concatenateParamsForGetStudentGroups(id, id_group, id_student, id_course);
+      let url = `${urlParams}`;
+
+      return this.http.get(url)
+        .map(r => r.json())
+        .catch(this.handleError);
+  }
+
+  getCourseIndicatorsByParams(
+    id?: number, 
+    id_course?: number, 
+    id_indicator?: number
+  ): Observable<CourseIndicator[]> {
+    var urlParams = this.concatenateParamsForGetCourseIndicators(id,id_course, id_indicator);
+    let url = `${urlParams}`;
+
+    return this.http.get(url)
+      .map(r => r.json())
+      .catch(this.handleError);
+}
+
+  
+
+  //POST
   addStudents(student: Student){
     let url = `${this.urlPostStudents}`;
     let iJson = JSON.stringify(student);
-    console.log("HACIENDO EL ADD DE student", iJson);
+        
+    return this.http.post(url, iJson,  {headers: this.headers})
+      .map(r => r.json)
+      .catch(this.handleError)
+  }
+
+  addStudentGroups(studentGroup: StudentGroup ){
+    let url = `${this.urlPostStudentGroups}`;
+    let iJson = JSON.stringify(studentGroup);
+    console.log("HACIENDO EL ADD DE student grupo", iJson);
     
     return this.http.post(url, iJson,  {headers: this.headers})
       .map(r => r.json)
       .catch(this.handleError)
   }
 
+  addCourseIndicators(courseIndicator:CourseIndicator){
+    let url = `${this.urlPostCourseIndicators}`;
+    let iJson = JSON.stringify(courseIndicator);
+    console.log("HACIENDO EL ADD de curso_indicador", iJson);
+    
+    return this.http.post(url, iJson,  {headers: this.headers})
+      .map(r => r.json)
+      .catch(this.handleError)
+  }
+
+
+/*
   getCommons():Observable<Commons[]>{
     let url = `${this.url3}`;
     return this.http.get(url)
@@ -208,7 +345,7 @@ export class OrdersService {
       .map(r => r.json)
       .catch(this.handleError)
   }
-
+*/
   private handleError(error: Response | any){
     let errMsg: string;
     if(error instanceof Response) {

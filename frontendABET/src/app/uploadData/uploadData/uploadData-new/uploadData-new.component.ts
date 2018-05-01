@@ -8,9 +8,11 @@ import { Goal } from '../../../statistics/statistics/entities/goal'
 import { Course } from '../../../statistics/statistics/entities/course'
 import { Group } from '../../../statistics/statistics/entities/group'
 import { Student } from '../../../statistics/statistics/entities/student'
+import { Evaluation } from '../../../statistics/statistics/entities/evaluation';
+import { Activity } from '../../../statistics/statistics/entities/activity';
+import { StudentGroup } from '../../../statistics/statistics/entities/studentGroup';
 
-
-import { CourseIndicatorSelected } from '../../../statistics/statistics/entities/courseIndicatorSelected'
+import { CourseIndicator } from '../../../statistics/statistics/entities/courseIndicator'
 
 
 import { FormBuilder, FormControl, FormGroup, Validators, COMPOSITION_BUFFER_MODE } from '@angular/forms';
@@ -20,8 +22,8 @@ import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 
 import { logging } from 'selenium-webdriver';
-import { Evaluation } from '../../../statistics/statistics/entities/evaluation';
-import { Activity } from '../../../statistics/statistics/entities/activity';
+
+
 
 @Component({
   selector: 'app-uploadData-new',
@@ -55,6 +57,8 @@ export class uploadDataNewComponent implements OnInit {
   groupSelected: Group;
   evaluationSelected: Evaluation;
   activitySelected: Activity;
+  studentGroup: StudentGroup;
+  courseIndicator: CourseIndicator;
 
   form: FormGroup;
 
@@ -99,6 +103,8 @@ export class uploadDataNewComponent implements OnInit {
     this.evaluationSelected = new Evaluation(null, null, null, null);
     this.activitySelected = new Activity(null, null, null, null);
     this.student = new Student(null, null, null, null);
+    this.studentGroup = new StudentGroup(null, null, null, null);
+    this.courseIndicator = new CourseIndicator(null, null, null);
 
 
     this.goalList = [];
@@ -234,7 +240,7 @@ export class uploadDataNewComponent implements OnInit {
     this.variableCourse = true;
     var courseId = this.courseSelected.id_asignatura;
 
-    this.service.getGroupByParams(null, courseId)
+    this.service.getGroupByParams(null, courseId, null)
       .subscribe(
         rs => this.groupList = rs,
         er => console.log(er),
@@ -302,7 +308,7 @@ export class uploadDataNewComponent implements OnInit {
 
   upload() {
     console.log("entro aca")
-    
+
 
     console.log(
       this.goalSelected.identificador_meta + " " +
@@ -325,200 +331,238 @@ export class uploadDataNewComponent implements OnInit {
       var worksheet = workbook.Sheets[first_sheet_name];
       console.log("esto> ", XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       if (XLSX.utils.sheet_to_json(worksheet, { raw: true }).length > 0) {
-        
+
 
         var excelDatas = XLSX.utils.sheet_to_json(worksheet, { raw: true });
         console.log("Documetno JSON: " + excelDatas[0]['documento']);
 
         this.student.id_estudiante = null;
-        this.student.documento =excelDatas[0]['documento'];
+        this.student.documento = excelDatas[0]['documento'];
         this.student.nombre_completo = excelDatas[0]['nombre_completo'];
         this.student.email = excelDatas[0]['email'];
 
-console.log( "student info "+       this.student.id_estudiante,
-  this.student.documento,
-  this.student.nombre_completo,
-  this.student.email)
-
+        console.log("student info " + this.student.id_estudiante,
+          this.student.documento,
+          this.student.nombre_completo,
+          this.student.email)
 
         this.service.addStudents(this.student)
           .subscribe(
- 
-            result => {
-              console.log("result en la 0 "+result);
-               
 
+            result => {
+              console.log("result en la 0 " + result);
+
+              this.service.getStudentsByParams(null, this.student.documento, null, null)
+                .subscribe(
+                  result2 => {
+                    this.student.id_estudiante = result2[0].id_estudiante;
+
+                    this.studentGroup.id_studiante_grupo = null;
+                    this.studentGroup.id_grupo = this.groupSelected.id_grupo;
+                    this.studentGroup.id_estudiante = this.student.id_estudiante;
+                    this.studentGroup.id_asignatura = this.courseSelected.id_asignatura;
+
+
+                    this.service.addStudentGroups(this.studentGroup)
+                      .subscribe(
+
+                        result3 => {
+                          this.service.getStudentGroupsByParams(null, this.studentGroup.id_grupo, this.studentGroup.id_estudiante, this.studentGroup.id_asignatura)
+                            .subscribe(
+                              result4 => {
+                                this.studentGroup.id_studiante_grupo = result4[0].id_studiante_grupo;
+                              })
+                        });
+                  });
             });
 
+        this.courseIndicator.id_asignatura_indicador = null;
+        this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
+        this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
+
+        this.service.addCourseIndicators(this.courseIndicator)
+          .subscribe(
+            result5 => {
+              this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
+                .subscribe(
+                  result6 => {
+                    this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
+                  })
+            }
+          );
+
+
+
         /*
+    
         console.log("ELEMENTO TODO", excelDatas);
  
-        this.indicador.id_indicador = null;
-        this.indicador.id_meta = null;
-        this.indicador.id_comun = null;
-        this.indicador.identificador_indicador = excelDatas[0]['identificador_indicador'];
+    this.indicador.id_indicador = null;
+    this.indicador.id_meta = null;
+    this.indicador.id_comun = null;
+    this.indicador.identificador_indicador = excelDatas[0]['identificador_indicador'];
  
-        this.common.id_comun = null;
-        this.common.nombre = excelDatas[0]['nombre_meta'];;
-        this.common.descripcion = null;
+    this.common.id_comun = null;
+    this.common.nombre = excelDatas[0]['nombre_meta'];;
+    this.common.descripcion = null;
  
-        console.log("ELEMENTO [0][indentificador]", this.indicador.identificador_indicador);
+    console.log("ELEMENTO [0][indentificador]", this.indicador.identificador_indicador);
  
-        var lastIdComunMetas: any;
-        var lastIdComunIndicador: any;
-        var lastIdComunAsignatura: any;
-        var lastIdComunEvaluacion: any;
-        var lastIdComunActividad: any;
- 
- 
- 
-        //Insertar nombre de meta a comun y obtener el id del mismo
-        this.service.addCommons(this.common)
-          .subscribe(
- 
-            result => {
-              if (result) {
-                this.service.getCommons()
-                  .subscribe(
-                    result2 => {
-                      if (result2) {
-                        lastIdComunMetas = result2[0];
-                        console.log("Last ID comun METASSSSS ", lastIdComunMetas)
- 
- 
-                        //Añadiendo un nombre de indicador a common
-                        this.common.id_comun = null;
-                        this.common.nombre = excelDatas[0]['nombre_indicador'];;
-                        this.common.descripcion = null;
- 
- 
-                        this.service.addCommons(this.common)
-                          .subscribe(
- 
-                            result => {
-                              if (result) {
-                                this.service.getCommons()
-                                  .subscribe(
-                                    result2 => {
-                                      if (result2) {
-                                        lastIdComunIndicador = result2[0];
-                                        console.log("Last ID comun INDICADOR ", lastIdComunIndicador)
- 
- 
-                                        //anadiendo nombre de asignatura a la tabla comon
-                                        this.common.id_comun = null;
-                                        this.common.nombre = excelDatas[0]['nombre_asignatura'];;
-                                        this.common.descripcion = null;
- 
- 
-                                        this.service.addCommons(this.common)
-                                          .subscribe(
- 
-                                            result => {
-                                              if (result) {
-                                                this.service.getCommons()
-                                                  .subscribe(
-                                                    result2 => {
-                                                      if (result2) {
-                                                        lastIdComunAsignatura = result2[0];
-                                                        console.log("Last ID comun Asignatura ", lastIdComunAsignatura)
- 
-                                                        //anadiendo nombre de evaluacion a common
- 
-                                                        this.common.id_comun = null;
-                                                        this.common.nombre = excelDatas[0]['nombre_evaluacion'];;
-                                                        this.common.descripcion = null;
- 
- 
-                                                        this.service.addCommons(this.common)
-                                                          .subscribe(
- 
-                                                            result => {
-                                                              if (result) {
-                                                                this.service.getCommons()
-                                                                  .subscribe(
-                                                                    result2 => {
-                                                                      if (result2) {
-                                                                        lastIdComunEvaluacion = result2[0];
-                                                                        console.log("Last ID comun Evaluacion ", lastIdComunEvaluacion)
- 
-                                                                        //anadiendo nombre de actividad a la tabla comon
-                                                                        this.common.id_comun = null;
-                                                                        this.common.nombre = excelDatas[0]['nombre_actividad'];;
-                                                                        this.common.descripcion = null;
- 
- 
-                                                                        this.service.addCommons(this.common)
-                                                                          .subscribe(
- 
-                                                                            result => {
-                                                                              if (result) {
-                                                                                this.service.getCommons()
-                                                                                  .subscribe(
-                                                                                    result2 => {
-                                                                                      if (result2) {
-                                                                                        lastIdComunActividad = result2[0];
-                                                                                        console.log("Last ID comun Actividad ", lastIdComunActividad)
- 
-                                                                                      }
-                                                                                    }
-                                                                                  )
- 
-                                                                              }
-                                                                            }
- 
-                                                                          );
- 
- 
-                                                                      }
-                                                                    }
-                                                                  )
- 
-                                                              }
-                                                            }
- 
-                                                          );
- 
- 
-                                                      }
-                                                    }
-                                                  )
- 
-                                              }
-                                            }
- 
-                                          );
+    var lastIdComunMetas: any;
+    var lastIdComunIndicador: any;
+    var lastIdComunAsignatura: any;
+    var lastIdComunEvaluacion: any;
+    var lastIdComunActividad: any;
  
  
  
-                                      }
-                                    }
-                                  )
+    //Insertar nombre de meta a comun y obtener el id del mismo
+    this.service.addCommons(this.common)
+      .subscribe(
  
-                              }
-                            }
- 
-                          );
- 
- 
-                      }
-                    }
-                  )
- 
-              }
-            }
- 
-          );
+        result => {
+          if (result) {
+            this.service.getCommons()
+              .subscribe(
+                result2 => {
+                  if (result2) {
+                    lastIdComunMetas = result2[0];
+                    console.log("Last ID comun METASSSSS ", lastIdComunMetas)
  
  
+                    //Añadiendo un nombre de indicador a common
+                    this.common.id_comun = null;
+                    this.common.nombre = excelDatas[0]['nombre_indicador'];;
+                    this.common.descripcion = null;
  
-        // this.service.addIndicators(this.indicador)
-        //   .subscribe(
-        //     rt => console.log("rt= ", rt),
-        //     er => console.log("error= ", er),
-        //     () => console.log("Terminado")        
-        //   )
-      */
+ 
+                    this.service.addCommons(this.common)
+                      .subscribe(
+ 
+                        result => {
+                          if (result) {
+                            this.service.getCommons()
+                              .subscribe(
+                                result2 => {
+                                  if (result2) {
+                                    lastIdComunIndicador = result2[0];
+                                    console.log("Last ID comun INDICADOR ", lastIdComunIndicador)
+ 
+ 
+                                    //anadiendo nombre de asignatura a la tabla comon
+                                    this.common.id_comun = null;
+                                    this.common.nombre = excelDatas[0]['nombre_asignatura'];;
+                                    this.common.descripcion = null;
+ 
+ 
+                                    this.service.addCommons(this.common)
+                                      .subscribe(
+ 
+                                        result => {
+                                          if (result) {
+                                            this.service.getCommons()
+                                              .subscribe(
+                                                result2 => {
+                                                  if (result2) {
+                                                    lastIdComunAsignatura = result2[0];
+                                                    console.log("Last ID comun Asignatura ", lastIdComunAsignatura)
+ 
+                                                    //anadiendo nombre de evaluacion a common
+ 
+                                                    this.common.id_comun = null;
+                                                    this.common.nombre = excelDatas[0]['nombre_evaluacion'];;
+                                                    this.common.descripcion = null;
+ 
+ 
+                                                    this.service.addCommons(this.common)
+                                                      .subscribe(
+ 
+                                                        result => {
+                                                          if (result) {
+                                                            this.service.getCommons()
+                                                              .subscribe(
+                                                                result2 => {
+                                                                  if (result2) {
+                                                                    lastIdComunEvaluacion = result2[0];
+                                                                    console.log("Last ID comun Evaluacion ", lastIdComunEvaluacion)
+ 
+                                                                    //anadiendo nombre de actividad a la tabla comon
+                                                                    this.common.id_comun = null;
+                                                                    this.common.nombre = excelDatas[0]['nombre_actividad'];;
+                                                                    this.common.descripcion = null;
+ 
+ 
+                                                                    this.service.addCommons(this.common)
+                                                                      .subscribe(
+ 
+                                                                        result => {
+                                                                          if (result) {
+                                                                            this.service.getCommons()
+                                                                              .subscribe(
+                                                                                result2 => {
+                                                                                  if (result2) {
+                                                                                    lastIdComunActividad = result2[0];
+                                                                                    console.log("Last ID comun Actividad ", lastIdComunActividad)
+ 
+                                                                                  }
+                                                                                }
+                                                                              )
+ 
+                                                                          }
+                                                                        }
+ 
+                                                                      );
+ 
+ 
+                                                                  }
+                                                                }
+                                                              )
+ 
+                                                          }
+                                                        }
+ 
+                                                      );
+ 
+ 
+                                                  }
+                                                }
+                                              )
+ 
+                                          }
+                                        }
+ 
+                                      );
+ 
+ 
+ 
+                                  }
+                                }
+                              )
+ 
+                          }
+                        }
+ 
+                      );
+ 
+ 
+                  }
+                }
+              )
+ 
+          }
+        }
+ 
+      );
+ 
+ 
+ 
+    // this.service.addIndicators(this.indicador)
+    //   .subscribe(
+    //     rt => console.log("rt= ", rt),
+    //     er => console.log("error= ", er),
+    //     () => console.log("Terminado")        
+    //   )
+  */
       }
 
     }
