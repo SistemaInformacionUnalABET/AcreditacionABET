@@ -357,7 +357,7 @@ export class uploadDataNewComponent implements OnInit {
                   result2 => {
                     this.student.id_estudiante = result2[0].id_estudiante;
 
-                    this.studentGroup.id_studiante_grupo = null;
+                    this.studentGroup.id_estudiante_grupo = null;
                     this.studentGroup.id_grupo = this.groupSelected.id_grupo;
                     this.studentGroup.id_estudiante = this.student.id_estudiante;
                     this.studentGroup.id_asignatura = this.courseSelected.id_asignatura;
@@ -370,7 +370,7 @@ export class uploadDataNewComponent implements OnInit {
                           this.service.getStudentGroupsByParams(null, this.studentGroup.id_grupo, this.studentGroup.id_estudiante, this.studentGroup.id_asignatura)
                             .subscribe(
                               result4 => {
-                                this.studentGroup.id_studiante_grupo = result4[0].id_studiante_grupo;
+                                this.studentGroup.id_estudiante_grupo = result4[0].id_estudiante_grupo;
                               })
                         });
                   });
@@ -380,17 +380,16 @@ export class uploadDataNewComponent implements OnInit {
         this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
         this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
 
-        this.service.addCourseIndicators(this.courseIndicator)
-          .subscribe(
-            result5 => {
-              this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
-                .subscribe(
-                  result6 => {
-                    this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
-                  })
-            }
-          );
-
+        // this.service.addCourseIndicators(this.courseIndicator)
+        //   .subscribe(
+        //     result5 => {
+        //       this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
+        //         .subscribe(
+        //           result6 => {
+        //             this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
+        //           })
+        //     }
+        //   );
 
 
         /*
