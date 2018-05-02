@@ -385,6 +385,8 @@ export class uploadDataNewComponent implements OnInit {
                           }
 
                           if (this.flagStudentGroup) {
+                            this.flagStudentGroup = false;
+
                             this.service.getStudentGroupsByParams(null, this.studentGroup.id_grupo, this.studentGroup.id_estudiante, this.studentGroup.id_asignatura)
                               .subscribe(
                                 result4 => {
