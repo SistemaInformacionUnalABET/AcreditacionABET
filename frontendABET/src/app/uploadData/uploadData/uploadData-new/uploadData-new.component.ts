@@ -80,6 +80,7 @@ export class uploadDataNewComponent implements OnInit {
   variable = false;
   variableCourse = false;
   isFile = false;
+  flagStudentGroup = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -363,35 +364,113 @@ export class uploadDataNewComponent implements OnInit {
                     this.studentGroup.id_asignatura = this.courseSelected.id_asignatura;
 
 
-                    this.service.addStudentGroups(this.studentGroup)
+                    this.service.getStudentGroupsByParams(null, null, this.student.id_estudiante, this.courseSelected.id_asignatura)
                       .subscribe(
+                        result0 => {
+                          if (result0.length > 0) {
+                            if (result0[0].id_grupo == this.groupSelected.id_grupo) {
+                              this.flagStudentGroup = true;
+                            } else {
+                              alert("El estudiante: " + this.student.documento + " ya se encuentra inscrito a un grupo de la asignatura: " +
+                                this.courseSelected.nombre_asignatura);
+                            }
+                          } else {
+                            this.service.addStudentGroups(this.studentGroup)
+                              .subscribe(
 
-                        result3 => {
-                          this.service.getStudentGroupsByParams(null, this.studentGroup.id_grupo, this.studentGroup.id_estudiante, this.studentGroup.id_asignatura)
-                            .subscribe(
-                              result4 => {
-                                this.studentGroup.id_estudiante_grupo = result4[0].id_estudiante_grupo;
-                              })
-                        });
+                                result3 => {
+                                  this.flagStudentGroup = true;
+                                });
+
+                          }
+
+                          if (this.flagStudentGroup) {
+                            this.service.getStudentGroupsByParams(null, this.studentGroup.id_grupo, this.studentGroup.id_estudiante, this.studentGroup.id_asignatura)
+                              .subscribe(
+                                result4 => {
+                                  this.studentGroup.id_estudiante_grupo = result4[0].id_estudiante_grupo;
+
+                                  this.courseIndicator.id_asignatura_indicador = null;
+                                  this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
+                                  this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
+
+                                  this.service.addCourseIndicators(this.courseIndicator)
+                                    .subscribe(
+                                      result5 => {
+                                        this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
+                                          .subscribe(
+                                            result6 => {
+                                              this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
+                                            })
+                                      }
+                                    );
+
+                                })
+                          }
+
+                        }
+                      )
+
+                    // this.service.addStudentGroups(this.studentGroup)
+                    //   .subscribe(
+
+                    //      result3 => {
+                    //   console.log("errorcitoooojson=", JSON.parse(result3));
+
+                    //   if (JSON.parse(result3)['error']) {
+                    //     alert("El estudiante: " + this.student.documento + " ya esta inscrito en la asignatura: " +
+                    //       this.courseSelected.nombre_asignatura)
+
+                    //   } else {
+                    //     alert("insertado correctamente")
+                    //     this.service.getStudentGroupsByParams(null, this.studentGroup.id_grupo, this.studentGroup.id_estudiante, this.studentGroup.id_asignatura)
+                    //       .subscribe(
+                    //         result4 => {
+                    //           this.studentGroup.id_estudiante_grupo = result4[0].id_estudiante_grupo;
+
+                    //           this.courseIndicator.id_asignatura_indicador = null;
+                    //           this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
+                    //           this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
+
+                    //           this.service.addCourseIndicators(this.courseIndicator)
+                    //             .subscribe(
+                    //               result5 => {
+                    //                 this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
+                    //                   .subscribe(
+                    //                     result6 => {
+                    //                       this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
+                    //                     })
+                    //               }
+                    //             );
+
+                    //         })
+
+                    //   }
+
+                    // });
                   });
             });
 
-        this.courseIndicator.id_asignatura_indicador = null;
-        this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
-        this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
-
-        this.service.addCourseIndicators(this.courseIndicator)
-          .subscribe(
-            result5 => {
-              this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
-                .subscribe(
-                  result6 => {
-                    this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
 
 
-                  });
-            }
-          );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         /*

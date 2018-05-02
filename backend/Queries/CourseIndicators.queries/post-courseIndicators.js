@@ -4,12 +4,12 @@ function MethodsDB() {
 
     this.insert = function (datas, response) {
         connection.obtain(function (er, cn) {            
-            cn.query('insert into estudiante_grupo set ?', datas, function (error, result) {
+            cn.query('insert into asignatura_indicador set ?', datas, function (error, result) {
                 cn.release();
                 if (error) {
-                    response.send({ error: 'Error insert student group' });
+                    response.send({ state: 'Error insert asignatura_indicador' });
                 } else {
-                    response.send({ message: 'Ok' })
+                    response.send({ state: 'Ok' })
                 }
             })
 
