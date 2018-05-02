@@ -100,7 +100,7 @@ export class uploadDataNewComponent implements OnInit {
     this.indicatorSelected = new Indicator(null, null, null, null, null);
     this.courseSelected = new Course(null, null, null, null);
     this.groupSelected = new Group(null, null, null);
-    this.evaluationSelected = new Evaluation(null, null, null, null);
+    this.evaluationSelected = new Evaluation(null, null, null);
     this.activitySelected = new Activity(null, null, null, null);
     this.student = new Student(null, null, null, null);
     this.studentGroup = new StudentGroup(null, null, null, null);
@@ -380,16 +380,18 @@ export class uploadDataNewComponent implements OnInit {
         this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
         this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
 
-        // this.service.addCourseIndicators(this.courseIndicator)
-        //   .subscribe(
-        //     result5 => {
-        //       this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
-        //         .subscribe(
-        //           result6 => {
-        //             this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
-        //           })
-        //     }
-        //   );
+        this.service.addCourseIndicators(this.courseIndicator)
+          .subscribe(
+            result5 => {
+              this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
+                .subscribe(
+                  result6 => {
+                    this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
+
+
+                  });
+            }
+          );
 
 
         /*

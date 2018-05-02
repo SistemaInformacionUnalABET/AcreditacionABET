@@ -40,7 +40,9 @@ export class OrdersService {
  //Urls Post
   private urlPostStudents = 'http://localhost:8000/students/';
   private urlPostStudentGroups = 'http://localhost:8000/studentGroups/';
-  private urlPostCourseIndicators = 'http://localhost:8000/courseIndicators/'
+  private urlPostCourseIndicators = 'http://localhost:8000/courseIndicators/';
+  private urlPostEvaluations = 'http://localhost:8000/Evaluations/';
+
 
 
   constructor(private http: Http) { }
@@ -114,7 +116,6 @@ export class OrdersService {
   concatenateParamsForGetEvaluations(
     id_evaluation?: number, 
     type?: string, 
-    evidence_url?: string,
     id_course_indicator?: number){
       var newUrl = this.urlGetEvaluations+"?"
 
@@ -122,8 +123,6 @@ export class OrdersService {
         newUrl = newUrl + "&id=" + id_evaluation;
       }if(type){
         newUrl = newUrl + "&type=" + type;
-      }if(evidence_url){
-        newUrl = newUrl + "&url=" + evidence_url;
       }if(id_course_indicator){
         newUrl = newUrl + "&id_asig_ind=" + id_course_indicator;
       }
@@ -233,10 +232,9 @@ export class OrdersService {
 
   getEvaluationByParams(
     id_evaluation?: number, 
-    type?: string, 
-    evidence_url?: string,
+    type?: string,
     id_course_indicator?: number): Observable<Evaluation[]> {
-      var urlParams = this.concatenateParamsForGetEvaluations(id_evaluation, type, evidence_url,id_course_indicator);
+      var urlParams = this.concatenateParamsForGetEvaluations(id_evaluation,type,id_course_indicator);
       let url = `${urlParams}`;
 
       return this.http.get(url)
@@ -284,7 +282,6 @@ export class OrdersService {
       .catch(this.handleError);
 }
 
-  
 
   //POST
   addStudents(student: Student){
@@ -310,6 +307,16 @@ export class OrdersService {
     let url = `${this.urlPostCourseIndicators}`;
     let iJson = JSON.stringify(courseIndicator);
     console.log("HACIENDO EL ADD de curso_indicador", iJson);
+    
+    return this.http.post(url, iJson,  {headers: this.headers})
+      .map(r => r.json)
+      .catch(this.handleError)
+  }
+
+  addEvaluations(evaluation:Evaluation){
+    let url = `${this.urlPostEvaluations}`;
+    let iJson = JSON.stringify(evaluation);
+    console.log("HACIENDO EL ADD de Evaluation", iJson);
     
     return this.http.post(url, iJson,  {headers: this.headers})
       .map(r => r.json)
