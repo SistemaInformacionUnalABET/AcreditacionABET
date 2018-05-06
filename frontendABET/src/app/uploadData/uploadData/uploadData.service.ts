@@ -115,15 +115,12 @@ export class OrdersService {
 
   concatenateParamsForGetEvaluations(
     id_evaluation?: number,
-    type?: string,
     evidence_url?: string,
     id_course_indicator?: number) {
     var newUrl = this.urlGetEvaluations + "?"
 
     if (id_evaluation) {
       newUrl = newUrl + "&id=" + id_evaluation;
-    } if (type) {
-      newUrl = newUrl + "&type=" + type;
     } if (evidence_url) {
       newUrl = newUrl + "&url=" + evidence_url;
     } if (id_course_indicator) {
@@ -236,10 +233,9 @@ export class OrdersService {
 
   getEvaluationByParams(
     id_evaluation?: number,
-    type?: string,
     evidence_url?: string,
     id_course_indicator?: number): Observable<Evaluation[]> {
-    var urlParams = this.concatenateParamsForGetEvaluations(id_evaluation, type, evidence_url, id_course_indicator);
+    var urlParams = this.concatenateParamsForGetEvaluations(id_evaluation, evidence_url, id_course_indicator);
     let url = `${urlParams}`;
 
     return this.http.get(url)
@@ -302,7 +298,6 @@ export class OrdersService {
   addStudentGroups(studentGroup: StudentGroup): Observable<Boolean | any> {
     let url = `${this.urlPostStudentGroups}`;
     let iJson = JSON.stringify(studentGroup);
-    console.log("HACIENDO EL ADD DE student grupo", iJson);
 
     return this.http.post(url, iJson, { headers: this.headers })
       .map((r: Response) => {
@@ -318,13 +313,21 @@ export class OrdersService {
   addCourseIndicators(courseIndicator: CourseIndicator) {
     let url = `${this.urlPostCourseIndicators}`;
     let iJson = JSON.stringify(courseIndicator);
-    console.log("HACIENDO EL ADD de curso_indicador", iJson);
-
+    
     return this.http.post(url, iJson, { headers: this.headers })
       .map(r => r.json)
       .catch(this.handleError)
   }
 
+  addEvaluations(evaluation: Evaluation){
+    let url = `${this.urlPostEvaluations}`;
+    let iJson = JSON.stringify(evaluation);
+    console.log("HACIENDO EL ADD de evaluacion", iJson);
+
+    return this.http.post(url, iJson, { headers: this.headers })
+      .map(r => r.json)
+      .catch(this.handleError)
+  }
 
   /*
     getCommons():Observable<Commons[]>{

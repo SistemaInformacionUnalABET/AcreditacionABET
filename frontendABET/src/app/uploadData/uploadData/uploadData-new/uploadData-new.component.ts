@@ -403,6 +403,25 @@ export class uploadDataNewComponent implements OnInit {
                                           .subscribe(
                                             result6 => {
                                               this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
+
+                                              this.evaluationSelected.id_evaluacion = null;
+                                              this.evaluationSelected.id_asignatura_indicador = this.courseIndicator.id_asignatura_indicador;
+
+                                              this.service.addEvaluations(this.evaluationSelected)
+                                                .subscribe(
+                                                  result7 => {
+                                                    this.service.getEvaluationByParams(null, this.evaluationSelected.tipo_evaluacion, this.evaluationSelected.id_asignatura_indicador)
+                                                      .subscribe(
+                                                        result8 => {
+                                                          this.evaluationSelected.id_evaluacion = result8[0].id_evaluacion;
+
+                                                          //insertar elemento en ACTIVIDADES
+
+                                                          //insertar elemento en EVALUACION_INDICADOR
+
+                                                        })
+                                                  });
+
                                             })
                                       }
                                     );
