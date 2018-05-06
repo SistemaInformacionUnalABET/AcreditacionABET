@@ -1,4 +1,4 @@
-var db = require('../../Queries/Activities-queries/gets-activities');
+var db = require('../../Queries/Activities.queries/gets-activities');
 
 function http() {
     this.configure = function (app) {
