@@ -1,13 +1,13 @@
-var db = require('../../Queries/grades.queries/gets-grades');
+var db = require('../../Queries/Grades.queries/gets-grades');
 
 function http() {
     this.configure = function (app) {
 
-        
-        app.get('/v_calificaciones_evaluacion_indicador/', function (request, response) {
-            //db.selectAll(response);
+        app.get('/grades/', function (request, response) {
+            db.selectQuery(request.query, response);
+
         })
-        
+ 
     }
 }
 

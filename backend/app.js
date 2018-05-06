@@ -17,6 +17,7 @@ var routesGetsActivities = require('./Routes/Activities.routes/gets-activities-r
 var routesGetsGroups = require('./Routes/Groups.routes/gets-groups-routes');
 var routesGetsStudentGroups = require('./Routes/StudentGroup.routes/gets-studentGroup-routes');
 var routesGetsCourseIndicators = require('./Routes/CourseIndicator.routes/gets-CourseIndicators-routes');
+var routesGetsGrades = require('./Routes/Grades.routes/gets-grades-routes');
 
 
 
@@ -27,6 +28,7 @@ var routesPostsStudentGroups = require('./Routes/StudentGroup.routes/posts-stude
 var routesPostsCourseIndicators = require('./Routes/CourseIndicator.routes/post-courseIndicators-routes');
 var routesPostsEvaluations = require('./Routes/Evaluations.routes/posts-evaluations-routes');
 var routesPostsActivities = require('./Routes/Activities.routes/posts-activities-routes');
+var routesPostsGrades = require('./Routes/Grades.routes/posts-grades-routes');
 
 
 // var routesPostsIndicators = require('./Routes/Indicators.routes/posts-indicators-routers');
@@ -68,8 +70,7 @@ routesGetsActivities.configure(app);
 routesGetsGroups.configure(app);
 routesGetsStudentGroups.configure(app);
 routesGetsCourseIndicators.configure(app);
-
-
+routesGetsGrades.configure(app);
 
 
 //Methods Pots
@@ -78,6 +79,8 @@ routesPostsStudentGroups.configure(app);
 routesPostsCourseIndicators.configure(app);
 routesPostsEvaluations.configure(app);
 routesPostsActivities.configure(app);
+routesPostsGrades.configure(app);
+
 
 // routesPostsIndicators.configure(app);
 // routesPostsCommons.configure(app);
