@@ -17,6 +17,8 @@ import { CourseIndicator } from '../../statistics/statistics/entities/courseIndi
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/catch'
+import 'rxjs/add/operator/retryWhen'
+import { delay } from 'q';
 
 
 
@@ -41,7 +43,7 @@ export class OrdersService {
   private urlPostStudents = 'http://localhost:8000/students/';
   private urlPostStudentGroups = 'http://localhost:8000/studentGroups/';
   private urlPostCourseIndicators = 'http://localhost:8000/courseIndicators/';
-  private urlPostEvaluations = 'http://localhost:8000/Evaluations/';
+  private urlPostEvaluations = 'http://localhost:8000/evaluations/';
 
 
 
@@ -181,16 +183,16 @@ export class OrdersService {
       newUrl = newUrl + "&id=" + id;
     }
     if (id_course) {
-      newUrl = newUrl + "&eid_course=" + id_course;
+      newUrl = newUrl + "&id_course=" + id_course;
     }
     if (id_indicator) {
-      newUrl = newUrl + "&eid_indicator=" + id_indicator;
+      newUrl = newUrl + "&id_indicator=" + id_indicator;
     }
 
     return newUrl;
   }
 
-  
+
   //GETS
   getIndicatorsByParams(
     id?: number,
@@ -289,6 +291,7 @@ export class OrdersService {
   addStudents(student: Student) {
     let url = `${this.urlPostStudents}`;
     let iJson = JSON.stringify(student);
+    console.log("HACIENDO EL ADD de Students", iJson);
 
     return this.http.post(url, iJson, { headers: this.headers })
       .map(r => r.json)
@@ -298,28 +301,35 @@ export class OrdersService {
   addStudentGroups(studentGroup: StudentGroup): Observable<Boolean | any> {
     let url = `${this.urlPostStudentGroups}`;
     let iJson = JSON.stringify(studentGroup);
+    console.log("HACIENDO EL ADD de StudentsGrpups", iJson);
 
     return this.http.post(url, iJson, { headers: this.headers })
+
       .map((r: Response) => {
         r.json
         console.log("RRRRR=", r);
         return r['_body'];
-      })
+      }
+    
 
+    ) 
 
       .catch(this.handleError)
+
   }
+
 
   addCourseIndicators(courseIndicator: CourseIndicator) {
     let url = `${this.urlPostCourseIndicators}`;
     let iJson = JSON.stringify(courseIndicator);
-    
+    console.log("HACIENDO EL ADD de courseInidcators", iJson);
+
     return this.http.post(url, iJson, { headers: this.headers })
       .map(r => r.json)
       .catch(this.handleError)
   }
 
-  addEvaluations(evaluation: Evaluation){
+  addEvaluations(evaluation: Evaluation) {
     let url = `${this.urlPostEvaluations}`;
     let iJson = JSON.stringify(evaluation);
     console.log("HACIENDO EL ADD de evaluacion", iJson);
@@ -328,6 +338,7 @@ export class OrdersService {
       .map(r => r.json)
       .catch(this.handleError)
   }
+
 
   /*
     getCommons():Observable<Commons[]>{

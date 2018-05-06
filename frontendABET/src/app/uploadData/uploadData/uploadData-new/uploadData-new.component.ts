@@ -21,6 +21,9 @@ import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/delay';
+
 import { logging } from 'selenium-webdriver';
 
 
@@ -112,7 +115,7 @@ export class uploadDataNewComponent implements OnInit {
     this.indicatorList = [];
     this.courseList = [];
     this.groupList = [];
-    this.evaluationTypeList = ["Auto-evaluación", "Co-evalución", "Hetero-evaluación"];
+    this.evaluationTypeList = ["autoevaluación", "coevalución", "heteroevaluación"];
     this.activityTypeList = [
       "Cuestionario",
       "Debate",
@@ -135,6 +138,8 @@ export class uploadDataNewComponent implements OnInit {
     ];
 
   }
+
+
 
   ngOnInit() {
     //Nota: comento este codigo porque con el no me funciona, pregutar a daniel.
@@ -369,7 +374,7 @@ export class uploadDataNewComponent implements OnInit {
                         result0 => {
                           if (result0.length > 0) {
                             if (result0[0].id_grupo == this.groupSelected.id_grupo) {
-                              this.flagStudentGroup = true;
+                              this.waitAsync();
                             } else {
                               alert("El estudiante: " + this.student.documento + " ya se encuentra inscrito a un grupo de la asignatura: " +
                                 this.courseSelected.nombre_asignatura);
@@ -379,55 +384,15 @@ export class uploadDataNewComponent implements OnInit {
                               .subscribe(
 
                                 result3 => {
-                                  this.flagStudentGroup = true;
+                                  this.waitAsync();
+                                  console.log("haciendo tru el flag = ", this.flagStudentGroup);
+
                                 });
 
                           }
 
-                          if (this.flagStudentGroup) {
-                            this.flagStudentGroup = false;
 
-                            this.service.getStudentGroupsByParams(null, this.studentGroup.id_grupo, this.studentGroup.id_estudiante, this.studentGroup.id_asignatura)
-                              .subscribe(
-                                result4 => {
-                                  this.studentGroup.id_estudiante_grupo = result4[0].id_estudiante_grupo;
 
-                                  this.courseIndicator.id_asignatura_indicador = null;
-                                  this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
-                                  this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
-
-                                  this.service.addCourseIndicators(this.courseIndicator)
-                                    .subscribe(
-                                      result5 => {
-                                        this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
-                                          .subscribe(
-                                            result6 => {
-                                              this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
-
-                                              this.evaluationSelected.id_evaluacion = null;
-                                              this.evaluationSelected.id_asignatura_indicador = this.courseIndicator.id_asignatura_indicador;
-
-                                              this.service.addEvaluations(this.evaluationSelected)
-                                                .subscribe(
-                                                  result7 => {
-                                                    this.service.getEvaluationByParams(null, this.evaluationSelected.tipo_evaluacion, this.evaluationSelected.id_asignatura_indicador)
-                                                      .subscribe(
-                                                        result8 => {
-                                                          this.evaluationSelected.id_evaluacion = result8[0].id_evaluacion;
-
-                                                          //insertar elemento en ACTIVIDADES
-
-                                                          //insertar elemento en EVALUACION_INDICADOR
-
-                                                        })
-                                                  });
-
-                                            })
-                                      }
-                                    );
-
-                                })
-                          }
 
                         }
                       )
@@ -669,6 +634,54 @@ export class uploadDataNewComponent implements OnInit {
     }
 
     fileReader.readAsArrayBuffer(this.file);
+
+  }
+
+  waitAsync() {
+
+    this.service.getStudentGroupsByParams(null, this.studentGroup.id_grupo, this.studentGroup.id_estudiante, this.studentGroup.id_asignatura)
+      .subscribe(
+        result4 => {
+          console.log("lengh de result = ", result4.length);
+
+          this.studentGroup.id_estudiante_grupo = result4[0].id_estudiante_grupo;
+
+          this.courseIndicator.id_asignatura_indicador = null;
+          this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
+          this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
+
+          this.service.addCourseIndicators(this.courseIndicator)
+            .subscribe(
+              result5 => {
+                this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
+                  .subscribe(
+                    result6 => {
+                      this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
+
+                      this.evaluationSelected.id_evaluacion = null;
+                      this.evaluationSelected.id_asignatura_indicador = this.courseIndicator.id_asignatura_indicador;
+
+                      this.service.addEvaluations(this.evaluationSelected)
+                        .subscribe(
+                          result7 => {
+                            this.service.getEvaluationByParams(null, this.evaluationSelected.tipo_evaluacion, this.evaluationSelected.id_asignatura_indicador)
+                              .subscribe(
+                                result8 => {
+                                  this.evaluationSelected.id_evaluacion = result8[0].id_evaluacion;
+
+                                  //insertar elemento en ACTIVIDADES
+
+                                  //insertar elemento en EVALUACION_INDICADOR
+
+                                })
+                          });
+
+                    })
+              }
+            );
+
+        })
+
 
   }
 
