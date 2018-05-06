@@ -25,6 +25,8 @@ var routesGetsCourseIndicators = require('./Routes/CourseIndicator.routes/gets-C
 var routesPostsStudents = require('./Routes/Students.routes/posts-students-routes');
 var routesPostsStudentGroups = require('./Routes/StudentGroup.routes/posts-studentGroup-routes');
 var routesPostsCourseIndicators = require('./Routes/CourseIndicator.routes/post-courseIndicators-routes');
+var routesPostsEvaluations = require('./Routes/Evaluations.routes/posts-evaluations-routes');
+
 
 // var routesPostsIndicators = require('./Routes/Indicators.routes/posts-indicators-routers');
 // var routesPostsCommons = require('./Routes/Commons.routes/posts-commons-routes');
@@ -73,6 +75,8 @@ routesGetsCourseIndicators.configure(app);
 routesPostsStudents.configure(app);
 routesPostsStudentGroups.configure(app);
 routesPostsCourseIndicators.configure(app);
+routesPostsEvaluations.configure(app);
+
 // routesPostsIndicators.configure(app);
 // routesPostsCommons.configure(app);
 
