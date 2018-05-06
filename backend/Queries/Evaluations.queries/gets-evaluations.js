@@ -21,13 +21,12 @@ function MethodsDB() {
     this.selectQuery = function (queryParams,response) {
         var id=queryParams.id?queryParams.id:null
         var type=queryParams.type?queryParams.type:null
-        var url=queryParams.url?queryParams.url:null
         var id_asig_ind=queryParams.id_asig_ind?queryParams.id_asig_ind:null
 
         connection.obtain(function (er, cn) {
             cn.query('select * from evaluaciones where (id_evaluacion = '+id+' or '+id+' is NULL ) AND ' + 
             '(tipo_evaluacion = '+type+' or '+type+' is NULL ) AND ' +
-            ' (evidencia_url = '+url+' or '+url+' is NULL ) AND (id_asignatura_indicador = '+id_asig_ind+' or '+id_asig_ind+' is NULL )',
+            '(id_asignatura_indicador = '+id_asig_ind+' or '+id_asig_ind+' is NULL )',
                 function (error, result) {
                 cn.release();
                 if (error) {
