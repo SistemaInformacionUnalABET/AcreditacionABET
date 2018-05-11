@@ -19,6 +19,8 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/retryWhen'
 import { delay } from 'q';
+import { Activity } from '../../statistics/statistics/entities/activity';
+import { Grade } from '../../statistics/statistics/entities/grade';
 
 
 
@@ -38,13 +40,16 @@ export class OrdersService {
   private urlGetStudents = 'http://localhost:8000/students/';
   private urlGetStudentGroups = 'http://localhost:8000/studentGroups/';
   private urlGetCourseIndicators = 'http://localhost:8000/courseIndicators/'
+  private urlGetActivities = 'http://localhost:8000/activities/'
+  private urlGetGrades = 'http://localhost:8000/grades/'
 
   //Urls Post
   private urlPostStudents = 'http://localhost:8000/students/';
   private urlPostStudentGroups = 'http://localhost:8000/studentGroups/';
   private urlPostCourseIndicators = 'http://localhost:8000/courseIndicators/';
   private urlPostEvaluations = 'http://localhost:8000/evaluations/';
-
+  private urlPostActivities = 'http://localhost:8000/activities/';
+  private urlPostGrades = 'http://localhost:8000/grades/';
 
 
   constructor(private http: Http) { }
@@ -71,11 +76,11 @@ export class OrdersService {
     } if (goal) {
       newUrl = newUrl + "&goal=" + goal;
     } if (identificator) {
-      newUrl = newUrl + "&identificator=" + identificator;
+      newUrl = newUrl + "&identificator=" + "\"" + identificator + "\"";
     } if (name) {
-      newUrl = newUrl + "&name=" + name;
+      newUrl = newUrl + "&name="+ "\"" + name+ "\"";
     } if (description) {
-      newUrl = newUrl + "&description=" + description;
+      newUrl = newUrl + "&description="+ "\"" + description+ "\"";
     }
     return newUrl;
   }
@@ -92,9 +97,9 @@ export class OrdersService {
     } if (code) {
       newUrl = newUrl + "&code=" + code;
     } if (name) {
-      newUrl = newUrl + "&name=" + name;
+      newUrl = newUrl + "&name=" + "\""+ name+ "\"";
     } if (description) {
-      newUrl = newUrl + "&description=" + description;
+      newUrl = newUrl + "&description=" + "\""+ description+ "\"";
     }
     return newUrl;
   }
@@ -117,18 +122,19 @@ export class OrdersService {
 
   concatenateParamsForGetEvaluations(
     id_evaluation?: number,
-    evidence_url?: string,
+    type_evaluation?:string,
     id_course_indicator?: number) {
     var newUrl = this.urlGetEvaluations + "?"
 
     if (id_evaluation) {
-      newUrl = newUrl + "&id=" + id_evaluation;
-    } if (evidence_url) {
-      newUrl = newUrl + "&url=" + evidence_url;
-    } if (id_course_indicator) {
+      newUrl = newUrl + "&id=" +id_evaluation;
+    }  
+    if (type_evaluation) {
+      newUrl = newUrl + "&type=" + "\""+ type_evaluation+ "\"";
+    } 
+    if (id_course_indicator) {
       newUrl = newUrl + "&id_asig_ind=" + id_course_indicator;
     }
-
     return newUrl;
   }
 
@@ -142,11 +148,11 @@ export class OrdersService {
     if (id) {
       newUrl = newUrl + "&id=" + id;
     } if (document) {
-      newUrl = newUrl + "&document=" + document;
+      newUrl = newUrl + "&document=" +"\""+document+"\"";
     } if (name) {
-      newUrl = newUrl + "&name=" + name;
+      newUrl = newUrl + "&name=" +"\""+ name+"\"";
     } if (email) {
-      newUrl = newUrl + "&email=" + email;
+      newUrl = newUrl + "&email=" +"\""+ email+"\"";
     }
 
     return newUrl;
@@ -192,6 +198,77 @@ export class OrdersService {
     return newUrl;
   }
 
+  concatenateParamsForGetActivities(
+    id?: number,
+    type?: string,
+    description?: string,
+    id_evaluation?: number
+  ) {
+    var newUrl = this.urlGetActivities + "?"
+
+    if (id) {
+      newUrl = newUrl + "&id=" + id;
+    }
+    if (type) {
+      newUrl = newUrl + "&type=" + "\"" + type + "\"";
+    }
+    if (description) {
+      newUrl = newUrl + "&description=" + "\"" + description +"\"" ;
+    }
+    if (id_evaluation) {
+      newUrl = newUrl + "&id_evaluation=" + id_evaluation;
+    }
+
+    return newUrl;
+  }
+
+  concatenateParamsForGetGrades(
+      id:number,
+      idStudentGroup:number,
+      idActivity:number,
+      grade:boolean,
+      descriptionGrade:string,
+      creationDate:Date,
+      modificationDate:Date,
+      period:string,
+      observation:string,
+      urlEvidence:string
+  ){
+    var newUrl = this.urlGetGrades + "?"
+
+    if (id) {
+      newUrl = newUrl + "&id=" + id;
+    }
+    if (idStudentGroup) {
+      newUrl = newUrl + "&idStudentGroup=" + idStudentGroup;
+    }
+    if (idActivity) {
+      newUrl = newUrl + "&idActivity=" + idActivity;
+    }
+    if (grade) {
+      newUrl = newUrl + "&grade=" + grade;
+    }
+    if (descriptionGrade) {
+      newUrl = newUrl + "&descriptionGrade=" + "\""+ descriptionGrade+ "\"";
+    }
+    if (creationDate) {
+      newUrl = newUrl + "&creationDate=" + creationDate;
+    }
+    if (modificationDate) {
+      newUrl = newUrl + "&modificationDate=" + modificationDate;
+    }
+    if (period) {
+      newUrl = newUrl + "&period=" + "\""+ period+ "\"";
+    }
+    if (observation) {
+      newUrl = newUrl + "&observation=" + "\""+ observation+ "\"";
+    }
+    if (urlEvidence) {
+      newUrl = newUrl + "&urlEvidence=" + "\""+ urlEvidence+ "\"";
+    }
+    
+    return newUrl;
+  }
 
   //GETS
   getIndicatorsByParams(
@@ -233,17 +310,6 @@ export class OrdersService {
       .catch(this.handleError);
   }
 
-  getEvaluationByParams(
-    id_evaluation?: number,
-    evidence_url?: string,
-    id_course_indicator?: number): Observable<Evaluation[]> {
-    var urlParams = this.concatenateParamsForGetEvaluations(id_evaluation, evidence_url, id_course_indicator);
-    let url = `${urlParams}`;
-
-    return this.http.get(url)
-      .map(r => r.json())
-      .catch(this.handleError);
-  }
 
   getStudentsByParams(
     id?: number,
@@ -285,7 +351,63 @@ export class OrdersService {
       .catch(this.handleError);
   }
 
+  getEvaluationsByParams(
+    id_evaluation?: number,
+    type_activity?: string,
+    id_course_indicator?: number): Observable<Evaluation[]> {
+    var urlParams = this.concatenateParamsForGetEvaluations(id_evaluation, type_activity, id_course_indicator);
+    let url = `${urlParams}`;
 
+    return this.http.get(url)
+      .map(r => r.json())
+      .catch(this.handleError);
+  }
+
+  getActivitiesByParams(
+    id?: number,
+    type?: string,
+    description?: string,
+    id_evaluation?: number
+  ): Observable<Activity[]> {
+    var urlParams = this.concatenateParamsForGetActivities(id, type, description, id_evaluation);
+    let url = `${urlParams}`;
+
+    return this.http.get(url)
+      .map(r => r.json())
+      .catch(this.handleError);
+  }
+
+  getGradesByParams(
+    id,
+    idStudentGroup,
+    idActivity,
+    grade,
+    descriptionGrade,
+    creationDate,
+    modificationDate,
+    period,
+    observation,
+    urlEvidence
+  ): Observable<Grade[]> {
+    var urlParams = this.concatenateParamsForGetGrades(
+      id,
+      idStudentGroup,
+      idActivity,
+      grade,
+      descriptionGrade,
+      creationDate,
+      modificationDate,
+      period,
+      observation,
+      urlEvidence
+    );
+
+    let url = `${urlParams}`;
+
+    return this.http.get(url)
+      .map(r => r.json())
+      .catch(this.handleError);
+  }
 
   //POST
   addStudents(student: Student) {
@@ -310,9 +432,8 @@ export class OrdersService {
         console.log("RRRRR=", r);
         return r['_body'];
       }
-    
 
-    ) 
+      )
 
       .catch(this.handleError)
 
@@ -333,6 +454,26 @@ export class OrdersService {
     let url = `${this.urlPostEvaluations}`;
     let iJson = JSON.stringify(evaluation);
     console.log("HACIENDO EL ADD de evaluacion", iJson);
+
+    return this.http.post(url, iJson, { headers: this.headers })
+      .map(r => r.json)
+      .catch(this.handleError)
+  }
+
+  addActivities(activity: Activity) {
+    let url = `${this.urlPostActivities}`;
+    let iJson = JSON.stringify(activity);
+    console.log("HACIENDO EL ADD de actividad", iJson);
+
+    return this.http.post(url, iJson, { headers: this.headers })
+      .map(r => r.json)
+      .catch(this.handleError)
+  }
+
+  addGrades(grade:Grade){
+    let url = `${this.urlPostGrades}`;
+    let iJson = JSON.stringify(grade);
+    console.log("HACIENDO EL ADD de calificaciones", iJson);
 
     return this.http.post(url, iJson, { headers: this.headers })
       .map(r => r.json)

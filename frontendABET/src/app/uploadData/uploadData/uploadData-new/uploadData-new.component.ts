@@ -11,8 +11,8 @@ import { Student } from '../../../statistics/statistics/entities/student'
 import { Evaluation } from '../../../statistics/statistics/entities/evaluation';
 import { Activity } from '../../../statistics/statistics/entities/activity';
 import { StudentGroup } from '../../../statistics/statistics/entities/studentGroup';
-
 import { CourseIndicator } from '../../../statistics/statistics/entities/courseIndicator'
+import { Grade } from '../../../statistics/statistics/entities/grade'
 
 
 import { FormBuilder, FormControl, FormGroup, Validators, COMPOSITION_BUFFER_MODE } from '@angular/forms';
@@ -53,7 +53,6 @@ export class uploadDataNewComponent implements OnInit {
   activityTypeList: String[];
 
   student: Student;
-
   goalSelected: Goal;
   indicatorSelected: Indicator;
   courseSelected: Course;
@@ -62,6 +61,7 @@ export class uploadDataNewComponent implements OnInit {
   activitySelected: Activity;
   studentGroup: StudentGroup;
   courseIndicator: CourseIndicator;
+  grade: Grade;
 
   form: FormGroup;
 
@@ -109,7 +109,7 @@ export class uploadDataNewComponent implements OnInit {
     this.student = new Student(null, null, null, null);
     this.studentGroup = new StudentGroup(null, null, null, null);
     this.courseIndicator = new CourseIndicator(null, null, null);
-
+    this.grade = new Grade(null, null, null, null, null, null, null, null, null, null);
 
     this.goalList = [];
     this.indicatorList = [];
@@ -312,6 +312,15 @@ export class uploadDataNewComponent implements OnInit {
     this.isFile = true;
   }
 
+ twoDigits(d) {
+    if(0 <= d && d < 10) return "0" + d.toString();
+    if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+    return d.toString();
+}
+  castToMysqlFormat(date){
+    return date.getUTCFullYear() + "-" + this.twoDigits(1 + date.getUTCMonth()) + "-" + this.twoDigits(date.getUTCDate()) + " " + this.twoDigits(date.getUTCHours()) + ":" + this.twoDigits(date.getUTCMinutes()) + ":" + this.twoDigits(date.getUTCSeconds());
+  }
+
   upload() {
     console.log("entro aca")
 
@@ -347,6 +356,10 @@ export class uploadDataNewComponent implements OnInit {
         this.student.nombre_completo = excelDatas[0]['nombre_completo'];
         this.student.email = excelDatas[0]['email'];
 
+        this.grade.calificacion = excelDatas[0]['nota'];
+        this.grade.observacion = excelDatas[0]['observacion'];
+        this.grade.evidencia_url = excelDatas[0]['evidencia_url'];
+
         console.log("student info " + this.student.id_estudiante,
           this.student.documento,
           this.student.nombre_completo,
@@ -356,7 +369,7 @@ export class uploadDataNewComponent implements OnInit {
           .subscribe(
 
             result => {
-              console.log("result en la 0 " + result);
+              console.log("result en la 0" + result);
 
               this.service.getStudentsByParams(null, this.student.documento, null, null)
                 .subscribe(
@@ -385,7 +398,6 @@ export class uploadDataNewComponent implements OnInit {
 
                                 result3 => {
                                   this.waitAsync();
-                                  console.log("haciendo tru el flag = ", this.flagStudentGroup);
 
                                 });
 
@@ -664,14 +676,70 @@ export class uploadDataNewComponent implements OnInit {
                       this.service.addEvaluations(this.evaluationSelected)
                         .subscribe(
                           result7 => {
-                            this.service.getEvaluationByParams(null, this.evaluationSelected.tipo_evaluacion, this.evaluationSelected.id_asignatura_indicador)
+                            this.service.getEvaluationsByParams(null, this.evaluationSelected.tipo_evaluacion, this.evaluationSelected.id_asignatura_indicador)
                               .subscribe(
                                 result8 => {
                                   this.evaluationSelected.id_evaluacion = result8[0].id_evaluacion;
 
-                                  //insertar elemento en ACTIVIDADES
+                                  this.activitySelected.id_actividad = null;
+                                  this.activitySelected.descripcion = null;
+                                  this.activitySelected.id_evaluacion = this.evaluationSelected.id_evaluacion;
 
-                                  //insertar elemento en EVALUACION_INDICADOR
+                                  this.service.addActivities(this.activitySelected)
+                                    .subscribe(
+                                      result9 => {
+
+                                        this.service.getActivitiesByParams(null, this.activitySelected.tipo_actividad, this.activitySelected.descripcion, this.activitySelected.id_evaluacion)
+                                          .subscribe(
+                                            result11 => {
+                                              this.activitySelected.id_actividad = result11[0].id_actividad;
+
+                                              this.grade.id_calificacion = null;
+                                              this.grade.id_estudiante_grupo = this.studentGroup.id_estudiante_grupo;
+                                              this.grade.id_actividad = this.activitySelected.id_actividad;
+                                              this.grade.descripcion_calificacion = null;
+                                              this.grade.fecha_creacion = this.castToMysqlFormat(new Date());
+                                              this.grade.fecha_modificacion = this.castToMysqlFormat(new Date());
+                                              this.grade.periodo ="2018-II"
+
+                                              this.service.addGrades(this.grade)
+                                                .subscribe(
+                                                  result12 => {
+                                                    this.service.getGradesByParams(
+                                                      null,
+                                                      this.grade.id_estudiante_grupo,
+                                                      this.grade.id_actividad,
+                                                      this.grade.calificacion,
+                                                      this.grade.descripcion_calificacion,
+                                                      this.grade.fecha_creacion,
+                                                      this.grade.fecha_modificacion,
+                                                      this.grade.periodo,
+                                                      this.grade.observacion,
+                                                      this.grade.id_estudiante_grupo
+                                                    )
+                                                    .subscribe(
+                                                      result13 => {
+                                                        console.log("La calificación fue agregada o ya existe :=> ");
+                                                        console.log(
+                                                          result13[0].id_calificacion,
+                                                          result13[0].id_estudiante_grupo,
+                                                          result13[0].id_actividad,
+                                                          result13[0].calificacion,
+                                                          result13[0].descripcion_calificacion,
+                                                          result13[0].fecha_creacion,
+                                                          result13[0].fecha_modificacion,
+                                                          result13[0].periodo,
+                                                          result13[0].observacion,
+                                                          result13[0].id_estudiante_grupo);
+                                                      });
+                                                });
+
+
+
+                                            });
+
+                                      });
+
 
                                 })
                           });
@@ -681,7 +749,6 @@ export class uploadDataNewComponent implements OnInit {
             );
 
         })
-
 
   }
 
