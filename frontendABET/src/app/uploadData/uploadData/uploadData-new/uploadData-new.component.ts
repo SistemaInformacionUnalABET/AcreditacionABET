@@ -430,8 +430,6 @@ export class uploadDataNewComponent implements OnInit {
                             "Estudiante:  ", currentStudentGroup.id_estudiante,
                             "Grupo; ", currentStudentGroup.id_grupo);
 
-                          //currentStudentGroup.id_estudiante_grupo = result0[0].id_estudiante_grupo;
-
                           this.insertGrade(currentStudentGroup, gradeObject);
 
                         } else {
@@ -439,7 +437,7 @@ export class uploadDataNewComponent implements OnInit {
                             this.courseSelected.nombre_asignatura);
                         }
                       } else { //si el estudiante NO se encuentra asociado a un grupo, se agrega a la tabla
-                        //currentStudentGroup.id_estudiante_grupo = result0[0].id_estudiante_grupo;
+                        
                         this.service.addStudentGroups(currentStudentGroup)
                           .subscribe(
 
