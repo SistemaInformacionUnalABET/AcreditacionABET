@@ -78,9 +78,9 @@ export class OrdersService {
     } if (identificator) {
       newUrl = newUrl + "&identificator=" + "\"" + identificator + "\"";
     } if (name) {
-      newUrl = newUrl + "&name="+ "\"" + name+ "\"";
+      newUrl = newUrl + "&name=" + "\"" + name + "\"";
     } if (description) {
-      newUrl = newUrl + "&description="+ "\"" + description+ "\"";
+      newUrl = newUrl + "&description=" + "\"" + description + "\"";
     }
     return newUrl;
   }
@@ -97,9 +97,9 @@ export class OrdersService {
     } if (code) {
       newUrl = newUrl + "&code=" + code;
     } if (name) {
-      newUrl = newUrl + "&name=" + "\""+ name+ "\"";
+      newUrl = newUrl + "&name=" + "\"" + name + "\"";
     } if (description) {
-      newUrl = newUrl + "&description=" + "\""+ description+ "\"";
+      newUrl = newUrl + "&description=" + "\"" + description + "\"";
     }
     return newUrl;
   }
@@ -122,16 +122,16 @@ export class OrdersService {
 
   concatenateParamsForGetEvaluations(
     id_evaluation?: number,
-    type_evaluation?:string,
+    type_evaluation?: string,
     id_course_indicator?: number) {
     var newUrl = this.urlGetEvaluations + "?"
 
     if (id_evaluation) {
-      newUrl = newUrl + "&id=" +id_evaluation;
-    }  
+      newUrl = newUrl + "&id=" + id_evaluation;
+    }
     if (type_evaluation) {
-      newUrl = newUrl + "&type=" + "\""+ type_evaluation+ "\"";
-    } 
+      newUrl = newUrl + "&type=" + "\"" + type_evaluation + "\"";
+    }
     if (id_course_indicator) {
       newUrl = newUrl + "&id_asig_ind=" + id_course_indicator;
     }
@@ -148,11 +148,11 @@ export class OrdersService {
     if (id) {
       newUrl = newUrl + "&id=" + id;
     } if (document) {
-      newUrl = newUrl + "&document=" +"\""+document+"\"";
+      newUrl = newUrl + "&document=" + "\"" + document + "\"";
     } if (name) {
-      newUrl = newUrl + "&name=" +"\""+ name+"\"";
+      newUrl = newUrl + "&name=" + "\"" + name + "\"";
     } if (email) {
-      newUrl = newUrl + "&email=" +"\""+ email+"\"";
+      newUrl = newUrl + "&email=" + "\"" + email + "\"";
     }
 
     return newUrl;
@@ -213,7 +213,7 @@ export class OrdersService {
       newUrl = newUrl + "&type=" + "\"" + type + "\"";
     }
     if (description) {
-      newUrl = newUrl + "&description=" + "\"" + description +"\"" ;
+      newUrl = newUrl + "&description=" + "\"" + description + "\"";
     }
     if (id_evaluation) {
       newUrl = newUrl + "&id_evaluation=" + id_evaluation;
@@ -223,17 +223,17 @@ export class OrdersService {
   }
 
   concatenateParamsForGetGrades(
-      id:number,
-      idStudentGroup:number,
-      idActivity:number,
-      grade:boolean,
-      descriptionGrade:string,
-      creationDate:Date,
-      modificationDate:Date,
-      period:string,
-      observation:string,
-      urlEvidence:string
-  ){
+    id: number,
+    idStudentGroup: number,
+    idActivity: number,
+    grade: boolean,
+    descriptionGrade: string,
+    creationDate: Date,
+    modificationDate: Date,
+    period: string,
+    observation: string,
+    urlEvidence: string
+  ) {
     var newUrl = this.urlGetGrades + "?"
 
     if (id) {
@@ -249,7 +249,7 @@ export class OrdersService {
       newUrl = newUrl + "&grade=" + grade;
     }
     if (descriptionGrade) {
-      newUrl = newUrl + "&descriptionGrade=" + "\""+ descriptionGrade+ "\"";
+      newUrl = newUrl + "&descriptionGrade=" + "\"" + descriptionGrade + "\"";
     }
     if (creationDate) {
       newUrl = newUrl + "&creationDate=" + creationDate;
@@ -258,15 +258,15 @@ export class OrdersService {
       newUrl = newUrl + "&modificationDate=" + modificationDate;
     }
     if (period) {
-      newUrl = newUrl + "&period=" + "\""+ period+ "\"";
+      newUrl = newUrl + "&period=" + "\"" + period + "\"";
     }
     if (observation) {
-      newUrl = newUrl + "&observation=" + "\""+ observation+ "\"";
+      newUrl = newUrl + "&observation=" + "\"" + observation + "\"";
     }
     if (urlEvidence) {
-      newUrl = newUrl + "&urlEvidence=" + "\""+ urlEvidence+ "\"";
+      newUrl = newUrl + "&urlEvidence=" + "\"" + urlEvidence + "\"";
     }
-    
+
     return newUrl;
   }
 
@@ -439,7 +439,6 @@ export class OrdersService {
 
   }
 
-
   addCourseIndicators(courseIndicator: CourseIndicator) {
     let url = `${this.urlPostCourseIndicators}`;
     let iJson = JSON.stringify(courseIndicator);
@@ -470,7 +469,7 @@ export class OrdersService {
       .catch(this.handleError)
   }
 
-  addGrades(grade:Grade){
+  addGrades(grade: Grade) {
     let url = `${this.urlPostGrades}`;
     let iJson = JSON.stringify(grade);
     console.log("HACIENDO EL ADD de calificaciones", iJson);
@@ -480,8 +479,8 @@ export class OrdersService {
       .catch(this.handleError)
   }
 
-
   /*
+  
     getCommons():Observable<Commons[]>{
       let url = `${this.url3}`;
       return this.http.get(url)

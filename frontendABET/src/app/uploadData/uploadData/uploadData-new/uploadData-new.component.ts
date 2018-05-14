@@ -52,16 +52,16 @@ export class uploadDataNewComponent implements OnInit {
   evaluationTypeList: String[];
   activityTypeList: String[];
 
-  student: Student;
+  //student: Student;
   goalSelected: Goal;
   indicatorSelected: Indicator;
   courseSelected: Course;
   groupSelected: Group;
   evaluationSelected: Evaluation;
   activitySelected: Activity;
-  studentGroup: StudentGroup;
+  //studentGroup: StudentGroup;
   courseIndicator: CourseIndicator;
-  grade: Grade;
+  //grade: Grade;
 
   form: FormGroup;
 
@@ -84,6 +84,8 @@ export class uploadDataNewComponent implements OnInit {
   variableCourse = false;
   isFile = false;
   flagStudentGroup = false;
+  flagUpload = true;
+  excelDatas: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -106,11 +108,12 @@ export class uploadDataNewComponent implements OnInit {
     this.groupSelected = new Group(null, null, null);
     this.evaluationSelected = new Evaluation(null, null, null);
     this.activitySelected = new Activity(null, null, null, null);
-    this.student = new Student(null, null, null, null);
-    this.studentGroup = new StudentGroup(null, null, null, null);
+    //this.student = new Student(null, null, null, null);
+    //this.studentGroup = new StudentGroup(null, null, null, null);
     this.courseIndicator = new CourseIndicator(null, null, null);
-    this.grade = new Grade(null, null, null, null, null, null, null, null, null, null);
+    //this.grade = new Grade(null, null, null, null, null, null, null, null, null, null);
 
+    this.excelDatas = null;
     this.goalList = [];
     this.indicatorList = [];
     this.courseList = [];
@@ -312,18 +315,219 @@ export class uploadDataNewComponent implements OnInit {
     this.isFile = true;
   }
 
- twoDigits(d) {
-    if(0 <= d && d < 10) return "0" + d.toString();
-    if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+  twoDigits(d) {
+    if (0 <= d && d < 10) return "0" + d.toString();
+    if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
     return d.toString();
-}
-  castToMysqlFormat(date){
+  }
+  castToMysqlFormat(date) {
     return date.getUTCFullYear() + "-" + this.twoDigits(1 + date.getUTCMonth()) + "-" + this.twoDigits(date.getUTCDate()) + " " + this.twoDigits(date.getUTCHours()) + ":" + this.twoDigits(date.getUTCMinutes()) + ":" + this.twoDigits(date.getUTCSeconds());
   }
 
-  upload() {
-    console.log("entro aca")
+  asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+      callback(array[index], index, array)
+    }
+  }
 
+  insertGrade(studentGroupObject, gradeObject) {
+
+    this.service.getStudentGroupsByParams(null, studentGroupObject.id_grupo, studentGroupObject.id_estudiante, studentGroupObject.id_asignatura)
+      .subscribe(
+        result4 => {
+
+          gradeObject.id_calificacion = null;
+          gradeObject.id_estudiante_grupo = result4[0].id_estudiante_grupo;
+          gradeObject.id_actividad = this.activitySelected.id_actividad;
+          gradeObject.descripcion_calificacion = null;
+          gradeObject.fecha_creacion = this.castToMysqlFormat(new Date());
+          gradeObject.fecha_modificacion = this.castToMysqlFormat(new Date());
+          gradeObject.periodo = "2018-II"
+
+          console.log(
+
+            gradeObject.id_estudiante_grupo,
+            gradeObject.id_actividad,
+            gradeObject.calificacion,
+            gradeObject.descripcion_calificacion,
+            gradeObject.fecha_creacion,
+            gradeObject.fecha_modificacion,
+            gradeObject.periodo,
+            gradeObject.observacion,
+            gradeObject.id_estudiante_grupo
+
+          );
+
+          this.service.addGrades(gradeObject)
+            .subscribe(
+              result12 => {
+                console.log("La calificación fue agregada o ya existe :=> ");
+
+
+                this.service.getGradesByParams(
+                  null,
+                  gradeObject.id_estudiante_grupo,
+                  gradeObject.id_actividad,
+                  gradeObject.calificacion,
+                  gradeObject.descripcion_calificacion,
+                  gradeObject.fecha_creacion,
+                  gradeObject.fecha_modificacion,
+                  gradeObject.periodo,
+                  gradeObject.observacion,
+                  gradeObject.id_estudiante_grupo
+                )
+                  .subscribe(
+                    result13 => {
+                      console.log("La calificación fue agregada o ya existe :=> ");
+                      console.log(
+                        result13[0].id_calificacion,
+                        result13[0].id_estudiante_grupo,
+                        result13[0].id_actividad,
+                        result13[0].calificacion,
+                        result13[0].descripcion_calificacion,
+                        result13[0].fecha_creacion,
+                        result13[0].fecha_modificacion,
+                        result13[0].periodo,
+                        result13[0].observacion,
+                        result13[0].id_estudiante_grupo);
+
+                    });
+              });
+
+        });
+
+
+
+  }
+
+  insertStudent(studentObject, gradeObject) {
+    this.service.addStudents(studentObject)
+      .subscribe(
+        result => {
+
+          var currentStudentGroup = new StudentGroup(null, null, null, null);
+          this.service.getStudentsByParams(null, studentObject.documento, null, null)
+            .subscribe(
+              result2 => {
+
+                
+                currentStudentGroup.id_estudiante_grupo = null;
+                currentStudentGroup.id_grupo = this.groupSelected.id_grupo;
+                currentStudentGroup.id_estudiante = result2[0].id_estudiante;
+                currentStudentGroup.id_asignatura = this.courseSelected.id_asignatura;
+
+                this.service.getStudentGroupsByParams(null, null, result2[0].id_estudiante, this.courseSelected.id_asignatura)
+                  .subscribe(
+                    result0 => {
+
+
+                      if (result0.length > 0) {
+
+                        if (result0[0].id_grupo == this.groupSelected.id_grupo) { //Si el estuduante ya se encuentra asociado al grupo seleccionado
+                          console.log(">>>  El estudinte ", studentObject.nombre_completo, " ya se encuentra registrado en el grupo: ", result0[0].id_grupo);
+                          console.log(
+                            "id_Estudiante_grupo:  ", currentStudentGroup.id_estudiante_grupo,
+                            "Estudiante:  ", currentStudentGroup.id_estudiante,
+                            "Grupo; ", currentStudentGroup.id_grupo);
+
+                          //currentStudentGroup.id_estudiante_grupo = result0[0].id_estudiante_grupo;
+
+                          this.insertGrade(currentStudentGroup, gradeObject);
+
+                        } else {
+                          alert("El estudiante: " + studentObject.documento + " ya se encuentra inscrito a un grupo de la asignatura: " +
+                            this.courseSelected.nombre_asignatura);
+                        }
+                      } else { //si el estudiante NO se encuentra asociado a un grupo, se agrega a la tabla
+                        //currentStudentGroup.id_estudiante_grupo = result0[0].id_estudiante_grupo;
+                        this.service.addStudentGroups(currentStudentGroup)
+                          .subscribe(
+
+                            result3 => {
+
+                              console.log(">>>> SE INSCRIBIÓ UN ESTUDIANTE GRUPO",
+                                "Estudiante:  ", currentStudentGroup.id_estudiante,
+                                "Grupo; ", currentStudentGroup.id_grupo);
+                              this.insertGrade(currentStudentGroup, gradeObject);
+                            });
+
+                      }
+
+                    }
+                  )
+              });
+        });
+  }
+
+  insertFormInformation() {
+
+    this.courseIndicator.id_asignatura_indicador = null;
+    this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
+    this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
+
+    this.service.addCourseIndicators(this.courseIndicator)
+      .subscribe(
+        result5 => {
+          this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
+            .subscribe(
+              result6 => {
+                this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
+
+                this.evaluationSelected.id_evaluacion = null;
+                this.evaluationSelected.id_asignatura_indicador = this.courseIndicator.id_asignatura_indicador;
+
+                this.service.addEvaluations(this.evaluationSelected)
+                  .subscribe(
+                    result7 => {
+                      this.service.getEvaluationsByParams(null, this.evaluationSelected.tipo_evaluacion, this.evaluationSelected.id_asignatura_indicador)
+                        .subscribe(
+                          result8 => {
+                            this.evaluationSelected.id_evaluacion = result8[0].id_evaluacion;
+
+                            this.activitySelected.id_actividad = null;
+                            this.activitySelected.descripcion = null;
+                            this.activitySelected.id_evaluacion = this.evaluationSelected.id_evaluacion;
+
+                            this.service.addActivities(this.activitySelected)
+                              .subscribe(
+                                result9 => {
+
+                                  this.service.getActivitiesByParams(null, this.activitySelected.tipo_actividad, this.activitySelected.descripcion, this.activitySelected.id_evaluacion)
+                                    .subscribe(
+                                      result11 => {
+                                        this.activitySelected.id_actividad = result11[0].id_actividad;
+
+                                        //Inserta cada estudiante a la tabla estudiantes
+                                        const insertStudentsFormExcel = async () => {
+                                          await this.asyncForEach(this.excelDatas, async (object) => {
+                                            var currentStudent = new Student(null, null, null, null);
+                                            currentStudent.documento = object['documento'];
+                                            currentStudent.nombre_completo = object['nombre_completo'];
+                                            currentStudent.email = object['email'];
+
+                                            var currentGrade = new Grade(null, null, null, null, null, null, null, null, null, null);
+                                            currentGrade.calificacion = object['nota'];
+                                            currentGrade.observacion = object['observacion'];
+                                            currentGrade.evidencia_url = object['evidencia_url'];
+
+                                            await this.insertStudent(currentStudent, currentGrade);
+                                          })
+
+                                        }
+
+                                        insertStudentsFormExcel();
+
+                                      });
+
+                                });
+                          });
+                    });
+              });
+        });
+  }
+
+
+  upload() {
 
     console.log(
       this.goalSelected.identificador_meta + " " +
@@ -347,409 +551,18 @@ export class uploadDataNewComponent implements OnInit {
       console.log("esto> ", XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       if (XLSX.utils.sheet_to_json(worksheet, { raw: true }).length > 0) {
 
+        this.excelDatas = XLSX.utils.sheet_to_json(worksheet, { raw: true });
 
-        var excelDatas = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-        console.log("Documetno JSON: " + excelDatas[0]['documento']);
+        this.insertFormInformation();
 
-        this.student.id_estudiante = null;
-        this.student.documento = excelDatas[0]['documento'];
-        this.student.nombre_completo = excelDatas[0]['nombre_completo'];
-        this.student.email = excelDatas[0]['email'];
-
-        this.grade.calificacion = excelDatas[0]['nota'];
-        this.grade.observacion = excelDatas[0]['observacion'];
-        this.grade.evidencia_url = excelDatas[0]['evidencia_url'];
-
-        console.log("student info " + this.student.id_estudiante,
-          this.student.documento,
-          this.student.nombre_completo,
-          this.student.email)
-
-        this.service.addStudents(this.student)
-          .subscribe(
-
-            result => {
-              console.log("result en la 0" + result);
-
-              this.service.getStudentsByParams(null, this.student.documento, null, null)
-                .subscribe(
-                  result2 => {
-                    this.student.id_estudiante = result2[0].id_estudiante;
-
-                    this.studentGroup.id_estudiante_grupo = null;
-                    this.studentGroup.id_grupo = this.groupSelected.id_grupo;
-                    this.studentGroup.id_estudiante = this.student.id_estudiante;
-                    this.studentGroup.id_asignatura = this.courseSelected.id_asignatura;
-
-
-                    this.service.getStudentGroupsByParams(null, null, this.student.id_estudiante, this.courseSelected.id_asignatura)
-                      .subscribe(
-                        result0 => {
-                          if (result0.length > 0) {
-                            if (result0[0].id_grupo == this.groupSelected.id_grupo) {
-                              this.waitAsync();
-                            } else {
-                              alert("El estudiante: " + this.student.documento + " ya se encuentra inscrito a un grupo de la asignatura: " +
-                                this.courseSelected.nombre_asignatura);
-                            }
-                          } else {
-                            this.service.addStudentGroups(this.studentGroup)
-                              .subscribe(
-
-                                result3 => {
-                                  this.waitAsync();
-
-                                });
-
-                          }
-
-
-
-
-                        }
-                      )
-
-                    // this.service.addStudentGroups(this.studentGroup)
-                    //   .subscribe(
-
-                    //      result3 => {
-                    //   console.log("errorcitoooojson=", JSON.parse(result3));
-
-                    //   if (JSON.parse(result3)['error']) {
-                    //     alert("El estudiante: " + this.student.documento + " ya esta inscrito en la asignatura: " +
-                    //       this.courseSelected.nombre_asignatura)
-
-                    //   } else {
-                    //     alert("insertado correctamente")
-                    //     this.service.getStudentGroupsByParams(null, this.studentGroup.id_grupo, this.studentGroup.id_estudiante, this.studentGroup.id_asignatura)
-                    //       .subscribe(
-                    //         result4 => {
-                    //           this.studentGroup.id_estudiante_grupo = result4[0].id_estudiante_grupo;
-
-                    //           this.courseIndicator.id_asignatura_indicador = null;
-                    //           this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
-                    //           this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
-
-                    //           this.service.addCourseIndicators(this.courseIndicator)
-                    //             .subscribe(
-                    //               result5 => {
-                    //                 this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
-                    //                   .subscribe(
-                    //                     result6 => {
-                    //                       this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
-                    //                     })
-                    //               }
-                    //             );
-
-                    //         })
-
-                    //   }
-
-                    // });
-                  });
-            });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-    
-        console.log("ELEMENTO TODO", excelDatas);
- 
-    this.indicador.id_indicador = null;
-    this.indicador.id_meta = null;
-    this.indicador.id_comun = null;
-    this.indicador.identificador_indicador = excelDatas[0]['identificador_indicador'];
- 
-    this.common.id_comun = null;
-    this.common.nombre = excelDatas[0]['nombre_meta'];;
-    this.common.descripcion = null;
- 
-    console.log("ELEMENTO [0][indentificador]", this.indicador.identificador_indicador);
- 
-    var lastIdComunMetas: any;
-    var lastIdComunIndicador: any;
-    var lastIdComunAsignatura: any;
-    var lastIdComunEvaluacion: any;
-    var lastIdComunActividad: any;
- 
- 
- 
-    //Insertar nombre de meta a comun y obtener el id del mismo
-    this.service.addCommons(this.common)
-      .subscribe(
- 
-        result => {
-          if (result) {
-            this.service.getCommons()
-              .subscribe(
-                result2 => {
-                  if (result2) {
-                    lastIdComunMetas = result2[0];
-                    console.log("Last ID comun METASSSSS ", lastIdComunMetas)
- 
- 
-                    //Añadiendo un nombre de indicador a common
-                    this.common.id_comun = null;
-                    this.common.nombre = excelDatas[0]['nombre_indicador'];;
-                    this.common.descripcion = null;
- 
- 
-                    this.service.addCommons(this.common)
-                      .subscribe(
- 
-                        result => {
-                          if (result) {
-                            this.service.getCommons()
-                              .subscribe(
-                                result2 => {
-                                  if (result2) {
-                                    lastIdComunIndicador = result2[0];
-                                    console.log("Last ID comun INDICADOR ", lastIdComunIndicador)
- 
- 
-                                    //anadiendo nombre de asignatura a la tabla comon
-                                    this.common.id_comun = null;
-                                    this.common.nombre = excelDatas[0]['nombre_asignatura'];;
-                                    this.common.descripcion = null;
- 
- 
-                                    this.service.addCommons(this.common)
-                                      .subscribe(
- 
-                                        result => {
-                                          if (result) {
-                                            this.service.getCommons()
-                                              .subscribe(
-                                                result2 => {
-                                                  if (result2) {
-                                                    lastIdComunAsignatura = result2[0];
-                                                    console.log("Last ID comun Asignatura ", lastIdComunAsignatura)
- 
-                                                    //anadiendo nombre de evaluacion a common
- 
-                                                    this.common.id_comun = null;
-                                                    this.common.nombre = excelDatas[0]['nombre_evaluacion'];;
-                                                    this.common.descripcion = null;
- 
- 
-                                                    this.service.addCommons(this.common)
-                                                      .subscribe(
- 
-                                                        result => {
-                                                          if (result) {
-                                                            this.service.getCommons()
-                                                              .subscribe(
-                                                                result2 => {
-                                                                  if (result2) {
-                                                                    lastIdComunEvaluacion = result2[0];
-                                                                    console.log("Last ID comun Evaluacion ", lastIdComunEvaluacion)
- 
-                                                                    //anadiendo nombre de actividad a la tabla comon
-                                                                    this.common.id_comun = null;
-                                                                    this.common.nombre = excelDatas[0]['nombre_actividad'];;
-                                                                    this.common.descripcion = null;
- 
- 
-                                                                    this.service.addCommons(this.common)
-                                                                      .subscribe(
- 
-                                                                        result => {
-                                                                          if (result) {
-                                                                            this.service.getCommons()
-                                                                              .subscribe(
-                                                                                result2 => {
-                                                                                  if (result2) {
-                                                                                    lastIdComunActividad = result2[0];
-                                                                                    console.log("Last ID comun Actividad ", lastIdComunActividad)
- 
-                                                                                  }
-                                                                                }
-                                                                              )
- 
-                                                                          }
-                                                                        }
- 
-                                                                      );
- 
- 
-                                                                  }
-                                                                }
-                                                              )
- 
-                                                          }
-                                                        }
- 
-                                                      );
- 
- 
-                                                  }
-                                                }
-                                              )
- 
-                                          }
-                                        }
- 
-                                      );
- 
- 
- 
-                                  }
-                                }
-                              )
- 
-                          }
-                        }
- 
-                      );
- 
- 
-                  }
-                }
-              )
- 
-          }
-        }
- 
-      );
- 
- 
- 
-    // this.service.addIndicators(this.indicador)
-    //   .subscribe(
-    //     rt => console.log("rt= ", rt),
-    //     er => console.log("error= ", er),
-    //     () => console.log("Terminado")        
-    //   )
-  */
+      }else{
+       alert("Documento vacío o no valido"); 
       }
-
     }
 
     fileReader.readAsArrayBuffer(this.file);
 
   }
 
-  waitAsync() {
-
-    this.service.getStudentGroupsByParams(null, this.studentGroup.id_grupo, this.studentGroup.id_estudiante, this.studentGroup.id_asignatura)
-      .subscribe(
-        result4 => {
-          console.log("lengh de result = ", result4.length);
-
-          this.studentGroup.id_estudiante_grupo = result4[0].id_estudiante_grupo;
-
-          this.courseIndicator.id_asignatura_indicador = null;
-          this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
-          this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
-
-          this.service.addCourseIndicators(this.courseIndicator)
-            .subscribe(
-              result5 => {
-                this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
-                  .subscribe(
-                    result6 => {
-                      this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
-
-                      this.evaluationSelected.id_evaluacion = null;
-                      this.evaluationSelected.id_asignatura_indicador = this.courseIndicator.id_asignatura_indicador;
-
-                      this.service.addEvaluations(this.evaluationSelected)
-                        .subscribe(
-                          result7 => {
-                            this.service.getEvaluationsByParams(null, this.evaluationSelected.tipo_evaluacion, this.evaluationSelected.id_asignatura_indicador)
-                              .subscribe(
-                                result8 => {
-                                  this.evaluationSelected.id_evaluacion = result8[0].id_evaluacion;
-
-                                  this.activitySelected.id_actividad = null;
-                                  this.activitySelected.descripcion = null;
-                                  this.activitySelected.id_evaluacion = this.evaluationSelected.id_evaluacion;
-
-                                  this.service.addActivities(this.activitySelected)
-                                    .subscribe(
-                                      result9 => {
-
-                                        this.service.getActivitiesByParams(null, this.activitySelected.tipo_actividad, this.activitySelected.descripcion, this.activitySelected.id_evaluacion)
-                                          .subscribe(
-                                            result11 => {
-                                              this.activitySelected.id_actividad = result11[0].id_actividad;
-
-                                              this.grade.id_calificacion = null;
-                                              this.grade.id_estudiante_grupo = this.studentGroup.id_estudiante_grupo;
-                                              this.grade.id_actividad = this.activitySelected.id_actividad;
-                                              this.grade.descripcion_calificacion = null;
-                                              this.grade.fecha_creacion = this.castToMysqlFormat(new Date());
-                                              this.grade.fecha_modificacion = this.castToMysqlFormat(new Date());
-                                              this.grade.periodo ="2018-II"
-
-                                              this.service.addGrades(this.grade)
-                                                .subscribe(
-                                                  result12 => {
-                                                    this.service.getGradesByParams(
-                                                      null,
-                                                      this.grade.id_estudiante_grupo,
-                                                      this.grade.id_actividad,
-                                                      this.grade.calificacion,
-                                                      this.grade.descripcion_calificacion,
-                                                      this.grade.fecha_creacion,
-                                                      this.grade.fecha_modificacion,
-                                                      this.grade.periodo,
-                                                      this.grade.observacion,
-                                                      this.grade.id_estudiante_grupo
-                                                    )
-                                                    .subscribe(
-                                                      result13 => {
-                                                        console.log("La calificación fue agregada o ya existe :=> ");
-                                                        console.log(
-                                                          result13[0].id_calificacion,
-                                                          result13[0].id_estudiante_grupo,
-                                                          result13[0].id_actividad,
-                                                          result13[0].calificacion,
-                                                          result13[0].descripcion_calificacion,
-                                                          result13[0].fecha_creacion,
-                                                          result13[0].fecha_modificacion,
-                                                          result13[0].periodo,
-                                                          result13[0].observacion,
-                                                          result13[0].id_estudiante_grupo);
-                                                      });
-                                                });
-
-
-
-                                            });
-
-                                      });
-
-
-                                })
-                          });
-
-                    })
-              }
-            );
-
-        })
-
-  }
 
 }
