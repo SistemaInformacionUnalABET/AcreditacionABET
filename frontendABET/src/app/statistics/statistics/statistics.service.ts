@@ -12,7 +12,7 @@ import 'rxjs/add/operator/catch'
 @Injectable()
 export class OffersService {
   private headers = new Headers({'Content-Type':'application/json'});
-  private url = 'http://localhost:8000/indicadores';
+  private url = 'http://localhost:8000/grades';
 
   constructor(private http: Http) { }
 

@@ -5,23 +5,33 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      Lista de indicadores
+      Lista de calificaciones
     </div>
     <div class="card-block">
       <table class="table table-hover">
         <thead class="thead-default">
           <tr>
-            <th>Id_indicador</th>
-            <th>Id_meta</th>
-            <th>Id_comun</th>
+            <th>Id_calificacion</th>
+            <th>Id_estudiante_grupo</th>
+            <th>Id_actividad</th>
+            <th>calificacion</th>
+            <th>fecha_creacion</th>
+            <th>periodo</th>
+            <th>observacion</th>
+            <th>evidencia_url</th>
           </tr>
 
         </thead>
         <tbody>
           <tr *ngFor="let item of lista">
-            <td>{{item.id_indicador}}</td>
-            <td>{{item.id_meta}}</td>
-            <td>{{item.id_comun}}</td>
+            <td>{{item.id_calificacion}}</td>
+            <td>{{item.id_estudiante_grupo}}</td>
+            <td>{{item.id_actividad}}</td>
+            <td>{{item.calificacion}}</td>
+            <td>{{item.fecha_creacion}}</td>
+            <td>{{item.periodo}}</td>
+            <td>{{item.observacion}}</td>
+            <td>{{item.evidencia_url}}</td>
           </tr>
 
         </tbody>
