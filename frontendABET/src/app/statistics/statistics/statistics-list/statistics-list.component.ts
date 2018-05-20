@@ -28,10 +28,10 @@ export class StatisticsListComponent implements OnInit {
 
           console.log(">>>>>>> Listado de calificacoines completas");
           
-          //console.log(this.completeGradesList[0]);
+          console.log(this.completeGradesList);
         }
       );
-
+    
   }
 
 }

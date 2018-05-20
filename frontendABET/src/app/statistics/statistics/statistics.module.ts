@@ -38,4 +38,4 @@ import 'nvd3';
   declarations: [StatisticsItemsComponent, StatisticsEditComponent, StatisticsNewComponent, StatisticsListComponent],
   exports: [StatisticsItemsComponent, StatisticsEditComponent, StatisticsNewComponent, StatisticsListComponent]
 })
-export class OffersModule { }
+export class StatisticsModule { }

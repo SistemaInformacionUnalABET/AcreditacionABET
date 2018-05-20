@@ -10,8 +10,8 @@ import { NotificationsItemsComponent } from '../notifications/notifications/noti
 
 
 const routes: Routes = [
-  {path: 'orders', component: uploadDataItemsComponent},
-  {path: 'offers', component: StatisticsItemsComponent,
+  {path: 'upload', component: uploadDataItemsComponent},
+  {path: 'statistics', component: StatisticsItemsComponent,
   children: [
     {path: '', redirectTo: 'lista', pathMatch: 'full'},
     {path: 'lista', component: StatisticsListComponent},

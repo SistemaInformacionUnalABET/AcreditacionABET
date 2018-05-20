@@ -41,4 +41,4 @@ import 'hammerjs';
   declarations: [uploadDataListComponent, uploadDataNewComponent, uploadDataEditComponent, uploadDataItemsComponent],
   exports: [uploadDataListComponent, uploadDataNewComponent, uploadDataEditComponent, uploadDataItemsComponent]
 })
-export class OrdersModule { }
+export class UploadModule { }

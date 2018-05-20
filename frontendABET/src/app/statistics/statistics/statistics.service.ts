@@ -80,6 +80,8 @@ export class StatisticsServices {
       newUrl = newUrl + "&url_evidence=" + "\""+ urlEvidence+ "\"";
     }
     console.log(">>>>>>>>", newUrl);
+
+    return newUrl
     
   }
 

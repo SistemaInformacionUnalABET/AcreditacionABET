@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import * as XLSX from 'ts-xlsx';
-import { OrdersService } from './../uploadData.service'
+import { UploadService } from './../uploadData.service'
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Indicator } from '../../../statistics/statistics/entities/indicator';
 import { Commons } from '../../../statistics/statistics/entities/commons';
@@ -31,7 +31,7 @@ import { logging } from 'selenium-webdriver';
 @Component({
   selector: 'app-uploadData-new',
   templateUrl: './uploadData-new.component.html',
-  providers: [OrdersService],
+  providers: [UploadService],
   //styleUrls: ['./orders-new.component.css'],
   styleUrls: ['./uploadData-new.component.css'],
   encapsulation: ViewEncapsulation.None
@@ -90,7 +90,7 @@ export class uploadDataNewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private service: OrdersService,
+    private service: UploadService,
     private fb: FormBuilder
 
   ) {

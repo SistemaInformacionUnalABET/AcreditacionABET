@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { DashboardRoutingModule } from './dashboard.routing';
-import { OrdersModule } from '../uploadData/uploadData/uploadData.module';
-import { OffersModule } from '../statistics/statistics/statistics.module';
+import { UploadModule } from '../uploadData/uploadData/uploadData.module';
+import { StatisticsModule } from '../statistics/statistics/statistics.module';
 import { NotificationsModule } from '../notifications/notifications/notifications.module';
 
 import { DashboardItemsComponent } from './dashboard-items/dashboard-items.component';
@@ -14,8 +14,8 @@ import { DashboardItemsComponent } from './dashboard-items/dashboard-items.compo
     CommonModule,
     DashboardRoutingModule,
     BrowserModule,
-    OrdersModule,
-    OffersModule,
+    UploadModule,
+    StatisticsModule,
     NotificationsModule
   ],
   declarations: [DashboardItemsComponent],

@@ -25,7 +25,7 @@ import { Grade } from '../../statistics/statistics/entities/grade';
 
 
 @Injectable()
-export class OrdersService {
+export class UploadService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = 'http://localhost:8000/indicadores/';
