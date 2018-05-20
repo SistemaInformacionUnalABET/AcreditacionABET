@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Indicator } from './../entities/indicator';
-import { OffersService } from './../statistics.service';
+import { StatisticsServices } from './../statistics.service';
+import { ViewCompleteGrade } from './../../statistics/entities/viewCompleteGrade';
+
 
 @Component({
   selector: 'app-statistics-list',
@@ -9,19 +11,27 @@ import { OffersService } from './../statistics.service';
 })
 export class StatisticsListComponent implements OnInit {
 
-  lista: Indicator[];
+  completeGradesList: ViewCompleteGrade[];
 
-  constructor(
-    private servicio: OffersService
-  ) { }
+
+  constructor(private services: StatisticsServices) {
+    this.completeGradesList = []
+  }
 
   ngOnInit() {
-    this.servicio.getIndicators()
+    this.services.getViewCompleteGradesByParams(null)
       .subscribe(
-      rs => this.lista = rs,
-      er => console.log(er),
-      () => console.log(this.lista)
-      )
+        rs => this.completeGradesList = rs,
+        er => console.log(er),
+        () => { 
+          console.log(">>>>>>> Listado de calificacoines completas");
+          
+          console.log(this.completeGradesList[0]);
+        }
+      );
+
+
+
   }
 
 }

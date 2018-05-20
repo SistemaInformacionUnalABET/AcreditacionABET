@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { OffersService } from './../statistics.service';
+import { StatisticsServices } from './../statistics.service';
 import { Indicator } from './../entities/indicator';
 
 

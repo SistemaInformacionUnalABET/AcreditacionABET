@@ -14,7 +14,7 @@ import { StatisticsItemsComponent} from './statistics-items/statistics-items.com
 import { StatisticsEditComponent } from './statistics-edit/statistics-edit.component';
 import { StatisticsNewComponent } from './statistics-new/statistics-new.component';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
-import { OffersService } from './statistics.service';
+import { StatisticsServices } from './statistics.service';
 import { NvD3Module } from 'ng2-nvd3';
 
 import 'hammerjs';
@@ -31,11 +31,10 @@ import 'nvd3';
     HttpModule,
     BrowserModule,
     NvD3Module,
-    MatCardModule
-    
+    MatCardModule    
 
   ],
-  providers: [ OffersService ],
+  providers: [ StatisticsServices ],
   declarations: [StatisticsItemsComponent, StatisticsEditComponent, StatisticsNewComponent, StatisticsListComponent],
   exports: [StatisticsItemsComponent, StatisticsEditComponent, StatisticsNewComponent, StatisticsListComponent]
 })

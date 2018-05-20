@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http'
+import { Injectable, group } from '@angular/core';
+import { Http, Response, Headers, RequestOptions } from '@angular/http'
 
-import {Observable} from 'rxjs/Observable';
-import {Indicator} from './../statistics/entities/indicator'
+import { Observable } from 'rxjs/Observable';
+import { Indicator } from './../statistics/entities/indicator'
+import { ViewCompleteGrade } from './../statistics/entities/viewCompleteGrade'
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
@@ -10,26 +11,124 @@ import 'rxjs/add/operator/catch'
 
 
 @Injectable()
-export class OffersService {
-  private headers = new Headers({'Content-Type':'application/json'});
-  private url = 'http://localhost:8000/grades';
+export class StatisticsServices {
+  private headers = new Headers({ 'Content-Type': 'application/json' });
+
+  private urlVCompleteGradesByParams = 'http://localhost:8000/vCompleteGrades/';
+
 
   constructor(private http: Http) { }
 
-  getIndicators():Observable<Indicator[]>{
-    let url = `${this.url}`;
+  concatenateParamsForViewCompleteGrades(
+    id_grade?: number,
+    group_number?: number,
+    id_indicator?:number,
+    identificator_indicator?: string,
+    type_evaluation?: string,
+    type_activity?: string,
+    document?: string,
+    grade?: boolean,
+    descriptionGrade?: string,
+    period?: string,
+    creationDate?: string,
+    modificationDate?: string,
+    observation?: string,
+    urlEvidence?: string
+  ){
+    var newUrl = this.urlVCompleteGradesByParams + "?"
+
+    if (id_grade) {
+      newUrl = newUrl + "&id_course=" + id_grade;
+    }
+    if (group_number) {
+      newUrl = newUrl + "&group_number=" + group_number;
+    }
+    if (id_indicator) {
+      newUrl = newUrl + "&=id_indicator" + id_indicator;
+    }
+    if (identificator_indicator) {
+      newUrl = newUrl + "&=indicator_identificator" + identificator_indicator;
+    }
+    if (type_evaluation) {
+      newUrl = newUrl + "&=evaluation_type" + type_evaluation;
+    }
+    if (type_activity) {
+      newUrl = newUrl + "&activity_type=" + type_activity;
+    }
+    if (document) {
+      newUrl = newUrl + "&document=" + document;
+    }
+    if (grade) {
+      newUrl = newUrl + "&id=grade" + grade;
+    }
+    if (descriptionGrade) {
+      newUrl = newUrl + "&id=description" + descriptionGrade;
+    }
+    if (period) {
+      newUrl = newUrl + "&id=period" + period;
+    }
+    if (creationDate) {
+      newUrl = newUrl + "&id=creation_date" + creationDate;
+    }
+    if (modificationDate) {
+      newUrl = newUrl + "&modify_date=" + modificationDate;
+    }
+    if (observation) {
+      newUrl = newUrl + "&observation=" + observation;
+    }
+    if (urlEvidence) {
+      newUrl = newUrl + "&url_evidence=" + urlEvidence;
+    }
+  }
+
+  getViewCompleteGradesByParams(
+    id_grade?: number,
+    group_number?: number,
+    id_indicator?:number,
+    identificator_indicator?: string,
+    type_evaluation?: string,
+    type_activity?: string,
+    document?: string,
+    grade?: boolean,
+    descriptionGrade?: string,
+    period?: string,
+    creationDate?: string,
+    modificationDate?: string,
+    observation?: string,
+    urlEvidence?: string
+  ): Observable<ViewCompleteGrade[]> {
+
+    var urlParams = this.concatenateParamsForViewCompleteGrades(
+      id_grade,
+      group_number,
+      id_indicator,
+      identificator_indicator,
+      type_evaluation,
+      type_activity,
+      document,
+      grade,
+      descriptionGrade,
+      period,
+      creationDate,
+      modificationDate,
+      observation,
+      urlEvidence 
+    );
+    let url = `${urlParams}`;
+
     return this.http.get(url)
       .map(r => r.json())
       .catch(this.handleError);
   }
 
-  private handleError(error: Response | any){
+
+  private handleError(error: Response | any) {
     let errMsg: string;
-    if(error instanceof Response) {
+    if (error instanceof Response) {
       let body = error.json() || '';
       let err = body.error || JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    }else{
+    } else {
       errMsg = error.message ? error.message : error.toString();
     }
     return Observable.throw(errMsg);
