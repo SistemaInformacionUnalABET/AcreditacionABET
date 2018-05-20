@@ -3,6 +3,7 @@ export class ViewCompleteGrade{
     constructor( 
         public id_asignatura: number,
         public numero_grupo: number,
+        public id_indicador: number,
         public identificador_indicador:string,
         public tipo_evaluacion:string,
         public tipo_actividad:string,

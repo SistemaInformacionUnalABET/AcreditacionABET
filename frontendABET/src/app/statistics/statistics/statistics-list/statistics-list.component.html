@@ -11,25 +11,36 @@
       <table class="table table-hover">
         <thead class="thead-default">
           <tr>
-            <th>Id_calificacion</th>
-            <th>Id_estudiante_grupo</th>
-            <th>Id_actividad</th>
+            <th>Id_asignatura</th>
+            <th>Grupo</th>
+            <th>Id_indicador</th>
+            <th>Identificador_indicador</th>
+            <th>tipo_evaluacion</th>
+            <th>tipo_actividad</th>
+            <th>documento</th>
             <th>calificacion</th>
-            <th>fecha_creacion</th>
+            <th>descripcion_calificacion</th>
             <th>periodo</th>
+            <th>fecha_creacion</th>
+            <th>fecha_modificacion</th>
             <th>observacion</th>
             <th>evidencia_url</th>
           </tr>
 
         </thead>
         <tbody>
-          <tr *ngFor="let item of lista">
-            <td>{{item.id_calificacion}}</td>
-            <td>{{item.id_estudiante_grupo}}</td>
-            <td>{{item.id_actividad}}</td>
+          <tr *ngFor="let item of completeGradesList">
+            <td>{{item.id_asignatura}}</td>
+            <td>{{item.numero_grupo}}</td>
+            <td>{{item.identificador_indicador}}</td>
+            <td>{{item.tipo_evaluacion}}</td>
+            <td>{{item.tipo_actividad}}</td>
+            <td>{{item.documento}}</td>
             <td>{{item.calificacion}}</td>
-            <td>{{item.fecha_creacion}}</td>
+            <td>{{item.descripcion_calificacion}}</td>
             <td>{{item.periodo}}</td>
+            <td>{{item.fecha_creacion}}</td>
+            <td>{{item.fecha_modificacion}}</td>
             <td>{{item.observacion}}</td>
             <td>{{item.evidencia_url}}</td>
           </tr>
