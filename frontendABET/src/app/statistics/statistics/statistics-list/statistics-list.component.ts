@@ -19,18 +19,18 @@ export class StatisticsListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.services.getViewCompleteGradesByParams(null)
+    
+    this.services.getViewCompleteGradesByParams()
       .subscribe(
         rs => this.completeGradesList = rs,
         er => console.log(er),
         () => { 
+
           console.log(">>>>>>> Listado de calificacoines completas");
           
-          console.log(this.completeGradesList[0]);
+          //console.log(this.completeGradesList[0]);
         }
       );
-
-
 
   }
 

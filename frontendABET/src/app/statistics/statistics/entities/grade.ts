@@ -3,7 +3,7 @@ export class Grade{
         public id_calificacion: number,
         public id_estudiante_grupo: number,
         public id_actividad: number,
-        public calificacion: boolean,
+        public calificacion: number,
         public descripcion_calificacion: string,
         public fecha_creacion: string,
         public fecha_modificacion: string,

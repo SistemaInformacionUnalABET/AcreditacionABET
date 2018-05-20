@@ -20,14 +20,14 @@ export class StatisticsServices {
   constructor(private http: Http) { }
 
   concatenateParamsForViewCompleteGrades(
-    id_grade?: number,
+    id_course?: number,
     group_number?: number,
     id_indicator?:number,
     identificator_indicator?: string,
     type_evaluation?: string,
     type_activity?: string,
     document?: string,
-    grade?: boolean,
+    grade?: number,
     descriptionGrade?: string,
     period?: string,
     creationDate?: string,
@@ -37,59 +37,61 @@ export class StatisticsServices {
   ){
     var newUrl = this.urlVCompleteGradesByParams + "?"
 
-    if (id_grade) {
-      newUrl = newUrl + "&id_course=" + id_grade;
+    if (id_course) {
+      newUrl = newUrl + "&id_course=" + id_course;
     }
     if (group_number) {
       newUrl = newUrl + "&group_number=" + group_number;
     }
     if (id_indicator) {
-      newUrl = newUrl + "&=id_indicator" + id_indicator;
+      newUrl = newUrl + "&id_indicator=" + id_indicator;
     }
     if (identificator_indicator) {
-      newUrl = newUrl + "&=indicator_identificator" + identificator_indicator;
+      newUrl = newUrl + "&indicator_identificator="+ "\"" + identificator_indicator+ "\"";
     }
     if (type_evaluation) {
-      newUrl = newUrl + "&=evaluation_type" + type_evaluation;
+      newUrl = newUrl + "&evaluation_type=" + "\""+ type_evaluation+ "\"";
     }
     if (type_activity) {
-      newUrl = newUrl + "&activity_type=" + type_activity;
+      newUrl = newUrl + "&activity_type="+ "\"" + type_activity+ "\"";
     }
     if (document) {
-      newUrl = newUrl + "&document=" + document;
+      newUrl = newUrl + "&document="+ "\"" + document+ "\"";
     }
     if (grade) {
-      newUrl = newUrl + "&id=grade" + grade;
+      newUrl = newUrl + "&grade" + grade;
     }
     if (descriptionGrade) {
-      newUrl = newUrl + "&id=description" + descriptionGrade;
+      newUrl = newUrl + "&description" + "\""+ descriptionGrade+ "\"";
     }
     if (period) {
-      newUrl = newUrl + "&id=period" + period;
+      newUrl = newUrl + "&period" + "\""+ period+ "\"";
     }
     if (creationDate) {
-      newUrl = newUrl + "&id=creation_date" + creationDate;
+      newUrl = newUrl + "&creation_date" + "\""+ creationDate+ "\"";
     }
     if (modificationDate) {
-      newUrl = newUrl + "&modify_date=" + modificationDate;
+      newUrl = newUrl + "&modify_date=" + "\""+ modificationDate+ "\"";
     }
     if (observation) {
-      newUrl = newUrl + "&observation=" + observation;
+      newUrl = newUrl + "&observation=" + "\""+ observation+ "\"";
     }
     if (urlEvidence) {
-      newUrl = newUrl + "&url_evidence=" + urlEvidence;
+      newUrl = newUrl + "&url_evidence=" + "\""+ urlEvidence+ "\"";
     }
+    console.log(">>>>>>>>", newUrl);
+    
   }
 
   getViewCompleteGradesByParams(
-    id_grade?: number,
+    id_course?: number,
     group_number?: number,
     id_indicator?:number,
     identificator_indicator?: string,
     type_evaluation?: string,
     type_activity?: string,
     document?: string,
-    grade?: boolean,
+    grade?: number,
     descriptionGrade?: string,
     period?: string,
     creationDate?: string,
@@ -99,7 +101,7 @@ export class StatisticsServices {
   ): Observable<ViewCompleteGrade[]> {
 
     var urlParams = this.concatenateParamsForViewCompleteGrades(
-      id_grade,
+      id_course,
       group_number,
       id_indicator,
       identificator_indicator,

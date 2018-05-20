@@ -446,6 +446,7 @@ export class uploadDataNewComponent implements OnInit {
                               console.log(">>>> SE INSCRIBIÓ UN ESTUDIANTE GRUPO",
                                 "Estudiante:  ", currentStudentGroup.id_estudiante,
                                 "Grupo; ", currentStudentGroup.id_grupo);
+                                
                               this.insertGrade(currentStudentGroup, gradeObject);
                             });
 
