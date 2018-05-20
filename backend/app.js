@@ -19,6 +19,9 @@ var routesGetsStudentGroups = require('./Routes/StudentGroup.routes/gets-student
 var routesGetsCourseIndicators = require('./Routes/CourseIndicator.routes/gets-CourseIndicators-routes');
 var routesGetsGrades = require('./Routes/Grades.routes/gets-grades-routes');
 
+var routesGetsVCompleteGrades = require('./Routes/VCompleteGrades/gets-vCompleteGrades-routes');
+
+
 
 
 
@@ -71,6 +74,8 @@ routesGetsGroups.configure(app);
 routesGetsStudentGroups.configure(app);
 routesGetsCourseIndicators.configure(app);
 routesGetsGrades.configure(app);
+
+routesGetsVCompleteGrades.configure(app);
 
 
 //Methods Pots
