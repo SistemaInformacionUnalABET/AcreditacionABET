@@ -127,8 +127,10 @@ export class StatisticsServices {
 
 
   private handleError(error: Response | any) {
+
     let errMsg: string;
-    if (error instanceof Response) {
+
+    if(error instanceof Response) {
       let body = error.json() || '';
       let err = body.error || JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;

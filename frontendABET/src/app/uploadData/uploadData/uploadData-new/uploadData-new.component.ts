@@ -51,8 +51,10 @@ export class uploadDataNewComponent implements OnInit {
   groupList: Group[];
   evaluationTypeList: String[];
   activityTypeList: String[];
+  periodList: String[];
 
   //student: Student;
+  periodSelected: string;
   goalSelected: Goal;
   indicatorSelected: Indicator;
   courseSelected: Course;
@@ -110,7 +112,7 @@ export class uploadDataNewComponent implements OnInit {
     this.activitySelected = new Activity(null, null, null, null);
     //this.student = new Student(null, null, null, null);
     //this.studentGroup = new StudentGroup(null, null, null, null);
-    this.courseIndicator = new CourseIndicator(null, null, null);
+    this.courseIndicator = new CourseIndicator(null, null, null,null);
     //this.grade = new Grade(null, null, null, null, null, null, null, null, null, null);
 
     this.excelDatas = null;
@@ -139,6 +141,34 @@ export class uploadDataNewComponent implements OnInit {
       "Sustentación en grupo",
       "Otro"
     ];
+    this.periodList = [
+      "2017-I",
+      "2017-II",
+      "2018-I",
+      "2018-II",
+      "2019-I",
+      "2019-II",
+      "2020-I",
+      "2020-II",
+      "2021-I",
+      "2021-II",
+      "2022-I",
+      "2022-II",
+      "2023-I",
+      "2023-II",
+      "2024-I",
+      "2024-II",
+      "2025-I",
+      "2025-II",
+      "2026-I",
+      "2026-II",
+      "2027-I",
+      "2027-II",
+      "2028-I",
+      "2028-II",
+      "2029-I",
+      "2029-II",
+    ]
 
   }
 
@@ -195,6 +225,10 @@ export class uploadDataNewComponent implements OnInit {
         startWith(''),
         map(val => this.filterActivitiesType(val))
       );
+  }
+
+  savePeriodSelected(period){
+    this.periodSelected = period;
   }
 
   saveGoalSelected(goal) {
@@ -342,7 +376,6 @@ export class uploadDataNewComponent implements OnInit {
           gradeObject.descripcion_calificacion = null;
           gradeObject.fecha_creacion = this.castToMysqlFormat(new Date());
           gradeObject.fecha_modificacion = this.castToMysqlFormat(new Date());
-          gradeObject.periodo = "2018-II"
 
           console.log(
 
@@ -372,7 +405,6 @@ export class uploadDataNewComponent implements OnInit {
                   gradeObject.descripcion_calificacion,
                   gradeObject.fecha_creacion,
                   gradeObject.fecha_modificacion,
-                  gradeObject.periodo,
                   gradeObject.observacion,
                   gradeObject.id_estudiante_grupo
                 )
@@ -387,7 +419,6 @@ export class uploadDataNewComponent implements OnInit {
                         result13[0].descripcion_calificacion,
                         result13[0].fecha_creacion,
                         result13[0].fecha_modificacion,
-                        result13[0].periodo,
                         result13[0].observacion,
                         result13[0].id_estudiante_grupo);
 
@@ -463,11 +494,12 @@ export class uploadDataNewComponent implements OnInit {
     this.courseIndicator.id_asignatura_indicador = null;
     this.courseIndicator.id_asignatura = this.courseSelected.id_asignatura;
     this.courseIndicator.id_indicador = this.indicatorSelected.id_indicador;
+    this.courseIndicator.periodo = this.periodSelected;
 
     this.service.addCourseIndicators(this.courseIndicator)
       .subscribe(
         result5 => {
-          this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador)
+          this.service.getCourseIndicatorsByParams(null, this.courseIndicator.id_asignatura, this.courseIndicator.id_indicador, this.courseIndicator.periodo)
             .subscribe(
               result6 => {
                 this.courseIndicator.id_asignatura_indicador = result6[0].id_asignatura_indicador;
@@ -504,7 +536,7 @@ export class uploadDataNewComponent implements OnInit {
                                             currentStudent.nombre_completo = object['nombre_completo'];
                                             currentStudent.email = object['email'];
 
-                                            var currentGrade = new Grade(null, null, null, null, null, null, null, null, null, null);
+                                            var currentGrade = new Grade(null, null, null, null, null, null, null, null, null);
                                             currentGrade.calificacion = object['nota'];
                                             currentGrade.observacion = object['observacion'];
                                             currentGrade.evidencia_url = object['evidencia_url'];

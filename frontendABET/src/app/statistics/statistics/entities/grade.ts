@@ -7,7 +7,6 @@ export class Grade{
         public descripcion_calificacion: string,
         public fecha_creacion: string,
         public fecha_modificacion: string,
-        public periodo: string,
         public observacion: string,
         public evidencia_url: string
     ){}

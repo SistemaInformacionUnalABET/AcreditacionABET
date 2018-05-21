@@ -181,7 +181,8 @@ export class UploadService {
   concatenateParamsForGetCourseIndicators(
     id?: number,
     id_course?: number,
-    id_indicator?: number
+    id_indicator?: number,
+    period?:string
   ) {
     var newUrl = this.urlGetCourseIndicators + "?"
 
@@ -193,6 +194,9 @@ export class UploadService {
     }
     if (id_indicator) {
       newUrl = newUrl + "&id_indicator=" + id_indicator;
+    }
+    if (period) {
+      newUrl = newUrl + "&period=" + "\"" + period + "\"";
     }
 
     return newUrl;
@@ -230,7 +234,6 @@ export class UploadService {
     descriptionGrade: string,
     creationDate: Date,
     modificationDate: Date,
-    period: string,
     observation: string,
     urlEvidence: string
   ) {
@@ -256,9 +259,6 @@ export class UploadService {
     }
     if (modificationDate) {
       newUrl = newUrl + "&modificationDate=" + modificationDate;
-    }
-    if (period) {
-      newUrl = newUrl + "&period=" + "\"" + period + "\"";
     }
     if (observation) {
       newUrl = newUrl + "&observation=" + "\"" + observation + "\"";
@@ -341,9 +341,10 @@ export class UploadService {
   getCourseIndicatorsByParams(
     id?: number,
     id_course?: number,
-    id_indicator?: number
+    id_indicator?: number,
+    period?: string
   ): Observable<CourseIndicator[]> {
-    var urlParams = this.concatenateParamsForGetCourseIndicators(id, id_course, id_indicator);
+    var urlParams = this.concatenateParamsForGetCourseIndicators(id, id_course, id_indicator, period);
     let url = `${urlParams}`;
 
     return this.http.get(url)
@@ -385,7 +386,6 @@ export class UploadService {
     descriptionGrade,
     creationDate,
     modificationDate,
-    period,
     observation,
     urlEvidence
   ): Observable<Grade[]> {
@@ -397,7 +397,6 @@ export class UploadService {
       descriptionGrade,
       creationDate,
       modificationDate,
-      period,
       observation,
       urlEvidence
     );
@@ -442,7 +441,7 @@ export class UploadService {
   addCourseIndicators(courseIndicator: CourseIndicator) {
     let url = `${this.urlPostCourseIndicators}`;
     let iJson = JSON.stringify(courseIndicator);
-    console.log("HACIENDO EL ADD de courseInidcators", iJson);
+    console.log("HACIENDO EL ADD de courseIndicators", iJson);
 
     return this.http.post(url, iJson, { headers: this.headers })
       .map(r => r.json)
