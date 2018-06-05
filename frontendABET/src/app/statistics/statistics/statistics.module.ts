@@ -15,7 +15,11 @@ import { StatisticsEditComponent } from './statistics-edit/statistics-edit.compo
 import { StatisticsNewComponent } from './statistics-new/statistics-new.component';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
 import { StatisticsServices } from './statistics.service';
+import { UploadService } from '../../uploadData/uploadData/uploadData.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NvD3Module } from 'ng2-nvd3';
+import { MaterialModule } from '../../app.material';
+
 
 import 'hammerjs';
 import 'd3';
@@ -31,10 +35,15 @@ import 'nvd3';
     HttpModule,
     BrowserModule,
     NvD3Module,
-    MatCardModule    
-
+    MatCardModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule
   ],
-  providers: [ StatisticsServices ],
+  providers: [ 
+    StatisticsServices,
+    UploadService
+   ],
   declarations: [StatisticsItemsComponent, StatisticsEditComponent, StatisticsNewComponent, StatisticsListComponent],
   exports: [StatisticsItemsComponent, StatisticsEditComponent, StatisticsNewComponent, StatisticsListComponent]
 })
