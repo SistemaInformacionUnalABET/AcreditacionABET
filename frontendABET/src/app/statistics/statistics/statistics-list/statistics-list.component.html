@@ -63,21 +63,19 @@
               <td>{{item.fecha_creacion}}</td>
               <td>{{item.fecha_modificacion}}</td>
               <td>{{item.observacion}}</td>
-              <td>{{evidencia_url}}</td>
+              <td>{{item.evidencia_url}}</td>
             </tr>
-
           </tbody>
-
         </table>
-
       </div>
-
     </div>
+
     <div *ngIf="!flagGrades">
+      
       <div class="alert alert-info" role="alert">
         No se encuentran notas registradas para esta Asignatura
       </div>
-    </div>
 
+    </div>
   </div>
   <router-outlet></router-outlet>

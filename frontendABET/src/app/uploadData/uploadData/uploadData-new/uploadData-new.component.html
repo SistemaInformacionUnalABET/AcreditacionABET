@@ -11,188 +11,200 @@
   </div>
 </nav>
 
-<mat-card>
-  <!-- <mat-card-title> Listado de intems </mat-card-title> -->
-
-
-      
- 
-
-  <mat-card-content>
-    <div class="container">
-      <form ng-form="">
+<div class="row">
+  <div class="col-6">
 
     <mat-card>
-        <mat-card-content>
-          <div class="example-container">
-            <mat-form-field>
-              <mat-select placeholder="Periodo">
-                <mat-option *ngFor="let period of periodList" [value]="period" (click)="savePeriodSelected(period)">
-                  {{ period }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </mat-card-content>
-      </mat-card>
+      <!-- <mat-card-title> Listado de intems </mat-card-title> -->
 
-      <mat-card>
-        <mat-card-content>
-          <div class="example-container">
-            <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Meta" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="autoGoal">
-              <mat-autocomplete #autoGoal="matAutocomplete">
+      <mat-card-content>
+        <div class="container">
+          <form ng-form="">
 
-                <mat-option *ngFor="let goal of filteredOptions | async" [value]="goal.identificador_meta+ emptyString +goal.nombre_meta"
-                  (click)="saveGoalSelected(goal)">
-                  {{goal.identificador_meta}} {{goal.nombre_meta}}
-                </mat-option>
+            <mat-card>
+              <mat-card-content>
+                <div class="example-container">
+                  <mat-form-field>
+                    <mat-select placeholder="Periodo">
+                      <mat-option *ngFor="let period of periodList" [value]="period" (click)="savePeriodSelected(period)">
+                        {{ period }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </mat-card-content>
+            </mat-card>
 
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-        </mat-card-content>
-      </mat-card>
+            <mat-card>
+              <mat-card-content>
+                <div class="example-container">
+                  <mat-form-field class="example-full-width">
+                    <input type="text" placeholder="Meta" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="autoGoal">
+                    <mat-autocomplete #autoGoal="matAutocomplete">
 
-      <div *ngIf="variable">
-        <mat-card>
-          <mat-card-content>
-            <div class="example-container">
+                      <mat-option *ngFor="let goal of filteredOptions | async" [value]="goal.identificador_meta+ emptyString +goal.nombre_meta"
+                        (click)="saveGoalSelected(goal)">
+                        {{goal.identificador_meta}} {{goal.nombre_meta}}
+                      </mat-option>
 
-              <mat-form-field class="example-full-width">
-                <input type="text" placeholder="Indicador" aria-label="Number" matInput [formControl]="controlIndicator" [matAutocomplete]="autoIndicator">
-                <mat-autocomplete #autoIndicator="matAutocomplete">
-                  <mat-option *ngFor="let indicator of filteredOptionsForIndicators | async" [value]="indicator.identificador_indicador+ emptyString +indicator.nombre_indicador" 
-                  (click)="saveIndicatorSelected(indicator)">
-                    {{indicator.identificador_indicador}} {{indicator.nombre_indicador}}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <div *ngIf="variable">
+              <mat-card>
+                <mat-card-content>
+                  <div class="example-container">
+
+                    <mat-form-field class="example-full-width">
+                      <input type="text" placeholder="Indicador" aria-label="Number" matInput [formControl]="controlIndicator" [matAutocomplete]="autoIndicator">
+                      <mat-autocomplete #autoIndicator="matAutocomplete">
+                        <mat-option *ngFor="let indicator of filteredOptionsForIndicators | async" [value]="indicator.identificador_indicador+ emptyString +indicator.nombre_indicador"
+                          (click)="saveIndicatorSelected(indicator)">
+                          {{indicator.identificador_indicador}} {{indicator.nombre_indicador}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </mat-card-content>
+
+              </mat-card>
             </div>
-          </mat-card-content>
 
-        </mat-card>
-      </div>
+            <div *ngIf="!variable">
+              <mat-card>
+                <mat-card-content>
+                  <div class="example-container">
 
-      <div *ngIf="!variable">
-        <mat-card>
-          <mat-card-content>
-            <div class="example-container">
+                    <mat-form-field class="example-full-width">
+                      <input type="text" placeholder="Indicador" aria-label="Number" matInput [formControl]="controlIndicator">
 
-              <mat-form-field class="example-full-width">
-                <input type="text" placeholder="Indicador" aria-label="Number" matInput [formControl]="controlIndicator">
+                    </mat-form-field>
+                  </div>
+                </mat-card-content>
 
-              </mat-form-field>
+              </mat-card>
             </div>
-          </mat-card-content>
 
-        </mat-card>
-      </div>
+            <mat-card>
+              <mat-card-content>
+                <div class="example-container">
+                  <mat-form-field class="example-full-width">
+                    <input type="text" placeholder="Asignatura" aria-label="Number" matInput [formControl]="controlCourse" [matAutocomplete]="autoCourse">
+                    <mat-autocomplete #autoCourse="matAutocomplete">
 
-      <mat-card>
-        <mat-card-content>
-          <div class="example-container">
-            <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Asignatura" aria-label="Number" matInput [formControl]="controlCourse" [matAutocomplete]="autoCourse">
-              <mat-autocomplete #autoCourse="matAutocomplete">
+                      <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.codigo+ emptyString +course.nombre_asignatura"
+                        (click)="saveCourseSelected(course)">
+                        {{course.codigo}} {{course.nombre_asignatura}}
+                      </mat-option>
 
-                <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.codigo+ emptyString +course.nombre_asignatura"
-                  (click)="saveCourseSelected(course)">
-                  {{course.codigo}} {{course.nombre_asignatura}}
-                </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+              </mat-card-content>
+            </mat-card>
 
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-        </mat-card-content>
-      </mat-card>
+            <div *ngIf="variableCourse">
+              <mat-card>
+                <mat-card-content>
+                  <div class="example-container">
 
-      <div *ngIf="variableCourse">
-          <mat-card>
-            <mat-card-content>
-              <div class="example-container">
+                    <mat-form-field class="example-full-width">
+                      <input type="text" placeholder="Grupo" aria-label="Number" matInput [formControl]="controlGroup" [matAutocomplete]="autoGroup">
+                      <mat-autocomplete #autoGroup="matAutocomplete">
+                        <mat-option *ngFor="let group of filteredOptionsForGroups | async" [value]="group.numero_grupo" (click)="saveGroupSelected(group)">
+                          {{group.numero_grupo}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </mat-card-content>
 
-                <mat-form-field class="example-full-width">
-                  <input type="text" placeholder="Grupo" aria-label="Number" matInput [formControl]="controlGroup" [matAutocomplete]="autoGroup">
-                  <mat-autocomplete #autoGroup="matAutocomplete">
-                    <mat-option *ngFor="let group of filteredOptionsForGroups | async" [value]="group.numero_grupo"
-                    (click)="saveGroupSelected(group)">
-                      {{group.numero_grupo}}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-              </div>
-            </mat-card-content>
-
-          </mat-card>
-      </div>
-
-      <div *ngIf="!variableCourse">
-        <mat-card>
-          <mat-card-content>
-            <div class="example-container">
-
-              <mat-form-field class="example-full-width">
-                <input type="text" placeholder="Grupo" aria-label="Number" matInput [formControl]="controlGroup">
-
-              </mat-form-field>
+              </mat-card>
             </div>
-          </mat-card-content>
 
-        </mat-card>
-      </div>
+            <div *ngIf="!variableCourse">
+              <mat-card>
+                <mat-card-content>
+                  <div class="example-container">
 
-      <mat-card>
-          <mat-card-content>
-            <div class="example-container">
-              <mat-form-field class="example-full-width">
-                <input type="text" placeholder="Evaluación" aria-label="Number" matInput [formControl]="controlEvaluationType" [matAutocomplete]="autoEvaluationType">
-                <mat-autocomplete #autoEvaluationType="matAutocomplete">
-  
-                  <mat-option *ngFor="let evaluationType of filteredOptionsForEvaluationsType | async" [value]="evaluationType"
-                    (click)="saveEvaluationSelected(evaluationType)">
+                    <mat-form-field class="example-full-width">
+                      <input type="text" placeholder="Grupo" aria-label="Number" matInput [formControl]="controlGroup">
 
-                    {{evaluationType}}
-                  </mat-option>
-  
-                </mat-autocomplete>
-              </mat-form-field>
+                    </mat-form-field>
+                  </div>
+                </mat-card-content>
+
+              </mat-card>
             </div>
-          </mat-card-content>
-      </mat-card>
-  
-      <mat-card>
-          <mat-card-content>
-            <div class="example-container">
-              <mat-form-field class="example-full-width">
-                <input type="text" placeholder="Actividad" aria-label="Number" matInput [formControl]="controlActivityType" [matAutocomplete]="autoActivityType">
-                <mat-autocomplete #autoActivityType="matAutocomplete">
-  
-                  <mat-option *ngFor="let activityType of filteredOptionsForActivitiesType | async" [value]="activityType"
-                  (click)="saveActivitySelected(activityType)">
-                    {{activityType}}
-                  </mat-option>
-  
-                </mat-autocomplete>
-              </mat-form-field>
+
+            <mat-card>
+              <mat-card-content>
+                <div class="example-container">
+                  <mat-form-field class="example-full-width">
+                    <input type="text" placeholder="Evaluación" aria-label="Number" matInput [formControl]="controlEvaluationType" [matAutocomplete]="autoEvaluationType">
+                    <mat-autocomplete #autoEvaluationType="matAutocomplete">
+
+                      <mat-option *ngFor="let evaluationType of filteredOptionsForEvaluationsType | async" [value]="evaluationType" (click)="saveEvaluationSelected(evaluationType)">
+
+                        {{evaluationType}}
+                      </mat-option>
+
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card>
+              <mat-card-content>
+                <div class="example-container">
+                  <mat-form-field class="example-full-width">
+                    <input type="text" placeholder="Actividad" aria-label="Number" matInput [formControl]="controlActivityType" [matAutocomplete]="autoActivityType">
+                    <mat-autocomplete #autoActivityType="matAutocomplete">
+
+                      <mat-option *ngFor="let activityType of filteredOptionsForActivitiesType | async" [value]="activityType" (click)="saveActivitySelected(activityType)">
+                        {{activityType}}
+                      </mat-option>
+
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <div>
+              <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Cargar Lista" accept=".xlsx">
+              <button type="submit" class="btn btn-info" [disabled]="!isFile" (click)="upload()">Enviar</button>
+              <button type="button" class="btn btn-success" (click)="show()"> Ver CSV</button>
             </div>
-          </mat-card-content>
-      </mat-card>
-  
-      <div >
-        <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Cargar Lista" accept=".xlsx">
-        <button type="submit" class="btn btn-info" [disabled]="!isFile" (click)="upload()" >Enviar</button>
-        <button type="button" class="btn btn-success" (click)="show()"> Ver CSV</button>
-      </div>
+
+            <!-- <div >
+            <nvd3 [options]="options" [data]="data"></nvd3>
+          </div> -->
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <div class="col-6">
+    <app-uploadData-list 
+    [courseId]="courseSelected.id_asignatura" 
+    [groupId]="groupSelected.id_grupo"
+    [indicatorId]= "indicatorSelected.id_indicador"
+    [periodType]= "periodSelected"
+    [evaluationType]="evaluationSelected.tipo_evaluacion"
+    [activityType]="activitySelected.tipo_actividad"
+    >
     
-      <!-- <div >
-        <nvd3 [options]="options" [data]="data"></nvd3>
-      </div> -->
-    </form>
-    </div>
-  </mat-card-content>
-</mat-card>
+    </app-uploadData-list>
+  </div>
 
+</div>
 <!--
 <mat-form-field>
   <input matInput placeholder="Segundo Nombre ">
@@ -203,5 +215,3 @@
 <!-- <mat-form-field floatPlaceholder="never">
   <input type="text" matInput placeholder="Hola">
 </mat-form-field> -->
-
- 

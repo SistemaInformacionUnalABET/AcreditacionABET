@@ -31,6 +31,7 @@ export class StatisticsListComponent implements OnInit {
   flagGrades = true;
   indicatorsAVG;
   indicatorsGradesCount;
+  
 
 
 

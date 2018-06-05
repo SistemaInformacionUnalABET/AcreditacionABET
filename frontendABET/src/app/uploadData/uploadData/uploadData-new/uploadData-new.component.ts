@@ -27,7 +27,6 @@ import 'rxjs/add/operator/delay';
 import { logging } from 'selenium-webdriver';
 
 
-
 @Component({
   selector: 'app-uploadData-new',
   templateUrl: './uploadData-new.component.html',
