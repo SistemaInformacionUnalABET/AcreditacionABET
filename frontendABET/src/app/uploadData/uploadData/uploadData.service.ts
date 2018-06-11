@@ -42,6 +42,7 @@ export class UploadService {
   private urlGetCourseIndicators = 'http://localhost:8000/courseIndicators/'
   private urlGetActivities = 'http://localhost:8000/activities/'
   private urlGetGrades = 'http://localhost:8000/grades/'
+  private urlVDataCalification = 'http://localhost:8000/vDataVerification/'
 
   //Urls Post
   private urlPostStudents = 'http://localhost:8000/students/';
@@ -230,7 +231,7 @@ export class UploadService {
     id: number,
     idStudentGroup: number,
     idActivity: number,
-    grade: boolean,
+    grade: number,
     descriptionGrade: string,
     creationDate: Date,
     modificationDate: Date,
@@ -269,6 +270,70 @@ export class UploadService {
 
     return newUrl;
   }
+
+  
+
+  concatenateParamsForDataVerification(
+      period:string,
+      id_indicator:number,
+      id_course:number,
+      id_group:number,
+      type_evaluation:string,
+      type_activity:string,
+      document:string,
+      name:string,
+      email:string,
+      grade:number,
+      observation:string,
+      urlEvidence:string
+  ) {
+
+    var newUrl = this.urlVDataCalification + "?"
+
+    if (period) {
+      newUrl = newUrl + "&period="  + "\""+ period + "\"";
+    }
+    if (id_indicator) {
+      newUrl = newUrl + "&id_indicator=" + id_indicator;
+    }
+    if (id_course) {
+      newUrl = newUrl + "&id_course=" + id_course;
+    }
+    if (id_group) {
+      newUrl = newUrl + "&id_group=" + id_group;
+    }
+    if (type_evaluation) {
+      newUrl = newUrl + "&evaluation_type=" + "\"" + type_evaluation + "\"";
+    }
+    if (type_activity) {
+      newUrl = newUrl + "&activity_type=" +   "\"" + type_activity + "\"";
+    }
+
+    if (document) {
+      newUrl = newUrl + "&document="  + "\""+ document + "\"";
+    }
+    if (name) {
+      newUrl = newUrl + "&name="  + "\""+ name + "\"";
+    }
+    if (email) {
+      newUrl = newUrl + "&email="  + "\""+ email + "\"";
+    }
+    if (grade) {
+      newUrl = newUrl + "&grade=" + grade ;
+    }
+    if (observation) {
+      newUrl = newUrl + "&observation=" + "\"" + observation + "\"";
+    }
+    if (urlEvidence) {
+      newUrl = newUrl + "&url_evidence=" + "\"" + urlEvidence + "\"";
+    }
+
+    console.log(">>>>>>>>> la URL");
+    console.log(newUrl);
+    
+    return newUrl;
+  }
+
 
   //GETS
   getIndicatorsByParams(
@@ -407,6 +472,44 @@ export class UploadService {
       .map(r => r.json())
       .catch(this.handleError);
   }
+
+  
+  getDataVerification(
+    period?,
+    id_indicator?,
+    id_course?,
+    id_group?,
+    type_evaluation?,
+    type_activity?,
+    document?,
+    name?,
+    email?,
+    grade?,
+    observation?,
+    urlEvidence?
+  ): Observable<Grade[]> {
+    var urlParams = this.concatenateParamsForDataVerification(
+      period,
+      id_indicator,
+      id_course,
+      id_group,
+      type_evaluation,
+      type_activity,
+      document,
+      name,
+      email,
+      grade,
+      observation,
+      urlEvidence
+    );
+
+    let url = `${urlParams}`;
+    
+    return this.http.get(url)
+      .map(r => r.json())
+      .catch(this.handleError);
+  }
+
 
   //POST
   addStudents(student: Student) {

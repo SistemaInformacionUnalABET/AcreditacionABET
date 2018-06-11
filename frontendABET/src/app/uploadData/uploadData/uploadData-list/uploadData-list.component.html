@@ -1,56 +1,45 @@
-<h2>curso id: {{courseId}}</h2>
-<h2>grupo id: {{groupId}}</h2>
-<h2>indicador id: {{indicatorId}}</h2>
-<h2>periodo tipo: {{periodType}}</h2>
-<h2>evauluacion tipo: {{evaluationType}}</h2>
-<h2>actividad tipo: {{activityType}}</h2>
-
-
 <div *ngIf="flagGrades">
 
-    <div class="card-block">
-      <table class="table table-hover">
-        <thead class="thead-default">
-          <tr>
-          
-            <th>Documento</th>
-            <th>Nombre Completo</th>
-            <th>Email</th>
-            <th>Periodo</th>
-            <th>Nota</th>
-            <th>Observacion</th>
-            <th>Evidencia_url</th>
-          </tr>
+  <div class="card-block">
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
 
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of gradesList">
-            
-            <td>{{item.numero_grupo}}</td>
-            <td>{{item.id_indicador}}</td>
-            <td>{{item.identificador_indicador}}</td>
-            <td>{{item.tipo_evaluacion}}</td>
-            <td>{{item.tipo_actividad}}</td>
-            <td>{{item.documento}}</td>
-            <td>{{item.calificacion}}</td>
-            <td>{{item.descripcion_calificacion}}</td>
-            <td>{{item.periodo}}</td>
-            <td>{{item.fecha_creacion}}</td>
-            <td>{{item.fecha_modificacion}}</td>
-            <td>{{item.observacion}}</td>
-            <td>{{item.evidencia_url}}</td>
-          </tr>
+          <th>Documentos</th>
+          <th>Nombre Completo</th>
+          <th>Email</th>
+          <th>Calificacion</th>
+          <th>Observacion</th>
+          <th>Evidencia_url</th>
+        </tr>
 
-        </tbody>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of gradesList">
 
-      </table>
+          <td>{{item.documento}}</td>
+          <td>{{item.nombre}}</td>
+          <td>{{item.email}}</td>
+          <td>{{item.calificacion}}</td>
+          <td>{{item.observacion}}</td>
+          <td>{{item.evidencia_url}}</td>
 
-    </div>
+        </tr>
+      </tbody>
+
+    </table>
 
   </div>
-  <div *ngIf="!flagGrades">
-    <div class="alert alert-info" role="alert">
+</div>
+<div *ngIf="!flagGrades">
+  <br>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="alert alert-info col-10" role="alert">
       No se encuentran notas registradas
     </div>
+    <div class="col-1"></div>
   </div>
-
+</div>
