@@ -8,7 +8,11 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 
+import { platformBrowserDynamic }  from '@angular/platform-browser-dynamic';
+
 import { MaterialModule } from './app.material';
+// import {ChartModule} from 'angular-highcharts'
+
 
 import 'hammerjs';
 
@@ -41,9 +45,11 @@ import { AppRouting } from './app.routing';
     WelcomeModule,
     BrowserAnimationsModule,
     MaterialModule,
-    MatCardModule
+    MatCardModule,
+    // ChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+platformBrowserDynamic().bootstrapModule(AppModule);

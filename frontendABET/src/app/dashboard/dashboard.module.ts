@@ -8,6 +8,7 @@ import { StatisticsModule } from '../statistics/statistics/statistics.module';
 import { NotificationsModule } from '../notifications/notifications/notifications.module';
 
 import { DashboardItemsComponent } from './dashboard-items/dashboard-items.component';
+import { GraphicsModule } from '../statistics/graphics/graphics.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { DashboardItemsComponent } from './dashboard-items/dashboard-items.compo
     BrowserModule,
     UploadModule,
     StatisticsModule,
+    GraphicsModule,
     NotificationsModule
   ],
   declarations: [DashboardItemsComponent],

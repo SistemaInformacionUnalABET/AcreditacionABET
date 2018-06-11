@@ -16,14 +16,21 @@ import { StatisticsNewComponent } from './statistics-new/statistics-new.componen
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
 import { StatisticsServices } from './statistics.service';
 import { UploadService } from '../../uploadData/uploadData/uploadData.service';
+
+import { GraphicsService } from '../graphics/graphics.service';
+
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NvD3Module } from 'ng2-nvd3';
 import { MaterialModule } from '../../app.material';
 
+//import { platformBrowserDynamic }  from '@angular/platform-browser-dynamic';
+
+import {GraphicsModule} from '../graphics/graphics.module'
 
 import 'hammerjs';
 import 'd3';
 import 'nvd3';
+import { GraphicsByCourseAverageComponent } from '../graphics/graphics-by-course-average/graphics-by-course-average.component';
 
 
 
@@ -38,13 +45,17 @@ import 'nvd3';
     MatCardModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule, 
+    GraphicsModule
   ],
   providers: [ 
     StatisticsServices,
-    UploadService
+    UploadService,
+    GraphicsService
    ],
+  //  bootstrap: [GraphicsByCourseAverageComponent],
   declarations: [StatisticsItemsComponent, StatisticsEditComponent, StatisticsNewComponent, StatisticsListComponent],
   exports: [StatisticsItemsComponent, StatisticsEditComponent, StatisticsNewComponent, StatisticsListComponent]
 })
 export class StatisticsModule { }
+//platformBrowserDynamic().bootstrapModule(StatisticsModule);

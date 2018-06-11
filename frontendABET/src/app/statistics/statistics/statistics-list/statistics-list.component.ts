@@ -10,6 +10,7 @@ import {map, startWith} from 'rxjs/operators';
 
 import { UploadService } from '../../../uploadData/uploadData/uploadData.service';
 import { Course } from '../../../statistics/statistics/entities/course';
+import {GraphicsByCourseAverageComponent} from '../../graphics/graphics-by-course-average/graphics-by-course-average.component'
 
 
 

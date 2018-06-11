@@ -13,10 +13,10 @@ const routes: Routes = [
   {path: 'upload', component: uploadDataItemsComponent},
   {path: 'statistics', component: StatisticsItemsComponent,
   children: [
-    {path: '', redirectTo: 'lista', pathMatch: 'full'},
-    {path: 'lista', component: StatisticsListComponent},
-    {path: 'detalle', component: StatisticsEditComponent},
-    {path: 'detalle/:id', component: StatisticsEditComponent}
+    {path: '', redirectTo: 'graphic', pathMatch: 'full'},
+    {path: 'graphic', component: StatisticsListComponent},
+    {path: 'detail', component: StatisticsEditComponent},
+    {path: 'detail/:id', component: StatisticsEditComponent}
     
     
   ]
