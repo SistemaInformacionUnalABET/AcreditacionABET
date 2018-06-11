@@ -20,6 +20,7 @@ var routesGetsCourseIndicators = require('./Routes/CourseIndicator.routes/gets-C
 var routesGetsGrades = require('./Routes/Grades.routes/gets-grades-routes');
 
 var routesGetsVCompleteGrades = require('./Routes/VCompleteGrades/gets-vCompleteGrades-routes');
+var routesGetsVDataVerification = require('./Routes/vDataVerification/gets-vDataVerification-routes');
 
 
 
@@ -76,6 +77,7 @@ routesGetsCourseIndicators.configure(app);
 routesGetsGrades.configure(app);
 
 routesGetsVCompleteGrades.configure(app);
+routesGetsVDataVerification.configure(app);
 
 
 //Methods Pots

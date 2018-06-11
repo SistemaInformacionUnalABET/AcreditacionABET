@@ -22,7 +22,7 @@ function MethodsDB() {
         var id=queryParams.id?queryParams.id:null
         var type=queryParams.type?queryParams.type:null
         var description=queryParams.description?queryParams.description:null
-        var id_evaluation=queryParams.id_eval?queryParams.id_eval:null
+        var id_evaluation=queryParams.id_evaluation?queryParams.id_evaluation:null
 
         connection.obtain(function (er, cn) {
             cn.query('select * from actividades where (id_actividad = '+id+' or '+id+' is NULL ) AND ' + 

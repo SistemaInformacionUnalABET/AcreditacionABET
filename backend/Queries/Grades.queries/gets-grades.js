@@ -27,19 +27,18 @@ function MethodsDB() {
         var description=queryParams.description?queryParams.description:null
         var creation_date=queryParams.creation_date?queryParams.creation_date:null
         var modify_date=queryParams.modify_date?queryParams.modify_date:null
-        var period=queryParams.period?queryParams.period:null
         var observation=queryParams.observation?queryParams.observation:null
         var url_evidence=queryParams.url_evidence?queryParams.url_evidence:null
 
         connection.obtain(function (er, cn) {
-            cn.query('select * from calificaciones where (id_calificacion = '+id+' or '+id+' is NULL ) AND ' + 
+            cn.query(
+            'select * from calificaciones where (id_calificacion = '+id+' or '+id+' is NULL ) AND ' + 
             '(id_estudiante_grupo = '+id_student_group+' or '+id_student_group+' is NULL ) AND ' +
             ' (id_actividad = '+id_activity+' or '+id_activity+' is NULL ) AND ' +
             ' (calificacion = '+grade+' or '+grade+' is NULL ) AND ' +
             ' (descripcion_calificacion = '+description+' or '+description+' is NULL ) AND ' +
             ' (fecha_creacion = '+creation_date+' or '+creation_date+' is NULL ) AND ' +
             ' (fecha_modificacion = '+modify_date+' or '+modify_date+' is NULL ) AND ' +
-            ' (periodo = '+period+' or '+period+' is NULL ) AND ' +
             ' (observacion = '+observation+' or '+observation+' is NULL ) AND ' +
             '(evidencia_url = '+url_evidence+' or '+url_evidence+' is NULL )',
                 function (error, result) {
