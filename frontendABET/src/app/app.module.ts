@@ -25,6 +25,7 @@ import {  WelcomeModule } from "./welcome/welcome.module";
 
 
 import { AppRouting } from './app.routing';
+import { MenuComponent } from './menu/menu.component';
 
 //import { ComponentsModule } from './components/components.module';
 
@@ -34,6 +35,7 @@ import { AppRouting } from './app.routing';
 @NgModule({
   declarations: [
     AppComponent,
+    MenuComponent,
     
   ],
   imports: [
