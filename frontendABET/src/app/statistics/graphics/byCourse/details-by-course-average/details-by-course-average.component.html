@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      Listado de indicadores por Asignatura
+    </div>
+
+    <div *ngIf="flagGrades">
+
+      <div class="card-block">
+        <table class="table table-hover">
+          <thead class="thead-default">
+            <tr>
+              <th>Id_asignatura</th>
+              <th>Numero_grupo</th>
+              <th>Id_indicador</th>
+              <th>Identificador_indicador</th>
+              <th>Tipo_evaluacion</th>
+              <th>Tipo_actividad</th>
+              <th>Documento</th>
+              <th>Calificacion</th>
+              <th>Descripcion_calificacion</th>
+              <th>Periodo</th>
+              <th>Fecha_creacion</th>
+              <th>Decha_modificacion</th>
+              <th>Observacion</th>
+              <th>Evidencia_url</th>
+            </tr>
+
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of completeGradesList">
+              <td>{{item.id_asignatura}}</td>
+              <td>{{item.numero_grupo}}</td>
+              <td>{{item.id_indicador}}</td>
+              <td>{{item.identificador_indicador}}</td>
+              <td>{{item.tipo_evaluacion}}</td>
+              <td>{{item.tipo_actividad}}</td>
+              <td>{{item.documento}}</td>
+              <td>{{item.calificacion}}</td>
+              <td>{{item.descripcion_calificacion}}</td>
+              <td>{{item.periodo}}</td>
+              <td>{{item.fecha_creacion}}</td>
+              <td>{{item.fecha_modificacion}}</td>
+              <td>{{item.observacion}}</td>
+              <td>{{item.evidencia_url}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="!flagGrades">
+
+      <div class="alert alert-info" role="alert">
+        No se encuentran notas registradas para esta Asignatura
+      </div>
+
+    </div>
+  </div>
+  <router-outlet></router-outlet>

@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Indicadores por asignatura
+        </div>
+
+        <mat-card>
+            <mat-card-content>
+                <div class="example-container">
+                    <mat-form-field class="example-full-width">
+                        <input type="text" placeholder="Asignatura" aria-label="Number" matInput [formControl]="controlCourse" [matAutocomplete]="autoCourse">
+                        <mat-autocomplete #autoCourse="matAutocomplete" (optionSelected)="saveCourseSelected($event.option.value)">
+
+                            <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.codigo+ emptyString +course.nombre_asignatura">
+                                {{course.codigo}} {{course.nombre_asignatura}}
+                            </mat-option>
+
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <mat-card>
+
+        <div *ngIf="flagGrades">
+            <chart [options]="options"></chart>
+        </div>
+
+        <div *ngIf="!flagGrades">
+
+            <div class="alert alert-info" role="alert">
+                No se encuentran notas registradas para esta Asignatura
+            </div>
+        </div>
+    </mat-card>
+</div>
+<router-outlet></router-outlet>

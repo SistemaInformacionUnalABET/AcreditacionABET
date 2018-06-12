@@ -6,6 +6,7 @@ import * as XLSX from 'ts-xlsx';
 import { Indicator } from '../../statistics/entities/indicator';
 import { logging } from 'selenium-webdriver';
 
+import {DetailsByCourseAverageComponent} from '../../graphics/byCourse/details-by-course-average/details-by-course-average.component'
 
 
 @Component({

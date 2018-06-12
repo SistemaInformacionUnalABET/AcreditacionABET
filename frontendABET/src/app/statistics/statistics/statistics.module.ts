@@ -30,7 +30,7 @@ import {GraphicsModule} from '../graphics/graphics.module'
 import 'hammerjs';
 import 'd3';
 import 'nvd3';
-import { GraphicsByCourseAverageComponent } from '../graphics/graphics-by-course-average/graphics-by-course-average.component';
+import { GraphicsByCourseAverageComponent } from '../graphics/byCourse/graphics-by-course-average/graphics-by-course-average.component';
 
 
 
