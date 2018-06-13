@@ -7,15 +7,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { UploadService } from '../../uploadData/uploadData/uploadData.service';
 import { GraphicsService } from '../graphics/graphics.service';
 import { MaterialModule } from '../../app.material';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatCardModule} from '@angular/material/card';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 
+import { ChartModule, HIGHCHARTS_MODULES} from 'angular-highcharts';
+//import { ChartModule} from "angular2-highcharts";
 
-import { ChartModule } from "angular2-highcharts";
+import * as more from 'highcharts/highcharts-more.src';
+import * as exporting from 'highcharts/modules/exporting.src';
+
 import { DetailsByCourseAverageComponent } from './byCourse/details-by-course-average/details-by-course-average.component';
 
 
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 
 import { Http } from '@angular/http';
@@ -26,12 +30,18 @@ import { Http } from '@angular/http';
 
 
 declare var require: any;
+// var Highcharts = require('highcharts');
+
+// // Load module after Highcharts is loaded
+// require('highcharts/modules/exporting')(Highcharts);
 @NgModule({
   imports: [
     CommonModule,
     GraphicsRoutingModule,
     BrowserModule,
-    ChartModule.forRoot(require('highcharts')),
+    ChartModule,
+    //ChartModule.forRoot(require('highcharts')),
+    //Chart,
     FormsModule,
     MaterialModule,
     MatCardModule,
@@ -42,19 +52,18 @@ declare var require: any;
     MatCardModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule, 
+    MaterialModule,
     GraphicsRoutingModule
-
   ],
 
-  providers: [ 
+  providers: [
+    {provide: HIGHCHARTS_MODULES, useFactory: () => [ more, exporting ],},
     GraphicsService,
     UploadService
-   ],
+    
+  ],
   declarations: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent],
-  // bootstrap:[GraphicsByCourseAverageComponent],
   exports: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent]
-  
+
 })
 export class GraphicsModule { }
-// platformBrowserDynamic().bootstrapModule(GraphicsModule);

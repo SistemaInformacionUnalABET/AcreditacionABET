@@ -1,14 +1,26 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { } from 'angular2-highcharts';
+import { Component, OnInit, EventEmitter } from '@angular/core';
+//import { ChartModule, ChartComponent } from 'angular2-highcharts';
+
+//import { chart } from 'highcharts';
 import { print } from 'util';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
+import { Chart, Highcharts, HIGHCHARTS_MODULES, ChartModule, ɵa, ɵb, MapChart, StockChart } from 'angular-highcharts';
+
 import { ViewCompleteGrade } from './../../../statistics/entities/viewCompleteGrade';
 import { Course } from '../../../../statistics/statistics/entities/course';
 import { UploadService } from './../../../../uploadData/uploadData/uploadData.service';
 import { GraphicsService } from '../../graphics.service';
+import { ChartDirective } from 'angular-highcharts/chart.directive';
+import { ChartObject, ChartOptions } from 'highcharts';
+
+//import * as Highcharts from 'highcharts';
+declare var require: any;
+declare var jQuery: any;
+declare var $: any;
+
 
 @Component({
   selector: 'app-graphics-by-course-average',
@@ -16,6 +28,9 @@ import { GraphicsService } from '../../graphics.service';
   styleUrls: ['./graphics-by-course-average.component.css']
 })
 export class GraphicsByCourseAverageComponent implements OnInit {
+
+  // @ViewChild('chartTarget') chartTarget: ElementRef;
+  // chart: Highcharts.ChartObject;
 
   completeGradesList: ViewCompleteGrade[];
   courseList: Course[];
@@ -29,13 +44,11 @@ export class GraphicsByCourseAverageComponent implements OnInit {
   indicatorsAVG;
   indicatorsGradesCount;
 
+  //highchartO : Highcharts;
 
 
-  options: Object;
-
-
+  chart: Object;
   constructor(private graphicsService: GraphicsService, private uploadService: UploadService) {
-
     this.completeGradesList = [];
     this.indicatorsAVG = new Map();
     this.indicatorsGradesCount = new Map();
@@ -66,36 +79,105 @@ export class GraphicsByCourseAverageComponent implements OnInit {
 
   }
 
-  paintGraphic(arrayX:any, arrayY:any){
+  paintGraphic(arrayX: any, arrayY: any) {
 
-    this.options = {
+    console.log("-->ENTRANDOOOOOOOOOOOOOOOOOOOOO");
 
+    //Prueba otra grafica
+    this.chart = new Chart({
+      chart: {
+        type: 'column'
+      },
       title: {
-        text: 'Promedio de indicadores por periodo'
+        text: 'Desempeño de los estudiante por asignatura'
       },
-
-      subtitle: {
-        text: 'Plain'
-      },
-
       xAxis: {
-        //categories: ['2017-2', '2018-1', '2018-2']
-        categories : arrayX
-
+        categories: ['2017-2', '2018-1']
       },
-
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Total de estudiantes evaluados'
+        },
+        stackLabels: {
+          enabled: true,
+          style: {
+            fontWeight: 'bold',
+            color: 'gray'
+          }
+        }
+      },
+      legend: {
+        align: 'right',
+        x: -30,
+        verticalAlign: 'top',
+        y: 25,
+        floating: true,
+        backgroundColor: 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+      },
+      tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+      },
+      plotOptions: {
+        column: {
+          stacking: 'normal',
+          dataLabels: {
+            enabled: true,
+            color: 'white'
+          }
+        }
+      },
       series: [{
-        type: 'column',
-        colorByPoint: true,
-        // data: [50, 50, 90],
-        data: arrayY,
-        showInLegend: false
+        name: 'Ejemplar',
+        data: [10, 20,]
+      }, {
+        name: 'Satisfactorio',
+        data: [20,20]
+      }, {
+        name: 'Desarrollado',
+        data: [50,40]
+      },{
+        name: 'Insatisfactorio',
+        data: [20,20]
       }]
+    });
+    //Prueba otra grafica
 
-    }; 
-    
-    
-    
+
+    // this.chart = new Chart({
+
+    //   title: {
+    //     text: 'Chart.update',
+    //   },
+
+    //   subtitle: {
+    //     text: 'Plain',
+    //   },
+
+    //   xAxis: {
+    //     categories: arrayX,
+
+    //   },
+
+    //   series: [{
+    //     type: 'column',
+    //     colorByPoint: true,
+    //     data: arrayY,
+    //     //showInLegend: false
+
+    //   }],
+
+    //   plotOptions: {
+    //     bar: {
+    //       colorByPoint: true,
+    //       showInLegend: false
+    //     }
+    // }
+    // });
   }
 
   //Filtro de campo Asignatura
@@ -125,9 +207,9 @@ export class GraphicsByCourseAverageComponent implements OnInit {
             this.calculate();
             this.flagGrades = true;
             this.graphicsService.changeMessage(this.completeGradesList);
-            this.paintGraphic(Array.from( this.indicatorsAVG.keys()), Array.from( this.indicatorsAVG.values()))
+            this.paintGraphic(Array.from(this.indicatorsAVG.keys()), Array.from(this.indicatorsAVG.values()))
             console.log(this.indicatorsAVG)
-            console.log("LAS LLAVES KEYS////////////", Array.from( this.indicatorsAVG.keys()))
+            console.log("LAS LLAVES KEYS////////////", Array.from(this.indicatorsAVG.keys()))
 
           } else {
             this.flagGrades = false;
