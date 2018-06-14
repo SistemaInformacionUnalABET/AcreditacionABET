@@ -1,4 +1,3 @@
-
 <div class="container">
     <div class="card">
         <div class="card-header">
@@ -27,15 +26,16 @@
 
     <div *ngIf="flagGrades">
 
+        <!-- <div #chartTarget>
+            chart target
+        </div> -->
         <!-- <chart [options]="chart"></chart> -->
-
-        <div id="container"></div>
-        <div [chart]="chart"></div>
-
+        <!-- <div id="container"></div>-->
+        
+        <div [chart]="chart"></div> 
     </div>
 
     <div *ngIf="!flagGrades">
-
         <div class="alert alert-info" role="alert">
             <!-- <chart [options]="chart"></chart> -->
             No se encuentran notas registradas para esta Asignatura
@@ -44,4 +44,3 @@
     </div>
 </div>
 <router-outlet></router-outlet>
-
