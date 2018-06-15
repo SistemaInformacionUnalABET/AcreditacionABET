@@ -15,22 +15,16 @@ import { ViewCompleteGrade } from './../../../statistics/entities/viewCompleteGr
 import { Course } from '../../../../statistics/statistics/entities/course';
 import { UploadService } from './../../../../uploadData/uploadData/uploadData.service';
 import { GraphicsService } from '../../graphics.service';
-//import { ChartDirective } from 'angular-highcharts/chart.directive';
-///import { ChartObject, ChartOptions } from 'highcharts';
-
-declare var require: any;
-declare var jQuery: any;
-declare var $: any;
 
 
 @Component({
-  selector: 'app-graphics-by-course-average',
-  templateUrl: './graphics-by-course-average.component.html',
-  styleUrls: ['./graphics-by-course-average.component.css']
+  selector: 'app-graphics-by-course-percent',
+  templateUrl: './graphics-by-course-percent.component.html',
+  styleUrls: ['./graphics-by-course-percent.component.css']
 })
-export class GraphicsByCourseAverageComponent implements OnInit {
+export class GraphicsByCoursePercentComponent implements OnInit {
 
-  labelPosition = 'bar-graphic';
+
   completeGradesList: ViewCompleteGrade[];
   courseList: Course[];
   courseSelected: Course;
@@ -128,147 +122,68 @@ export class GraphicsByCourseAverageComponent implements OnInit {
     console.log("-->ENTRANDOOOOOOOOOOOOOOOOOOOOO");
 
     //Prueba otra grafica
-    // this.chart = new Chart({
-    //   chart: {
-    //     type: 'column'
-    //   },
-    //   title: {
-    //     text: 'Desempeño de los estudiante por asignatura'
-    //   },
-    //   xAxis: {
-    //     categories: arrayX
-    //   },
-    //   yAxis: {
-    //     min: 0,
-    //     title: {
-    //       text: 'Total de estudiantes evaluados'
-    //     },
-    //     stackLabels: {
-    //       enabled: true,
-    //       style: {
-    //         fontWeight: 'bold',
-    //         color: 'gray'
-    //       }
-    //     }
-    //   },
-    //   legend: {
-    //     align: 'right',
-    //     x: -30,
-    //     verticalAlign: 'top',
-    //     y: 25,
-    //     floating: true,
-    //     backgroundColor: 'white',
-    //     borderColor: '#CCC',
-    //     borderWidth: 1,
-    //     shadow: false
-    //   },
-    //   tooltip: {
-    //     headerFormat: '<b>{point.x}</b><br/>',
-    //     pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-    //   },
-    //   plotOptions: {
-    //     column: {
-    //       stacking: 'normal',
-    //       dataLabels: {
-    //         enabled: true,
-    //         color: 'white'
-    //       }
-    //     }
-    //   },
-    //   series: [{
-    //     name: 'Ejemplar',
-    //     data: [10, 20,]
-    //   }, {
-    //     name: 'Satisfactorio',
-    //     data: [20,20]
-    //   }, {
-    //     name: 'Desarrollado',
-    //     data: [50,40]
-    //   },{
-    //     name: 'Insatisfactorio',
-    //     data: [20,20]
-    //   }]
-    // });
-    //Prueba otra grafica
-
-    //Prueba 3
-    //   this.chart = new Chart({
-
-    //     chart: {
-    //         type: 'column'
-    //     },
-
-    //     title: {
-    //         text: 'Highcharts responsive chart'
-    //     },
-
-    //     subtitle: {
-    //         text: 'Resize the frame or click buttons to change appearance'
-    //     },
-
-    //     legend: {
-    //         align: 'right',
-    //         verticalAlign: 'middle',
-    //         layout: 'vertical'
-    //     },
-
-    //     xAxis: {
-    //         categories: ['Apples', 'Oranges', 'Bananas'],
-    //         labels: {
-    //             x: -10
-    //         }
-    //     },
-
-    //     yAxis: {
-    //         allowDecimals: false,
-    //         title: {
-    //             text: 'Amount'
-    //         }
-    //     },
-
-    //     series: [{
-    //         name: 'Christmas Eve',
-    //         data: [1, 4, 3]
-    //     }, {
-    //         name: 'Christmas Day before dinner',
-    //         data: [6, 4, 2]
-    //     }, {
-    //         name: 'Christmas Day after dinner',
-    //         data: [8, 4, 3]
-    //     }],
-
-    // });
-    //prueba 3
-
     this.chart = new Chart({
       chart: {
         type: 'column'
       },
-      plotOptions: {
-        column: {
-          colorByPoint: true,
-          showInLegend: false
+      title: {
+        text: 'Desempeño de los estudiante por asignatura'
+      },
+      xAxis: {
+        categories: arrayX
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Total de estudiantes evaluados'
+        },
+        stackLabels: {
+          enabled: true,
+          style: {
+            fontWeight: 'bold',
+            color: 'gray'
+          }
         }
       },
-      title: {
-        text: 'Chart.update',
+      legend: {
+        align: 'right',
+        x: -30,
+        verticalAlign: 'top',
+        y: 25,
+        floating: true,
+        backgroundColor: 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
       },
-
-      subtitle: {
-        text: 'Plain',
+      tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
       },
-
-      xAxis: {
-        categories: arrayX,
-
+      plotOptions: {
+        column: {
+          stacking: 'normal',
+          dataLabels: {
+            enabled: true,
+            color: 'white'
+          }
+        }
       },
-
       series: [{
-        type: 'column',
-        data: arrayY
-      }],
-
+        name: 'Ejemplar',
+        data: [10, 20,]
+      }, {
+        name: 'Satisfactorio',
+        data: [20,20]
+      }, {
+        name: 'Desarrollado',
+        data: [50,40]
+      },{
+        name: 'Insatisfactorio',
+        data: [20,20]
+      }]
     });
+    //Prueba otra grafica
   }
 
   //Filtro de campo Asignatura

@@ -31,7 +31,24 @@
         </div> -->
         <!-- <chart [options]="chart"></chart> -->
         <!-- <div id="container"></div>-->
-        
+        <br>
+        <br>
+        <mat-card>
+            <mat-card-content>
+                <h2 class="example-h2">Tipo de gráfica</h2>
+                <section class="example-section">
+                    <label class="example-margin">Align:</label>
+                    <mat-radio-group [(ngModel)]="labelPosition">
+                        <mat-radio-button class="example-margin" value="bar-graphic">Gráfica de barras</mat-radio-button>
+                        <mat-radio-button class="example-margin" value="before">Before</mat-radio-button>
+                        <mat-radio-button class="example-margin" value="intermedia">Intermedia</mat-radio-button>
+                    </mat-radio-group>
+                </section>
+            </mat-card-content>
+        </mat-card>
+        <br>
+        <br>
+ 
         <div [chart]="chart"></div> 
     </div>
 

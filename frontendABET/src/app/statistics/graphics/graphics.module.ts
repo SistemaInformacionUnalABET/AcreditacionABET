@@ -23,6 +23,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 
 import { Http } from '@angular/http';
+import { GraphicsButtonsComponent } from './byCourse/graphics-buttons/graphics-buttons.component';
+import { GraphicsByCoursePercentComponent } from './byCourse/graphics-by-course-percent/graphics-by-course-percent.component';
+import { DetailsByCoursePercentComponent } from './byCourse/details-by-course-percent/details-by-course-percent.component';
 
 
 //import { platformBrowserDynamic }  from '@angular/platform-browser-dynamic';
@@ -62,8 +65,8 @@ declare var require: any;
     UploadService
     
   ],
-  declarations: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent],
-  exports: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent]
+  declarations: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent, GraphicsButtonsComponent, GraphicsByCoursePercentComponent, DetailsByCoursePercentComponent],
+  exports: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent, GraphicsButtonsComponent, GraphicsByCoursePercentComponent]
 
 })
 export class GraphicsModule { }

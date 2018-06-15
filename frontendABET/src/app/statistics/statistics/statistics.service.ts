@@ -125,7 +125,6 @@ export class StatisticsServices {
       .catch(this.handleError);
   }
 
-
   private handleError(error: Response | any) {
 
     let errMsg: string;
