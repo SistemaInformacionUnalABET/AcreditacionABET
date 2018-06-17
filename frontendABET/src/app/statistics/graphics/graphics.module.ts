@@ -24,9 +24,9 @@ import { HttpModule } from '@angular/http';
 
 import { Http } from '@angular/http';
 import { GraphicsButtonsComponent } from './byCourse/graphics-buttons/graphics-buttons.component';
-import { GraphicsByCoursePercentComponent } from './byCourse/graphics-by-course-percent/graphics-by-course-percent.component';
-import { DetailsByCoursePercentComponent } from './byCourse/details-by-course-percent/details-by-course-percent.component';
-
+import { GraphicsByIndicatorAverageComponent } from './byIndicator/graphics-by-indicator-average/graphics-by-indicator-average.component';
+import { GraphicsButtonsIndicatorsComponent } from './byIndicator/graphics-buttons-indicators/graphics-buttons-indicators.component';
+import { DetailsByIndicatorAverageComponent } from './byIndicator/details-by-indicator-average/details-by-indicator-average.component';
 
 //import { platformBrowserDynamic }  from '@angular/platform-browser-dynamic';
 
@@ -65,8 +65,8 @@ declare var require: any;
     UploadService
     
   ],
-  declarations: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent, GraphicsButtonsComponent, GraphicsByCoursePercentComponent, DetailsByCoursePercentComponent],
-  exports: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent, GraphicsButtonsComponent, GraphicsByCoursePercentComponent]
+  declarations: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent, GraphicsButtonsComponent, GraphicsByIndicatorAverageComponent, GraphicsButtonsIndicatorsComponent, DetailsByIndicatorAverageComponent],
+  exports: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent, GraphicsButtonsComponent, GraphicsByIndicatorAverageComponent, GraphicsButtonsIndicatorsComponent, DetailsByIndicatorAverageComponent]
 
 })
 export class GraphicsModule { }
