@@ -46,7 +46,6 @@ export class StatisticsItemsComponent implements OnInit {
   flagFilters = false;
   flagCourse = false;
   flagIndicator = false;
-  flagPeriod = false;
   indicatorsAVG;
   indicatorsGradesCount;
 
@@ -54,7 +53,7 @@ export class StatisticsItemsComponent implements OnInit {
   chart: Object;
   constructor(private graphicsService: GraphicsService, private uploadService: UploadService) {
     
-    this.filterTypeList = ["Asignatura", "Indicador", "Periodo"];
+    this.filterTypeList = ["Asignatura", "Indicador"];
     this.completeGradesList = [];
     this.indicatorsAVG = new Map();
     this.indicatorsGradesCount = new Map();
@@ -100,9 +99,8 @@ export class StatisticsItemsComponent implements OnInit {
       this.flagCourse=true;
     }else if(this.filterSelected == "Indicador"){
       this.flagIndicator=true;
-    }else if(this.filterSelected == "Periodo"){
-      this.flagPeriod =true;
     }
+    
     console.log("LO que seleccionó: = ", this.filterSelected)
     this.flagFilters = true;
 
