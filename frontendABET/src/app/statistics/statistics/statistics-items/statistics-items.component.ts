@@ -43,7 +43,6 @@ export class StatisticsItemsComponent implements OnInit {
   filteredOptionsForFilterTypeList: Observable<String[]>;
   filteredOptionsForCourse: Observable<String[]>;
 
-  emptyString = " ";
   flagFilters = false;
   flagCourse = false;
   flagIndicator = false;
