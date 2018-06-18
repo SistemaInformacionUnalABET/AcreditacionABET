@@ -7,18 +7,22 @@ import { StatisticsListComponent } from '../statistics/statistics/statistics-lis
 import { StatisticsEditComponent } from '../statistics/statistics/statistics-edit/statistics-edit.component';
 
 import { NotificationsItemsComponent } from '../notifications/notifications/notifications-items/notifications-items.component';
-
+import { GraphicsByCourseAverageComponent } from '../statistics/graphics/byCourse/graphics-by-course-average/graphics-by-course-average.component';
+import { DetailsByCourseAverageComponent } from '../statistics/graphics/byCourse/details-by-course-average/details-by-course-average.component';
+import { GraphicsByIndicatorAverageComponent } from '../statistics/graphics/byIndicator/graphics-by-indicator-average/graphics-by-indicator-average.component';
+import { DetailsByIndicatorAverageComponent } from '../statistics/graphics/byIndicator/details-by-indicator-average/details-by-indicator-average.component';
 
 const routes: Routes = [
   {path: 'upload', component: uploadDataItemsComponent},
   {path: 'statistics', component: StatisticsItemsComponent,
   children: [
     {path: '', redirectTo: 'graphic', pathMatch: 'full'},
-    {path: 'graphic', component: StatisticsListComponent},
-    {path: 'detail', component: StatisticsEditComponent},
-    {path: 'detail/:id', component: StatisticsEditComponent}
-    
-    
+    {path: 'graphicCourse', component: GraphicsByCourseAverageComponent},
+    {path: 'detailCourse', component: DetailsByCourseAverageComponent},
+    {path: 'graphicIndicator', component: GraphicsByIndicatorAverageComponent},
+    {path: 'detailIndicator', component: DetailsByIndicatorAverageComponent}
+    // {path: 'detail/:id', component: StatisticsEditComponent}
+
   ]
 
 },
