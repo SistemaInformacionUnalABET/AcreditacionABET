@@ -98,26 +98,25 @@ export class IndicatorClasification{
         var developedPercentage = (developedCount*100)/totalCount;
         var unsatisfactoryPercentage = (unsatisfactoryCount*100)/totalCount;
         
-
-
-        this.percentageMatrix.get("ejemplar").set(period, exemplaryPercentage);
-        this.percentageMatrix.get("satisfactorio").set(period, satisfactoryPercentage);
-        this.percentageMatrix.get("desarrollado").set(period, developedPercentage);
-        this.percentageMatrix.get("insatisfactorio").set(period, unsatisfactoryPercentage);
+        
+        this.percentageMatrix.get("ejemplar").set(period, Math.round(exemplaryPercentage*100)/100);
+        this.percentageMatrix.get("satisfactorio").set(period, Math.round(satisfactoryPercentage*100)/100);
+        this.percentageMatrix.get("desarrollado").set(period, Math.round(developedPercentage*100)/100);
+        this.percentageMatrix.get("insatisfactorio").set(period, Math.round(unsatisfactoryPercentage*100)/100);
     }
 
     calculateClasification(grade: number){
         
-        if(5 >= grade && grade > 4){
+        if(5 >= grade && grade >= 4){
             return "ejemplar";
         }
-        if(4 >= grade && grade > 3 ){
+        if(4 > grade && grade >= 3 ){
             return "satisfactorio";
         }
-        if(3 >= grade && grade > 2){
+        if(3 > grade && grade >= 2){
             return "desarrollado";
         }
-        if(2 >= grade && grade >= 0){
+        if(2 > grade && grade >= 0){
             return "insatisfactorio";
         }
     
