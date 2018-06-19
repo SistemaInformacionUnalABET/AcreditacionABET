@@ -15,6 +15,7 @@ import { ViewCompleteGrade } from './../../../statistics/entities/viewCompleteGr
 import { Course } from '../../../../statistics/statistics/entities/course';
 import { UploadService } from './../../../../uploadData/uploadData/uploadData.service';
 import { GraphicsService } from '../../graphics.service';
+import { IndicatorClasification } from './indicatorClasificationClass';
 //import { ChartDirective } from 'angular-highcharts/chart.directive';
 ///import { ChartObject, ChartOptions } from 'highcharts';
 
@@ -44,8 +45,11 @@ export class GraphicsByCourseAverageComponent implements OnInit {
 
   emptyString = " ";
   flagGrades = false;
-  indicatorsAVG;
-  indicatorsGradesCount;
+  indicatorsAVG; //guarda los promedios de las notas (Key: 20XX-X, Value: promedio)
+  indicatorsGradesCount; //guarda la cantidad de notas por año (Key: 20XX-X, Value: cantidad de notas)
+  indicatorsClasification; //Objeto que almacena y calcula el porcentaje de notas
+  
+
 
   //chart: Highcharts.ChartObject;
   chart: Object;
@@ -53,7 +57,8 @@ export class GraphicsByCourseAverageComponent implements OnInit {
     this.completeGradesList = [];
     this.indicatorsAVG = new Map();
     this.indicatorsGradesCount = new Map();
-
+    this.indicatorsClasification = new IndicatorClasification();
+   
     this.controlCourse = new FormControl();
     this.graphicsService.changeMessage(this.completeGradesList);
 
@@ -66,7 +71,7 @@ export class GraphicsByCourseAverageComponent implements OnInit {
     if (event.value == 'bar-graphic') {
       this.paintGraphic(Array.from(this.indicatorsAVG.keys()), Array.from(this.indicatorsAVG.values()), 1);
     } else if (event.value == 'percent-graphic') {
-      this.paintGraphic(Array.from(this.indicatorsAVG.keys()), Array.from(this.indicatorsAVG.values()), 2);
+      this.paintGraphic(Array.from(this.indicatorsAVG.keys()), [], 2);
     } else if (event.value == 'multiple-bar-graphic') {
       this.paintGraphic(Array.from(this.indicatorsAVG.keys()), Array.from(this.indicatorsAVG.values()), 3);
     }
@@ -184,16 +189,16 @@ export class GraphicsByCourseAverageComponent implements OnInit {
         },
         series: [{
           name: 'Ejemplar',
-          data: [10, 20,]
+          data: this.indicatorsClasification.getPercentages("ejemplar")
         }, {
           name: 'Satisfactorio',
-          data: [20, 20]
+          data: this.indicatorsClasification.getPercentages("satisfactorio")
         }, {
           name: 'Desarrollado',
-          data: [50, 40]
+          data: this.indicatorsClasification.getPercentages("desarrollado")
         }, {
           name: 'Insatisfactorio',
-          data: [20, 20]
+          data: this.indicatorsClasification.getPercentages("insatisfactorio")
         }]
       });
 
@@ -284,13 +289,16 @@ export class GraphicsByCourseAverageComponent implements OnInit {
 
           } else {
             this.flagGrades = false;
+
           }
         }
       );
   }
   calculate() {
     this.completeGradesList.forEach(element => {
-      if (this.indicatorsAVG.get(element.periodo)) {
+      var clasification = "";
+      //Calcula los promedios de las notas por cada periodo
+      if (this.indicatorsAVG.get(element.periodo)) { 
         var newAvg = ((this.indicatorsAVG.get(element.periodo) * this.indicatorsGradesCount.get(element.periodo)) + element.calificacion) / (this.indicatorsGradesCount.get(element.periodo) + 1)
         this.indicatorsAVG.set(element.periodo, newAvg);
         this.indicatorsGradesCount.set(element.periodo, this.indicatorsGradesCount.get(element.periodo) + 1);
@@ -298,8 +306,13 @@ export class GraphicsByCourseAverageComponent implements OnInit {
         this.indicatorsAVG.set(element.periodo, element.calificacion);
         this.indicatorsGradesCount.set(element.periodo, 1);
       }
+
+      this.indicatorsClasification.addGrade(element.periodo, element.calificacion)
+
     });
   }
+
+  
 
   printTypeGraphic(typeGraphic: String) {
     if (typeGraphic == 'bar-graphic') {

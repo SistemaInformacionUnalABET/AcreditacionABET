@@ -40,15 +40,9 @@
         <H1>SI SELECCIONO ALGO Indicador</H1>
     </div>
 
-    <div *ngIf="flagFilters && flagPeriod">
-        <app-graphics-buttons></app-graphics-buttons>
-        <H1>SI SELECCIONO ALGO Periodo</H1>
-    </div>
-
     <div *ngIf="!flagFilters">
         <div class="alert alert-info" role="alert">
             No ha seleccionado ningún tipo de filtro
-
         </div>
     </div>
 </div>
