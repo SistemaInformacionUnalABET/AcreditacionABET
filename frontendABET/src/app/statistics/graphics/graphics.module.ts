@@ -30,8 +30,6 @@ import { DetailsByIndicatorAverageComponent } from './byIndicator/details-by-ind
 
 //import { platformBrowserDynamic }  from '@angular/platform-browser-dynamic';
 
-
-
 declare var require: any;
 // var Highcharts = require('highcharts');
 
