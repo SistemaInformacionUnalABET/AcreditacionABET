@@ -37,8 +37,7 @@
             <mat-card-content>
                 <h2 class="example-h2">Tipo de gráfica</h2>
                 <section class="example-section">
-                    <label class="example-margin">Gráficas:  </label>
-
+                    <!-- <label class="example-margin">Gráficas:  </label> -->
                     <mat-radio-group [(ngModel)]="seleted">
                             <mat-radio-button *ngFor="let a of arrayRadioButtons" [value]="a"
                                          (change)="radioChange($event) ">
