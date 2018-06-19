@@ -35,14 +35,21 @@ export class IndicatorClasification{
     }
 
     addGrade(period:string, grade:number){
-
+        console.log(">>>>  la nota que llega");
+        console.log(period, grade);
+        
         var clasification = this.calculateClasification(grade);
+
         this.updateCountMatrix(clasification, period);
         this.updatePercentageCount(period);
+
+        console.log(">>>>> las tablas que actualiza");
+        console.log(this.percentageMatrix);
+        console.log(this.countMatrix);
+
     }
 
     updateCountMatrix(clasification, period){
-
 
         if(this.countMatrix.get(clasification).get(period)){
             var newCount = this.countMatrix.get(clasification).get(period) + 1;
@@ -54,21 +61,49 @@ export class IndicatorClasification{
     updatePercentageCount(period){
         var exemplaryCount = 0;
         var satisfactoryCount = 0;
-        var deveolpedCount = 0;
+        var developedCount = 0;
         var unsatisfactoryCount = 0;
         var totalCount = 0;
+        
+        
+        if(this.countMatrix.get("ejemplar").get(period) == null){
+            this.countMatrix.get("ejemplar").set(period, 0);
+            this.percentageMatrix.get("ejemplar").set(period, 0)
+        }
+
+        if(this.countMatrix.get("satisfactorio").get(period) == null){
+            this.countMatrix.get("satisfactorio").set(period, 0);
+            this.percentageMatrix.get("satisfactorio").set(period, 0)
+        }
+
+        if(this.countMatrix.get("desarrollado").get(period) == null){
+            this.countMatrix.get("desarrollado").set(period, 0);
+            this.percentageMatrix.get("desarrollado").set(period, 0)
+        }
+
+        if(this.countMatrix.get("insatisfactorio").get(period) == null){
+            this.countMatrix.get("insatisfactorio").set(period, 0);
+            this.percentageMatrix.get("insatisfactorio").set(period, 0)
+        }
 
         exemplaryCount = this.countMatrix.get("ejemplar").get(period);
         satisfactoryCount = this.countMatrix.get("satisfactorio").get(period);
-        deveolpedCount = this.countMatrix.get("desarrollado").get(period);
+        developedCount = this.countMatrix.get("desarrollado").get(period);
         unsatisfactoryCount = this.countMatrix.get("insatisfactorio").get(period);
 
-        totalCount = exemplaryCount + satisfactoryCount + deveolpedCount + unsatisfactoryCount;
+        totalCount = exemplaryCount + satisfactoryCount + developedCount + unsatisfactoryCount;
 
-        this.percentageMatrix.get("ejemplar").set(period, (exemplaryCount*100)/totalCount);
-        this.percentageMatrix.get("satisfactorio").set(period, (satisfactoryCount*100)/totalCount);
-        this.percentageMatrix.get("desarrollado").set(period, (deveolpedCount*100)/totalCount);
-        this.percentageMatrix.get("insatisfactorio").set(period, (unsatisfactoryCount*100)/totalCount);
+        var exemplaryPercentage = (exemplaryCount*100)/totalCount;
+        var satisfactoryPercentage = (satisfactoryCount*100)/totalCount;
+        var developedPercentage = (developedCount*100)/totalCount;
+        var unsatisfactoryPercentage = (unsatisfactoryCount*100)/totalCount;
+        
+
+
+        this.percentageMatrix.get("ejemplar").set(period, exemplaryPercentage);
+        this.percentageMatrix.get("satisfactorio").set(period, satisfactoryPercentage);
+        this.percentageMatrix.get("desarrollado").set(period, developedPercentage);
+        this.percentageMatrix.get("insatisfactorio").set(period, unsatisfactoryPercentage);
     }
 
     calculateClasification(grade: number){
