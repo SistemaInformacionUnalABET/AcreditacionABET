@@ -1,3 +1,4 @@
+<br>
 <div class="container">
     <div class="card">
         <div class="card-header">
@@ -12,7 +13,7 @@
                         <mat-autocomplete #autoCourse="matAutocomplete" (optionSelected)="saveCourseSelected($event.option.value)">
 
                             <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.codigo+ emptyString +course.nombre_asignatura">
-                                
+
                                 {{course.codigo}} {{course.nombre_asignatura}}
                             </mat-option>
 
@@ -23,47 +24,46 @@
         </mat-card>
     </div>
 </div>
+
+<br>
 <div class="container">
-
     <div *ngIf="flagGrades">
+        <!-- <a class="btn btn-primary" [routerLink]="['detail']">Detalle</a> -->
+        <button class="btn btn-primary" (click)="isGraphic = !isGraphic">{{isGraphic?"Detalle":"Grafico"}}</button>
 
-            <!-- <a class="btn btn-primary" [routerLink]="['detail']">Detalle</a> -->
-            <a class="btn btn-primary" (click)="isGraphic = !isGraphic">{{isGraphic?"Detalle":"Grafico"}}</a>
-
-<div *ngIf="isGraphic">
-        <br>
-        <br>
-        <mat-card>
-            <mat-card-content>
-                <h2 class="example-h2">Tipo de gráfica</h2>
-                <section class="example-section">
-                    <!-- <label class="example-margin">Gráficas:  </label> -->
-                    <mat-radio-group [(ngModel)]="seleted">
-                            <mat-radio-button *ngFor="let a of arrayRadioButtons" [value]="a"
-                                         (change)="radioChange($event) ">
+        <div *ngIf="isGraphic">
+            <br>
+            <mat-card>
+                <mat-card-content>
+                    <h2 class="example-h2">Tipo de gráfica</h2>
+                    <section class="example-section">
+                        <!-- <label class="example-margin">Gráficas:  </label> -->
+                        <mat-radio-group [(ngModel)]="seleted">
+                            <mat-radio-button *ngFor="let a of arrayRadioButtons" [value]="a" (change)="radioChange($event) ">
                                 {{a}}
                             </mat-radio-button>
                         </mat-radio-group>
 
-                    <!-- <mat-radio-group [(ngModel)]="labelPosition">
+                        <!-- <mat-radio-group [(ngModel)]="labelPosition">
                         <mat-radio-button class="example-margin" value="bar-graphic">Gráfica de barras</mat-radio-button>
                         <mat-radio-button class="example-margin" value="before">Before</mat-radio-button>
                         <mat-radio-button class="example-margin" value="intermedia">Intermedia</mat-radio-button>
                     </mat-radio-group> -->
-                </section>
-            </mat-card-content>
-        </mat-card>
-        <br>
-        <br>
- 
-        <div [chart]="chart"></div> 
+                    </section>
+                </mat-card-content>
+            </mat-card>
+            <br>
+            <br>
 
-</div>
+            <div [chart]="chart"></div>
 
-<div *ngIf="!isGraphic && courseCod != null">
-    <app-details-by-course-average [course]="courseCod"></app-details-by-course-average>
+        </div>
 
-</div>
+        <div *ngIf="!isGraphic && courseCod != null">
+            <br>
+            <app-details-by-course-average [course]="courseCod"></app-details-by-course-average>
+
+        </div>
 
     </div>
 
