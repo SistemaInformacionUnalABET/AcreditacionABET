@@ -62,7 +62,7 @@ export class StatisticsItemsComponent implements OnInit {
     this.filterSelected = "";
     this.controlCourse = new FormControl();
     this.controlFilterTypeList = new FormControl();
-    this.graphicsService.changeMessage(this.completeGradesList);
+    // this.graphicsService.changeMessage(this.completeGradesList);
 
   }
 

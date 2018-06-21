@@ -11,7 +11,7 @@
                         <input type="text" placeholder="Asignatura" aria-label="Number" matInput [formControl]="controlCourse" [matAutocomplete]="autoCourse">
                         <mat-autocomplete #autoCourse="matAutocomplete" (optionSelected)="saveCourseSelected($event.option.value)">
 
-                            <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.id_asignatura+ emptyString +course.codigo+ emptyString +course.nombre_asignatura">
+                            <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.codigo+ emptyString +course.nombre_asignatura">
                                 {{course.codigo}} {{course.nombre_asignatura}}
                             </mat-option>
 

@@ -47,7 +47,7 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
     this.indicatorsGradesCount = new Map();
 
     this.controlCourse = new FormControl();
-    this.graphicsService.changeMessage(this.completeGradesList);
+    // this.graphicsService.changeMessage(this.completeGradesList);
 
     this.arrayRadioButtons = ['bar-graphic', 'percent-graphic', 'multiple-bar-graphic'];
 
@@ -251,15 +251,18 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
 
   saveCourseSelected(value) {
 
-    console.log("Valorrrr = "+this.controlCourse.get("") );
-    
+    console.log("Valorrrr = "+this.controlCourse.value.id_asignatura);
 
-    var stringId = value.split(" ")[0];
-    var stringCode = value.split(" ")[1];
 
-    this.courseCod = stringId;
+    // var stringId = value.split(" ")[0];
+    var stringCode = value.split(" ")[0];
+
+    // this.courseCod = stringId;
 
     this.courseSelected = this.courseList.find(course => course.codigo === stringCode);
+
+    this.courseCod = this.courseSelected.id_asignatura;
+    
 
     this.getViewElements();
   }
@@ -274,7 +277,7 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
           if (this.completeGradesList.length > 0) {
             this.calculateAverage();
             this.flagGrades = true;
-            this.graphicsService.changeMessage(this.completeGradesList);
+            // this.graphicsService.changeMessage(this.completeGradesList);
             this.radioChange;
             //this.paintGraphic(Array.from(this.indicatorsAVG.keys()), Array.from(this.indicatorsAVG.values()));
             console.log(this.indicatorsAVG)

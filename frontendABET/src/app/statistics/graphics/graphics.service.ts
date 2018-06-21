@@ -16,15 +16,15 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class GraphicsService {
 
-  viewCompleteGradeList : ViewCompleteGrade[];
-  private messageSource = new BehaviorSubject(this.viewCompleteGradeList);
-  currentMessage = this.messageSource.asObservable();
+  // viewCompleteGradeList : ViewCompleteGrade[];
+  // private messageSource = new BehaviorSubject(this.viewCompleteGradeList);
+  // currentMessage = this.messageSource.asObservable();
 
-  changeMessage(viewCompleteGrade: ViewCompleteGrade[]) {
-    // this.viewCompleteGradeList = viewCompleteGrade;
-    this.messageSource.next(viewCompleteGrade);
-    //this.messageSource.next(viewCompleteGrade)
-  }
+  // changeMessage(viewCompleteGrade: ViewCompleteGrade[]) {
+  //   // this.viewCompleteGradeList = viewCompleteGrade;
+  //   this.messageSource.next(viewCompleteGrade);
+  //   //this.messageSource.next(viewCompleteGrade)
+  // }
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
@@ -32,9 +32,9 @@ export class GraphicsService {
 
 
   constructor(private http: Http) {
-    this.viewCompleteGradeList = [];
-    this.messageSource = new BehaviorSubject(this.viewCompleteGradeList);
-    this.currentMessage = this.messageSource.asObservable();
+    // this.viewCompleteGradeList = [];
+    // this.messageSource = new BehaviorSubject(this.viewCompleteGradeList);
+    // this.currentMessage = this.messageSource.asObservable();
 
    }
 
@@ -56,7 +56,7 @@ export class GraphicsService {
 
   ){
 
-    this.viewCompleteGradeList =[];
+    // this.viewCompleteGradeList =[];
     var newUrl = this.urlVCompleteGradesByParams + "?"
 
     if (id_course) {
