@@ -13,21 +13,35 @@ import { GraphicsByIndicatorAverageComponent } from '../statistics/graphics/byIn
 import { DetailsByIndicatorAverageComponent } from '../statistics/graphics/byIndicator/details-by-indicator-average/details-by-indicator-average.component';
 
 const routes: Routes = [
-  {path: 'upload', component: uploadDataItemsComponent},
-  {path: 'statistics', component: StatisticsItemsComponent,
-  children: [
-    {path: '', redirectTo: 'graphic', pathMatch: 'full'},
-    {path: 'graphicCourse', component: GraphicsByCourseAverageComponent},
-    {path: 'detailCourse', component: DetailsByCourseAverageComponent},
-    {path: 'graphicIndicator', component: GraphicsByIndicatorAverageComponent},
-    {path: 'detailIndicator', component: DetailsByIndicatorAverageComponent}
-    // {path: 'detail/:id', component: StatisticsEditComponent}
+  { path: 'upload', component: uploadDataItemsComponent },
+  {
+    path: 'statistics', component: StatisticsItemsComponent,
+    children: [
+      // {path: '', redirectTo: 'graphic', pathMatch: 'full'},
+      {
+        path: 'course', component: GraphicsByCourseAverageComponent,
+        children: [
+          { path: '', redirectTo: 'graphic', pathMatch: 'full' },
+          { path: 'graphic', component: GraphicsByCourseAverageComponent },
+          { path: 'detail', component: DetailsByCourseAverageComponent },
+        ]
+      },
 
-  ]
+      {
+        path: 'indicator', component: GraphicsByIndicatorAverageComponent,
+        children: [
+          { path: '', redirectTo: 'graphic', pathMatch: 'full' },
+          { path: 'graphic', component: GraphicsByIndicatorAverageComponent },
+          { path: 'detail', component: DetailsByIndicatorAverageComponent },
+        ]
+      }
+      // {path: 'detail/:id', component: StatisticsEditComponent}
 
-},
-  {path: 'notifications', component: NotificationsItemsComponent}
-  ];
+    ]
+
+  },
+  { path: 'notifications', component: NotificationsItemsComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

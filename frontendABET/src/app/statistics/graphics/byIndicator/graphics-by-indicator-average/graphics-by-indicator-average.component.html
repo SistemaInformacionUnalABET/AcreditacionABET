@@ -11,7 +11,7 @@
                         <input type="text" placeholder="Asignatura" aria-label="Number" matInput [formControl]="controlCourse" [matAutocomplete]="autoCourse">
                         <mat-autocomplete #autoCourse="matAutocomplete" (optionSelected)="saveCourseSelected($event.option.value)">
 
-                            <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.codigo+ emptyString +course.nombre_asignatura">
+                            <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.id_asignatura+ emptyString +course.codigo+ emptyString +course.nombre_asignatura">
                                 {{course.codigo}} {{course.nombre_asignatura}}
                             </mat-option>
 
@@ -25,27 +25,38 @@
 <div class="container">
 
     <div *ngIf="flagGrades">
-        <br>
-        <br>
-        <mat-card>
-            <mat-card-content>
-                <h2 class="example-h2">Tipo de gráfica Indicador</h2>
-                <section class="example-section">
-                    <label class="example-margin">Gráficas indicador:  </label>
 
-                    <mat-radio-group [(ngModel)]="seleted">
-                            <mat-radio-button *ngFor="let a of arrayRadioButtons" [value]="a"
-                                         (change)="radioChange($event) ">
+        <a class="btn btn-primary" (click)="isGraphic = !isGraphic">{{isGraphic?"Detalle":"Graphic"}}</a>
+
+        <div *ngIf="isGraphic">
+            <br>
+            <br>
+            <mat-card>
+                <mat-card-content>
+                    <h2 class="example-h2">Tipo de gráfica Indicador</h2>
+                    <section class="example-section">
+                        <label class="example-margin">Gráficas indicador: </label>
+
+                        <mat-radio-group [(ngModel)]="seleted">
+                            <mat-radio-button *ngFor="let a of arrayRadioButtons" [value]="a" (change)="radioChange($event) ">
                                 {{a}}
                             </mat-radio-button>
                         </mat-radio-group>
-                </section>
-            </mat-card-content>
-        </mat-card>
-        <br>
-        <br>
- 
-        <div [chart]="chart"></div> 
+                    </section>
+                </mat-card-content>
+            </mat-card>
+            <br>
+            <br>
+
+            <div [chart]="chart"></div>
+        </div>
+        {{courseCod}}
+
+        <div *ngIf="!isGraphic && courseCod != null">
+            <app-details-by-indicator-average [course]="courseCod"></app-details-by-indicator-average>
+
+        </div>
+
     </div>
 
     <div *ngIf="!flagGrades">

@@ -2,17 +2,16 @@
   graphics-buttons works!
 </p>
 
-<router-outlet></router-outlet>
+
 <!-- <app-graphics-by-course-average></app-graphics-by-course-average> -->
 <!-- <app-graphics-by-indicator-average></app-graphics-by-indicator-average> -->
 
 <nav>
-  <button class="btn btn-primary" routerLink="graphicCourse">Gráfica</button>
-  <button class="btn btn-primary" routerLink="detailCourse">Detalle</button>
+  <a class="btn btn-primary" [routerLink]="['graphicCourse']">Gráfica</a>
+  <a class="btn btn-primary" [routerLink]="['detailCourse']">Detalle</a>
   <br>
   <br>
   <br>
-
 
   <nav>
     <br>
@@ -21,4 +20,4 @@
     </div>
   </nav>
 
-  <!-- <router-outlet></router-outlet> -->
+  <router-outlet></router-outlet>

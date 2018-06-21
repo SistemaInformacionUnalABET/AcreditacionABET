@@ -33,7 +33,8 @@ export class GraphicsByCourseAverageComponent implements OnInit {
 
   selected: string;
   filter: any;
-
+  isGraphic = true;
+  courseCod = null;
   arrayRadioButtons = [];
   labelPosition = 'bar-graphic';
   completeGradesList: ViewCompleteGrade[];
@@ -264,7 +265,13 @@ export class GraphicsByCourseAverageComponent implements OnInit {
 
   saveCourseSelected(value) {
 
-    var stringCode = value.split(" ")[0];
+    console.log("Valorrrr = "+this.controlCourse.get("") );
+    
+
+    var stringId = value.split(" ")[0];
+    var stringCode = value.split(" ")[1];
+
+    this.courseCod = +stringId;
 
     this.courseSelected = this.courseList.find(course => course.codigo === stringCode);
 

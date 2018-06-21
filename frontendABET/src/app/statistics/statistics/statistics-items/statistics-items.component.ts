@@ -4,7 +4,7 @@ import { Component, OnInit, EventEmitter, ViewChild, ElementRef } from '@angular
 // import { chart } from 'highcharts';
 // import * as Highcharts from 'highcharts';
 //Original hihgcharts
-
+import {ActivatedRoute, Router} from '@angular/router'
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -51,7 +51,8 @@ export class StatisticsItemsComponent implements OnInit {
 
   //chart: Highcharts.ChartObject;
   chart: Object;
-  constructor(private graphicsService: GraphicsService, private uploadService: UploadService) {
+  constructor(private graphicsService: GraphicsService, 
+    private uploadService: UploadService, private router: Router, route: ActivatedRoute) {
     
     this.filterTypeList = ["Asignatura", "Indicador"];
     this.completeGradesList = [];
@@ -97,8 +98,11 @@ export class StatisticsItemsComponent implements OnInit {
     this.filterSelected = filterType;
     if(this.filterSelected == "Asignatura"){
       this.flagCourse=true;
+      this.router.navigate(['/statistics/course/graphic'])
     }else if(this.filterSelected == "Indicador"){
       this.flagIndicator=true;
+      this.router.navigate(['/statistics/indicator/graphic'])
+
     }
     
     console.log("LO que seleccionó: = ", this.filterSelected)

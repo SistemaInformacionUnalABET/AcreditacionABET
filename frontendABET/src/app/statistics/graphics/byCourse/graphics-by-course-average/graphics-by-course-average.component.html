@@ -7,11 +7,12 @@
         <mat-card>
             <mat-card-content>
                 <div class="example-container">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="example-full-width " style="width: 100%;">
                         <input type="text" placeholder="Asignatura" aria-label="Number" matInput [formControl]="controlCourse" [matAutocomplete]="autoCourse">
                         <mat-autocomplete #autoCourse="matAutocomplete" (optionSelected)="saveCourseSelected($event.option.value)">
 
-                            <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.codigo+ emptyString +course.nombre_asignatura">
+                            <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.id_asignatura+ emptyString +course.codigo+ emptyString +course.nombre_asignatura">
+                                
                                 {{course.codigo}} {{course.nombre_asignatura}}
                             </mat-option>
 
@@ -26,11 +27,10 @@
 
     <div *ngIf="flagGrades">
 
-        <!-- <div #chartTarget>
-            chart target
-        </div> -->
-        <!-- <chart [options]="chart"></chart> -->
-        <!-- <div id="container"></div>-->
+            <!-- <a class="btn btn-primary" [routerLink]="['detail']">Detalle</a> -->
+            <a class="btn btn-primary" (click)="isGraphic = !isGraphic">{{isGraphic?"Detalle":"Graphic"}}</a>
+
+<div *ngIf="isGraphic">
         <br>
         <br>
         <mat-card>
@@ -57,6 +57,14 @@
         <br>
  
         <div [chart]="chart"></div> 
+
+</div>
+
+<div *ngIf="!isGraphic && courseCod != null">
+    <app-details-by-course-average [course]="courseCod"></app-details-by-course-average>
+
+</div>
+
     </div>
 
     <div *ngIf="!flagGrades">
