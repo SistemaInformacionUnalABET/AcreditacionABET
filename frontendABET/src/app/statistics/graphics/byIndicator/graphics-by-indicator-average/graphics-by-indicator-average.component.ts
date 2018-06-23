@@ -11,6 +11,7 @@ import { ViewCompleteGrade } from './../../../statistics/entities/viewCompleteGr
 import { Course } from '../../../../statistics/statistics/entities/course';
 import { UploadService } from './../../../../uploadData/uploadData/uploadData.service';
 import { GraphicsService } from '../../graphics.service';
+import { Indicator } from '../../../statistics/entities/indicator';
 
 @Component({
   selector: 'app-graphics-by-indicator-average',
@@ -28,8 +29,8 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
   arrayRadioButtons = [];
   labelPosition = 'bar-graphic';
   completeGradesList: ViewCompleteGrade[];
-  courseList: Course[];
-  courseSelected: Course;
+  courseList: Indicator[];
+  courseSelected: Indicator;
 
   controlCourse: FormControl;
   filteredOptionsForCourse: Observable<string[]>;
@@ -69,7 +70,7 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
 
   ngOnInit() {
 
-    this.uploadService.getCourseByParams()
+    this.uploadService.getIndicatorsByParams()
       .subscribe(
         rs => this.courseList = rs,
         er => console.log(er),
@@ -246,7 +247,7 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
   //Nota: Propio de Angular Material
   filterCourses(val): any[] {
     return this.courseList.filter(element =>
-      (String(element.codigo).toLowerCase() + " " + String(element.nombre_asignatura).toLowerCase()).indexOf(val.toLowerCase()) !== -1);
+      (String(element.identificador_indicador).toLowerCase() + " " + String(element.nombre_indicador).toLowerCase()).indexOf(val.toLowerCase()) !== -1);
   }
 
   saveCourseSelected(value) {
@@ -259,16 +260,16 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
 
     // this.courseCod = stringId;
 
-    this.courseSelected = this.courseList.find(course => course.codigo === stringCode);
+    this.courseSelected = this.courseList.find(course => course.identificador_indicador === stringCode);
 
-    this.courseCod = this.courseSelected.id_asignatura;
+    this.courseCod = this.courseSelected.id_indicador;
     
 
     this.getViewElements();
   }
 
   getViewElements() {
-    this.graphicsService.getViewCompleteGradesByParams(this.courseSelected.id_asignatura)
+    this.graphicsService.getViewCompleteGradesByParams(this.courseSelected.id_indicador)
       .subscribe(
         rs => this.completeGradesList = rs,
         er => console.log(er),
