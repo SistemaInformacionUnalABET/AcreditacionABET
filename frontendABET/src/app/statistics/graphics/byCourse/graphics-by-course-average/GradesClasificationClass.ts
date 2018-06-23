@@ -1,4 +1,4 @@
-export class IndicatorClasification{
+export class GradesClasification{
 
     //almacena las cantidades de notas en una matriz fila:clasificacion, columna:periodo
     //Ejemplo:
@@ -35,18 +35,9 @@ export class IndicatorClasification{
     }
 
     addGrade(period:string, grade:number){
-        console.log(">>>>  la nota que llega");
-        console.log(period, grade);
-        
         var clasification = this.calculateClasification(grade);
-
         this.updateCountMatrix(clasification, period);
         this.updatePercentageCount(period);
-
-        console.log(">>>>> las tablas que actualiza");
-        console.log(this.percentageMatrix);
-        console.log(this.countMatrix);
-
     }
 
     updateCountMatrix(clasification, period){
@@ -58,6 +49,7 @@ export class IndicatorClasification{
             this.countMatrix.get(clasification).set(period, 1);
         }
     }
+
     updatePercentageCount(period){
         var exemplaryCount = 0;
         var satisfactoryCount = 0;
@@ -122,10 +114,7 @@ export class IndicatorClasification{
     
       }
 
-      getPercentages(clasification){
-        console.log(clasification);
-          console.log(this.percentageMatrix.get(clasification));
-          
+      getPercentages(clasification){          
         return Array.from(this.percentageMatrix.get(clasification));
       }
 

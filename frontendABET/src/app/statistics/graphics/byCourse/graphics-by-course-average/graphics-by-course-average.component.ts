@@ -15,7 +15,9 @@ import { ViewCompleteGrade } from './../../../statistics/entities/viewCompleteGr
 import { Course } from '../../../../statistics/statistics/entities/course';
 import { UploadService } from './../../../../uploadData/uploadData/uploadData.service';
 import { GraphicsService } from '../../graphics.service';
-import { IndicatorClasification } from './indicatorClasificationClass';
+import { GradesClasification } from './gradesClasificationClass';
+import { IndicatorsBars } from './IndicatorsBarsClass';
+
 //import { ChartDirective } from 'angular-highcharts/chart.directive';
 ///import { ChartObject, ChartOptions } from 'highcharts';
 
@@ -48,7 +50,8 @@ export class GraphicsByCourseAverageComponent implements OnInit {
   flagGrades = false;
   indicatorsAVG; //guarda los promedios de las notas (Key: 20XX-X, Value: promedio)
   indicatorsGradesCount; //guarda la cantidad de notas por año (Key: 20XX-X, Value: cantidad de notas)
-  indicatorsClasification; //Objeto que almacena y calcula el porcentaje de notas
+  gradesClasification; //Objeto que almacena y calcula el porcentaje de notas
+  indicatorsBars; //Objeto que almacena y calcula el promedio de notas por indicadores dado un periodo
   
 
 
@@ -58,7 +61,8 @@ export class GraphicsByCourseAverageComponent implements OnInit {
     this.completeGradesList = [];
     this.indicatorsAVG = new Map();
     this.indicatorsGradesCount = new Map();
-    this.indicatorsClasification = new IndicatorClasification();
+    this.gradesClasification = new GradesClasification();
+    this.indicatorsBars = new IndicatorsBars();
    
     this.controlCourse = new FormControl();
     // this.graphicsService.changeMessage(this.completeGradesList);
@@ -190,16 +194,16 @@ export class GraphicsByCourseAverageComponent implements OnInit {
         },
         series: [{
           name: 'Ejemplar',
-          data: this.indicatorsClasification.getPercentages("ejemplar")
+          data: this.gradesClasification.getPercentages("ejemplar")
         }, {
           name: 'Satisfactorio',
-          data: this.indicatorsClasification.getPercentages("satisfactorio")
+          data: this.gradesClasification.getPercentages("satisfactorio")
         }, {
           name: 'Desarrollado',
-          data: this.indicatorsClasification.getPercentages("desarrollado")
+          data: this.gradesClasification.getPercentages("desarrollado")
         }, {
           name: 'Insatisfactorio',
-          data: this.indicatorsClasification.getPercentages("insatisfactorio")
+          data: this.gradesClasification.getPercentages("insatisfactorio")
         }]
       });
 
@@ -274,7 +278,6 @@ export class GraphicsByCourseAverageComponent implements OnInit {
     // this.courseCod = +stringId;
 
     this.courseSelected = this.courseList.find(course => course.codigo === stringCode);
-
     this.courseCod = this.courseSelected.id_asignatura;
 
     this.getViewElements();
@@ -316,7 +319,8 @@ export class GraphicsByCourseAverageComponent implements OnInit {
         this.indicatorsGradesCount.set(element.periodo, 1);
       }
 
-      this.indicatorsClasification.addGrade(element.periodo, element.calificacion)
+      this.gradesClasification.addGrade(element.periodo, element.calificacion);
+      this.indicatorsBars.addGrade(element.periodo, element.identificador_indicador, element.calificacion);
 
     });
   }
