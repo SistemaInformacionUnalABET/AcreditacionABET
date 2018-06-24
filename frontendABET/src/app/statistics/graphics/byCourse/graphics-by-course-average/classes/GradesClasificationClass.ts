@@ -20,6 +20,9 @@ export class GradesClasification{
 
     private percentageMatrix = new Map();
 
+    private arrayPeriods;
+
+
     constructor(){
 
         this.percentageMatrix.set("ejemplar", new Map());
@@ -32,6 +35,11 @@ export class GradesClasification{
         this.countMatrix.set("desarrollado", new Map())
         this.countMatrix.set("insatisfactorio", new Map())
        
+    }
+
+
+    setArrayPeriods(array){
+        this.arrayPeriods = array;
     }
 
     addGrade(period:string, grade:number){

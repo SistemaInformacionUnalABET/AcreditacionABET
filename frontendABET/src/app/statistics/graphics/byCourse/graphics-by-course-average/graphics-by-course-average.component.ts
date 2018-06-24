@@ -15,8 +15,9 @@ import { ViewCompleteGrade } from './../../../statistics/entities/viewCompleteGr
 import { Course } from '../../../../statistics/statistics/entities/course';
 import { UploadService } from './../../../../uploadData/uploadData/uploadData.service';
 import { GraphicsService } from '../../graphics.service';
-import { GradesClasification } from './gradesClasificationClass';
-import { IndicatorsBars } from './IndicatorsBarsClass';
+import { GradesClasification } from './classes/gradesClasificationClass';
+import { IndicatorsBars } from './classes/IndicatorsBarsClass';
+import { GradesAvg } from './classes/GradesAvgClass';
 
 //import { ChartDirective } from 'angular-highcharts/chart.directive';
 ///import { ChartObject, ChartOptions } from 'highcharts';
@@ -48,8 +49,8 @@ export class GraphicsByCourseAverageComponent implements OnInit {
 
   emptyString = " ";
   flagGrades = false;
-  indicatorsAVG; //guarda los promedios de las notas (Key: 20XX-X, Value: promedio)
-  indicatorsGradesCount; //guarda la cantidad de notas por año (Key: 20XX-X, Value: cantidad de notas)
+  arrayPeriods; //Almacena todos los periodos que estaran en el eje x de las graficas
+  gradesAvg; //Objeto que almacena y calcula los promedios de notas
   gradesClasification; //Objeto que almacena y calcula el porcentaje de notas
   indicatorsBars; //Objeto que almacena y calcula el promedio de notas por indicadores dado un periodo
   
@@ -59,8 +60,9 @@ export class GraphicsByCourseAverageComponent implements OnInit {
   chart: Object;
   constructor(private graphicsService: GraphicsService, private uploadService: UploadService) {
     this.completeGradesList = [];
-    this.indicatorsAVG = new Map();
-    this.indicatorsGradesCount = new Map();
+    this.arrayPeriods=[];
+
+    this.gradesAvg = new GradesAvg();
     this.gradesClasification = new GradesClasification();
     this.indicatorsBars = new IndicatorsBars();
    
@@ -74,11 +76,11 @@ export class GraphicsByCourseAverageComponent implements OnInit {
   radioChange(event: MatRadioChange) {
 
     if (event.value == 'bar-graphic') {
-      this.paintGraphic(Array.from(this.indicatorsAVG.keys()), Array.from(this.indicatorsAVG.values()), 1);
+      this.paintGraphic(Array.from(this.arrayPeriods), 1);
     } else if (event.value == 'percent-graphic') {
-      this.paintGraphic(Array.from(this.indicatorsAVG.keys()), [], 2);
+      this.paintGraphic(Array.from(this.arrayPeriods), 2);
     } else if (event.value == 'multiple-bar-graphic') {
-      this.paintGraphic(Array.from(this.indicatorsAVG.keys()), Array.from(this.indicatorsAVG.values()), 3);
+      this.paintGraphic(Array.from(this.arrayPeriods),  3);
     }
 
     console.log(event.value);
@@ -103,7 +105,7 @@ export class GraphicsByCourseAverageComponent implements OnInit {
         })
   }
 
-  paintGraphic(arrayX: any, arrayY: any, type: number) {
+  paintGraphic(arrayX: any, type: number) {
 
     if (type == 1) {
       this.chart = new Chart({
@@ -127,7 +129,6 @@ export class GraphicsByCourseAverageComponent implements OnInit {
 
         xAxis: {
           categories: arrayX,
-
         },
 
         yAxis: {
@@ -138,7 +139,7 @@ export class GraphicsByCourseAverageComponent implements OnInit {
 
         series: [{
           type: 'column',
-          data: arrayY
+          data: this.gradesAvg.getArrayAvg()
         }],
 
       });
@@ -230,7 +231,7 @@ export class GraphicsByCourseAverageComponent implements OnInit {
         },
 
         xAxis: {
-          categories: ['2017-1', '2017-2', '2018-1'],
+          categories: arrayX,
           labels: {
             x: -10
           }
@@ -242,7 +243,7 @@ export class GraphicsByCourseAverageComponent implements OnInit {
             text: 'Amount'
           }
         },
-
+        /*
         series: [{
           name: 'Indicador 1',
           data: [1, 4, 3]
@@ -253,11 +254,13 @@ export class GraphicsByCourseAverageComponent implements OnInit {
           name: 'Indicador 3',
           data: [8, 4, 3]
         }],
+        */
 
+        series:
+          this.indicatorsBars.getSeries()
+        ,
       });
-
     }
-
   }
 
   //Filtro de campo Asignatura
@@ -270,8 +273,6 @@ export class GraphicsByCourseAverageComponent implements OnInit {
   saveCourseSelected(value) {
 
     // console.log("Valorrrr = "+this.controlCourse.get("") );
-    
-
     // var stringId = value.split(" ")[0];
     var stringCode = value.split(" ")[0];
 
@@ -284,6 +285,7 @@ export class GraphicsByCourseAverageComponent implements OnInit {
   }
 
   getViewElements() {
+
     this.graphicsService.getViewCompleteGradesByParams(this.courseSelected.id_asignatura)
       .subscribe(
         rs => this.completeGradesList = rs,
@@ -296,9 +298,6 @@ export class GraphicsByCourseAverageComponent implements OnInit {
             // this.graphicsService.changeMessage(this.completeGradesList);
             this.radioChange;
             //this.paintGraphic(Array.from(this.indicatorsAVG.keys()), Array.from(this.indicatorsAVG.values()));
-            console.log(this.indicatorsAVG)
-            console.log("LAS LLAVES KEYS////////////", Array.from(this.indicatorsAVG.keys()))
-
           } else {
             this.flagGrades = false;
 
@@ -306,26 +305,43 @@ export class GraphicsByCourseAverageComponent implements OnInit {
         }
       );
   }
-  calculate() {
-    this.completeGradesList.forEach(element => {
-      var clasification = "";
-      //Calcula los promedios de las notas por cada periodo
-      if (this.indicatorsAVG.get(element.periodo)) { 
-        var newAvg = ((this.indicatorsAVG.get(element.periodo) * this.indicatorsGradesCount.get(element.periodo)) + element.calificacion) / (this.indicatorsGradesCount.get(element.periodo) + 1)
-        this.indicatorsAVG.set(element.periodo, newAvg);
-        this.indicatorsGradesCount.set(element.periodo, this.indicatorsGradesCount.get(element.periodo) + 1);
-      } else {
-        this.indicatorsAVG.set(element.periodo, element.calificacion);
-        this.indicatorsGradesCount.set(element.periodo, 1);
-      }
 
-      this.gradesClasification.addGrade(element.periodo, element.calificacion);
+  calculate() {
+    
+    //calculo de los elementos del ejeX para las graficas
+    this.arrayPeriods = this.calculateArrayX();
+
+    this.gradesAvg.setArrayPeriods(this.arrayPeriods);
+    this.gradesClasification.setArrayPeriods(this.arrayPeriods);
+    this.indicatorsBars.setArrayPeriods(this.arrayPeriods);
+
+    this.completeGradesList.forEach(element => {
+
+      //// Calculo para la grafica1
+      //Calcula los promedios de las notas por cada periodo 
+      this.gradesAvg.addGrade(element.periodo, element.calificacion);  
+
+      //// Calculo para la grafica2
+      //Calcula la clasicación de las notas por cada periodo
+      this.gradesClasification.addGrade(element.periodo, element.calificacion);  
+
+      //// Calculo para la grafica3
+      //calcula los promedios de los indadores por periodo
       this.indicatorsBars.addGrade(element.periodo, element.identificador_indicador, element.calificacion);
 
     });
+    
   }
 
-  
+  calculateArrayX(){
+    var arr=[];
+    this.completeGradesList.forEach(element => {
+      if( arr.indexOf(element.periodo ) == -1){
+        arr.push(element.periodo);
+      }
+    });
+    return arr;
+  }
 
   printTypeGraphic(typeGraphic: String) {
     if (typeGraphic == 'bar-graphic') {
