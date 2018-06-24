@@ -11,16 +11,22 @@ export class GradesAvg{
 
     setArrayPeriods(array){
         this.arrayPeriods = array;
+        
+        this.arrayPeriods.forEach(p => {
+            this.indicatorsAVG.set(p, 0);            
+            this.indicatorsGradesCount.set(p, 0);            
+        });    
     }
-    addGrade(period, calification){
 
-      if (this.indicatorsAVG.get(period)) { 
+    addGrade(period, calification){
+      if (this.indicatorsAVG.get(period)==0) { 
+        this.indicatorsAVG.set(period, calification);
+        this.indicatorsGradesCount.set(period, 1);
+      } else {
         var newAvg = ((this.indicatorsAVG.get(period) * this.indicatorsGradesCount.get(period)) + calification) / (this.indicatorsGradesCount.get(period) + 1)
         this.indicatorsAVG.set(period, newAvg);
         this.indicatorsGradesCount.set(period, this.indicatorsGradesCount.get(period) + 1);
-      } else {
-        this.indicatorsAVG.set(period, calification);
-        this.indicatorsGradesCount.set(period, 1);
+        
       }     
     }
 
