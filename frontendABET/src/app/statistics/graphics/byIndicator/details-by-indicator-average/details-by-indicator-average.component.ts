@@ -26,6 +26,8 @@ export class DetailsByIndicatorAverageComponent implements OnInit {
 
   constructor(private graphicsService: GraphicsService) {
     this.completeGradesList = [];
+    this.dataForExport = [];
+    this.course = null;
   }
   ngOnInit() {
 
