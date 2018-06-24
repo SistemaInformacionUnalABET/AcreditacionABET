@@ -8,7 +8,7 @@
         <mat-card>
             <mat-card-content>
                 <div class="example-container">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="example-full-width" style="width: 95%;">
                         <input type="text" placeholder="Indicador" aria-label="Number" matInput [formControl]="controlCourse" [matAutocomplete]="autoCourse">
                         <mat-autocomplete #autoCourse="matAutocomplete" (optionSelected)="saveCourseSelected($event.option.value)">
 
