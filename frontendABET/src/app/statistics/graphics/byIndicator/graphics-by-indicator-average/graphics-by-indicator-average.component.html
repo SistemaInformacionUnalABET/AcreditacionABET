@@ -1,3 +1,4 @@
+<br>
 <div class="container">
     <div class="card">
         <div class="card-header">
@@ -7,7 +8,9 @@
         <mat-card>
             <mat-card-content>
                 <div class="example-container">
-                    <mat-form-field class="example-full-width">
+
+                    <mat-form-field class="example-full-width" style="width: 95%;">
+
                         <input type="text" placeholder="Indicador" aria-label="Number" matInput [formControl]="controlIndicator" [matAutocomplete]="autoIndicator">
                         <mat-autocomplete #autoIndicator="matAutocomplete" (optionSelected)="saveIndicatorSelected($event.option.value)">
 
@@ -25,18 +28,17 @@
 <div class="container">
 
     <div *ngIf="flagGrades">
-
+        <br>
         <button class="btn btn-primary" (click)="isGraphic = !isGraphic">{{isGraphic?"Detalle":"Graphic"}}</button>
 
         <div *ngIf="isGraphic">
             <br>
-            <br>
+
             <mat-card>
                 <mat-card-content>
-                    <h2 class="example-h2">Tipo de gráfica Indicador</h2>
+                    <h2 class="example-h2">Tipo de gráfica por Indicador</h2>
                     <section class="example-section">
-                        <label class="example-margin">Gráficas indicador: </label>
-
+                        <!-- <label class="example-margin">Gráficas indicador: </label> -->
                         <mat-radio-group [(ngModel)]="seleted">
                             <mat-radio-button *ngFor="let a of arrayRadioButtons" [value]="a" (change)="radioChange($event) ">
                                 {{a}}
@@ -50,8 +52,6 @@
 
             <div [chart]="chart"></div>
         </div>
-        {{courseCod}}
-
         <div *ngIf="!isGraphic && courseCod != null">
             <app-details-by-indicator-average [course]="courseCod"></app-details-by-indicator-average>
 
