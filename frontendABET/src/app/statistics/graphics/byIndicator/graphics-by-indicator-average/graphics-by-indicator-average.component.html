@@ -8,11 +8,11 @@
             <mat-card-content>
                 <div class="example-container">
                     <mat-form-field class="example-full-width">
-                        <input type="text" placeholder="Indicador" aria-label="Number" matInput [formControl]="controlCourse" [matAutocomplete]="autoCourse">
-                        <mat-autocomplete #autoCourse="matAutocomplete" (optionSelected)="saveCourseSelected($event.option.value)">
+                        <input type="text" placeholder="Indicador" aria-label="Number" matInput [formControl]="controlIndicator" [matAutocomplete]="autoIndicator">
+                        <mat-autocomplete #autoIndicator="matAutocomplete" (optionSelected)="saveIndicatorSelected($event.option.value)">
 
-                            <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.identificador_indicador+ emptyString +course.nombre_indicador">
-                                {{course.identificador_indicador}} {{course.nombre_indicador}}
+                            <mat-option *ngFor="let indicator of filteredOptionsForIndicator | async" [value]="indicator.identificador_indicador+ emptyString +indicator.nombre_indicador">
+                                {{indicator.identificador_indicador}} {{indicator.nombre_indicador}}
                             </mat-option>
 
                         </mat-autocomplete>

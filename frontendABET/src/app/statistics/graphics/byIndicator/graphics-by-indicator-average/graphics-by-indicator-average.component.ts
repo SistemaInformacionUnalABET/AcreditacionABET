@@ -29,11 +29,11 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
   arrayRadioButtons = [];
   labelPosition = 'bar-graphic';
   completeGradesList: ViewCompleteGrade[];
-  courseList: Indicator[];
-  courseSelected: Indicator;
+  indicatorList: Indicator[];
+  indicatorSelected: Indicator;
 
-  controlCourse: FormControl;
-  filteredOptionsForCourse: Observable<string[]>;
+  controlIndicator: FormControl;
+  filteredOptionsForIndicator: Observable<string[]>;
 
   emptyString = " ";
   flagGrades = false;
@@ -47,7 +47,7 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
     this.indicatorsAVG = new Map();
     this.indicatorsGradesCount = new Map();
 
-    this.controlCourse = new FormControl();
+    this.controlIndicator = new FormControl();
     // this.graphicsService.changeMessage(this.completeGradesList);
 
     this.arrayRadioButtons = ['bar-graphic', 'percent-graphic', 'multiple-bar-graphic'];
@@ -72,16 +72,16 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
 
     this.uploadService.getIndicatorsByParams()
       .subscribe(
-        rs => this.courseList = rs,
+        rs => this.indicatorList = rs,
         er => console.log(er),
         () => {
-
-          //Filtra las Asignaturas que aparecen en el formulario para el campo Asignatura
+          console.log(this.indicatorList);
+          //Filtra los indicadores que aparecen en el formulario para el campo Indicador
           //Nota: propio de Angular Material
-          this.filteredOptionsForCourse = this.controlCourse.valueChanges
+          this.filteredOptionsForIndicator = this.controlIndicator.valueChanges
             .pipe(
               startWith(''),
-              map(val => this.filterCourses(val))
+              map(val => this.filterIndicators(val))
             );
         })
   }
@@ -243,16 +243,16 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
 
   }
 
-  //Filtro de campo Asignatura
+  //Filtro de campo Indicador
   //Nota: Propio de Angular Material
-  filterCourses(val): any[] {
-    return this.courseList.filter(element =>
+  filterIndicators(val): any[] {
+    return this.indicatorList.filter(element =>
       (String(element.identificador_indicador).toLowerCase() + " " + String(element.nombre_indicador).toLowerCase()).indexOf(val.toLowerCase()) !== -1);
   }
 
-  saveCourseSelected(value) {
+  saveIndicatorSelected(value) {
 
-    console.log("Valorrrr = "+this.controlCourse.value.id_asignatura);
+    console.log("Valorrrr = "+this.controlIndicator.value.id_asignatura);
 
 
     // var stringId = value.split(" ")[0];
@@ -260,16 +260,16 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
 
     // this.courseCod = stringId;
 
-    this.courseSelected = this.courseList.find(course => course.identificador_indicador === stringCode);
+    this.indicatorSelected = this.indicatorList.find(indicator => indicator.identificador_indicador === stringCode);
 
-    this.courseCod = this.courseSelected.id_indicador;
+    this.courseCod = this.indicatorSelected.id_indicador;
     
 
     this.getViewElements();
   }
 
   getViewElements() {
-    this.graphicsService.getViewCompleteGradesByParams(this.courseSelected.id_indicador)
+    this.graphicsService.getViewCompleteGradesByParams(null, null, this.indicatorSelected.id_indicador)
       .subscribe(
         rs => this.completeGradesList = rs,
         er => console.log(er),

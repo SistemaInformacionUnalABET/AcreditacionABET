@@ -44,7 +44,8 @@ export class DetailsByCourseAverageComponent implements OnInit {
 
     if (this.course != null || this.course != undefined) {
 
-      this.graphicsService.getViewCompleteGradesByParams(this.course).subscribe(listComplete => {
+      this.graphicsService.getViewCompleteGradesByParams(this.course)
+      .subscribe(listComplete => {
         this.completeGradesList = listComplete
         if (this.completeGradesList.length > 0) {
           this.flagGrades = true;

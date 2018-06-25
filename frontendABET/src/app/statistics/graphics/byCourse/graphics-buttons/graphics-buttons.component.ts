@@ -10,6 +10,7 @@ export class GraphicsButtonsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }
