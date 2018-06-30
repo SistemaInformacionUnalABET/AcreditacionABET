@@ -25,7 +25,9 @@ import { MaterialModule } from '../../app.material';
 
 //import { platformBrowserDynamic }  from '@angular/platform-browser-dynamic';
 
-import {GraphicsModule} from '../graphics/graphics.module'
+import {GraphicsModule} from '../graphics/graphics.module';
+
+import { AuthGuard } from './../../auth/auth/auth-login/auth-guard';
 
 import 'hammerjs';
 import 'd3';
@@ -51,7 +53,8 @@ import { GraphicsByCourseAverageComponent } from '../graphics/byCourse/graphics-
   providers: [ 
     StatisticsServices,
     UploadService,
-    GraphicsService
+    GraphicsService,
+    AuthGuard
    ],
   //  bootstrap: [GraphicsByCourseAverageComponent],
   declarations: [StatisticsItemsComponent, StatisticsEditComponent, StatisticsNewComponent, StatisticsListComponent],

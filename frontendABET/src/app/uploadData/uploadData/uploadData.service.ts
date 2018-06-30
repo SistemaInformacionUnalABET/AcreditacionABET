@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { Http, Response, Headers, RequestOptions } from '@angular/http'
+import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http'
 
 import { Observable } from 'rxjs/Observable';
 import { Indicator } from './../../statistics/statistics/entities/indicator';
-import { Commons } from './../../statistics/statistics/entities/commons'
 import { Goal } from './../../statistics/statistics/entities/goal'
 import { Course } from './../../statistics/statistics/entities/course'
 import { Group } from '../../statistics/statistics/entities/group';
@@ -18,16 +17,14 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/retryWhen'
-import { delay } from 'q';
 import { Activity } from '../../statistics/statistics/entities/activity';
 import { Grade } from '../../statistics/statistics/entities/grade';
-
 
 
 @Injectable()
 export class UploadService {
 
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  // private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = 'http://localhost:8000/indicadores/';
   private url2 = 'http://localhost:8000/comunes/';
   private url3 = 'http://localhost:8000/comunes/';
@@ -52,288 +49,24 @@ export class UploadService {
   private urlPostActivities = 'http://localhost:8000/activities/';
   private urlPostGrades = 'http://localhost:8000/grades/';
 
+  private options;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+
+    let token = localStorage.getItem('token');
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer' + ' ' + token
+    });
+    this.options = new RequestOptions({ headers: headers });
+  }
 
   getAllGoals(): Observable<Goal[]> {
     let url = `${this.urlGetGoals}`;
-    return this.http.get(url)
+    return this.http.get(url, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }
-
-
-  //Mange params
-  concatenateParamsForGetIndicators(
-    id?: number,
-    goal?: number,
-    identificator?: string,
-    name?: string,
-    description?: string) {
-    var newUrl = this.urlGetIndicators + "?"
-
-    if (id) {
-      newUrl = newUrl + "&id=" + id;
-    } if (goal) {
-      newUrl = newUrl + "&goal=" + goal;
-    } if (identificator) {
-      newUrl = newUrl + "&identificator=" + "\"" + identificator + "\"";
-    } if (name) {
-      newUrl = newUrl + "&name=" + "\"" + name + "\"";
-    } if (description) {
-      newUrl = newUrl + "&description=" + "\"" + description + "\"";
-    }
-    return newUrl;
-  }
-
-  concatenateParamsForGetCourses(
-    id_course?: number,
-    code?: number,
-    name?: string,
-    description?: string) {
-    var newUrl = this.urlGetCourses + "?"
-
-    if (id_course) {
-      newUrl = newUrl + "&id=" + id_course;
-    } if (code) {
-      newUrl = newUrl + "&code=" + code;
-    } if (name) {
-      newUrl = newUrl + "&name=" + "\"" + name + "\"";
-    } if (description) {
-      newUrl = newUrl + "&description=" + "\"" + description + "\"";
-    }
-    return newUrl;
-  }
-
-  concatenateParamsForGetGroups(
-    id_group?: number,
-    id_course?: number,
-    number_group?: number) {
-    var newUrl = this.urlGetGroups + "?"
-
-    if (id_group) {
-      newUrl = newUrl + "&id=" + id_group;
-    } if (id_course) {
-      newUrl = newUrl + "&id_course=" + id_course;
-    } if (number_group) {
-      newUrl = newUrl + "&number_group=" + number_group;
-    }
-    return newUrl;
-  }
-
-  concatenateParamsForGetEvaluations(
-    id_evaluation?: number,
-    type_evaluation?: string,
-    id_course_indicator?: number) {
-    var newUrl = this.urlGetEvaluations + "?"
-
-    if (id_evaluation) {
-      newUrl = newUrl + "&id=" + id_evaluation;
-    }
-    if (type_evaluation) {
-      newUrl = newUrl + "&type=" + "\"" + type_evaluation + "\"";
-    }
-    if (id_course_indicator) {
-      newUrl = newUrl + "&id_asig_ind=" + id_course_indicator;
-    }
-    return newUrl;
-  }
-
-  concatenateParamsForGetStudents(
-    id?: number,
-    document?: string,
-    name?: string,
-    email?: string) {
-    var newUrl = this.urlGetStudents + "?"
-
-    if (id) {
-      newUrl = newUrl + "&id=" + id;
-    } if (document) {
-      newUrl = newUrl + "&document=" + "\"" + document + "\"";
-    } if (name) {
-      newUrl = newUrl + "&name=" + "\"" + name + "\"";
-    } if (email) {
-      newUrl = newUrl + "&email=" + "\"" + email + "\"";
-    }
-
-    return newUrl;
-  }
-  concatenateParamsForGetStudentGroups(
-    id?: number,
-    id_group?: number,
-    id_student?: number,
-    id_course?: number) {
-
-    var newUrl = this.urlGetStudentGroups + "?"
-
-    if (id) {
-      newUrl = newUrl + "&id=" + id;
-    } if (id_group) {
-      newUrl = newUrl + "&id_group=" + id_group;
-    } if (id_student) {
-      newUrl = newUrl + "&id_student=" + id_student;
-    } if (id_course) {
-      newUrl = newUrl + "&id_course=" + id_course;
-    }
-
-    return newUrl;
-  }
-
-  concatenateParamsForGetCourseIndicators(
-    id?: number,
-    id_course?: number,
-    id_indicator?: number,
-    period?:string
-  ) {
-    var newUrl = this.urlGetCourseIndicators + "?"
-
-    if (id) {
-      newUrl = newUrl + "&id=" + id;
-    }
-    if (id_course) {
-      newUrl = newUrl + "&id_course=" + id_course;
-    }
-    if (id_indicator) {
-      newUrl = newUrl + "&id_indicator=" + id_indicator;
-    }
-    if (period) {
-      newUrl = newUrl + "&period=" + "\"" + period + "\"";
-    }
-
-    return newUrl;
-  }
-
-  concatenateParamsForGetActivities(
-    id?: number,
-    type?: string,
-    description?: string,
-    id_evaluation?: number
-  ) {
-    var newUrl = this.urlGetActivities + "?"
-
-    if (id) {
-      newUrl = newUrl + "&id=" + id;
-    }
-    if (type) {
-      newUrl = newUrl + "&type=" + "\"" + type + "\"";
-    }
-    if (description) {
-      newUrl = newUrl + "&description=" + "\"" + description + "\"";
-    }
-    if (id_evaluation) {
-      newUrl = newUrl + "&id_evaluation=" + id_evaluation;
-    }
-
-    return newUrl;
-  }
-
-  concatenateParamsForGetGrades(
-    id: number,
-    idStudentGroup: number,
-    idActivity: number,
-    grade: number,
-    descriptionGrade: string,
-    creationDate: Date,
-    modificationDate: Date,
-    observation: string,
-    urlEvidence: string
-  ) {
-    var newUrl = this.urlGetGrades + "?"
-
-    if (id) {
-      newUrl = newUrl + "&id=" + id;
-    }
-    if (idStudentGroup) {
-      newUrl = newUrl + "&idStudentGroup=" + idStudentGroup;
-    }
-    if (idActivity) {
-      newUrl = newUrl + "&idActivity=" + idActivity;
-    }
-    if (grade) {
-      newUrl = newUrl + "&grade=" + grade;
-    }
-    if (descriptionGrade) {
-      newUrl = newUrl + "&descriptionGrade=" + "\"" + descriptionGrade + "\"";
-    }
-    if (creationDate) {
-      newUrl = newUrl + "&creationDate=" + creationDate;
-    }
-    if (modificationDate) {
-      newUrl = newUrl + "&modificationDate=" + modificationDate;
-    }
-    if (observation) {
-      newUrl = newUrl + "&observation=" + "\"" + observation + "\"";
-    }
-    if (urlEvidence) {
-      newUrl = newUrl + "&urlEvidence=" + "\"" + urlEvidence + "\"";
-    }
-
-    return newUrl;
-  }
-
-  
-
-  concatenateParamsForDataVerification(
-      period:string,
-      id_indicator:number,
-      id_course:number,
-      id_group:number,
-      type_evaluation:string,
-      type_activity:string,
-      document:string,
-      name:string,
-      email:string,
-      grade:number,
-      observation:string,
-      urlEvidence:string
-  ) {
-
-    var newUrl = this.urlVDataCalification + "?"
-
-    if (period) {
-      newUrl = newUrl + "&period="  + "\""+ period + "\"";
-    }
-    if (id_indicator) {
-      newUrl = newUrl + "&id_indicator=" + id_indicator;
-    }
-    if (id_course) {
-      newUrl = newUrl + "&id_course=" + id_course;
-    }
-    if (id_group) {
-      newUrl = newUrl + "&id_group=" + id_group;
-    }
-    if (type_evaluation) {
-      newUrl = newUrl + "&evaluation_type=" + "\"" + type_evaluation + "\"";
-    }
-    if (type_activity) {
-      newUrl = newUrl + "&activity_type=" +   "\"" + type_activity + "\"";
-    }
-
-    if (document) {
-      newUrl = newUrl + "&document="  + "\""+ document + "\"";
-    }
-    if (name) {
-      newUrl = newUrl + "&name="  + "\""+ name + "\"";
-    }
-    if (email) {
-      newUrl = newUrl + "&email="  + "\""+ email + "\"";
-    }
-    if (grade) {
-      newUrl = newUrl + "&grade=" + grade ;
-    }
-    if (observation) {
-      newUrl = newUrl + "&observation=" + "\"" + observation + "\"";
-    }
-    if (urlEvidence) {
-      newUrl = newUrl + "&url_evidence=" + "\"" + urlEvidence + "\"";
-    }
-
-    console.log(">>>>>>>>> la URL");
-    console.log(newUrl);
-    
-    return newUrl;
-  }
-
 
   //GETS
   getIndicatorsByParams(
@@ -342,10 +75,19 @@ export class UploadService {
     identificator?: string,
     name?: string,
     description?: string): Observable<Indicator[]> {
-    var urlParams = this.concatenateParamsForGetIndicators(id, goal, identificator, name, description);
-    let url = `${urlParams}`;
 
-    return this.http.get(url)
+      let params: URLSearchParams = new URLSearchParams();
+      params.set('id',  id?""+id:null);
+      params.set('goal',  goal?""+goal:null);
+      params.set('identificator', identificator?""+identificator:null);
+      params.set('name', name?""+name:null);
+      params.set('description', description?""+description:null)
+
+      let myOption: RequestOptions = this.options;
+      myOption.search = params;
+  
+
+    return this.http.get(this.urlGetIndicators, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }
@@ -355,22 +97,36 @@ export class UploadService {
     code?: number,
     name?: string,
     description?: string): Observable<Course[]> {
-    var urlParams = this.concatenateParamsForGetCourses(id_course, code, name, description);
-    let url = `${urlParams}`;
+    
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('id',  id_course?""+id_course:null);
+    params.set('code',  code?""+code:null);
+    params.set('name', name?""+name:null);
+    params.set('description', description?""+description:null)
 
-    return this.http.get(url)
-      .map(r => r.json())
-      .catch(this.handleError);
+    let myOption: RequestOptions = this.options;
+    myOption.search = params;
+
+
+    return this.http.get(this.urlGetCourses, this.options )
+    .map(r => r.json())
+    .catch(this.handleError);
   }
 
   getGroupByParams(
     id_group?: number,
     id_course?: number,
     number_group?: number): Observable<Group[]> {
-    var urlParams = this.concatenateParamsForGetGroups(id_group, id_course, number_group);
-    let url = `${urlParams}`;
 
-    return this.http.get(url)
+      let params: URLSearchParams = new URLSearchParams();
+      params.set('id',  id_group?""+id_group:null);
+      params.set('id_course',  id_course?""+id_course:null);
+      params.set('number_group', number_group?""+number_group:null)
+    
+      let myOption: RequestOptions = this.options;
+      myOption.search = params;
+  
+    return this.http.get(this.urlGetGroups, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }
@@ -381,10 +137,17 @@ export class UploadService {
     document?: string,
     name?: string,
     email?: string): Observable<Student[]> {
-    var urlParams = this.concatenateParamsForGetStudents(id, document, name, email);
-    let url = `${urlParams}`;
 
-    return this.http.get(url)
+      let params: URLSearchParams = new URLSearchParams();
+      params.set('id',  id?""+id:null);
+      params.set('document',  document?""+document:null);
+      params.set('name', name?""+name:null);
+      params.set('email', email?""+email:null)
+
+      let myOption: RequestOptions = this.options;
+      myOption.search = params;
+
+    return this.http.get(this.urlGetStudents, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }
@@ -395,10 +158,17 @@ export class UploadService {
     id_student?: number,
     id_course?: number
   ): Observable<StudentGroup[]> {
-    var urlParams = this.concatenateParamsForGetStudentGroups(id, id_group, id_student, id_course);
-    let url = `${urlParams}`;
 
-    return this.http.get(url)
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('id',  id?""+id:null);
+    params.set('id_group',  id_group?""+id_group:null);
+    params.set('id_student', id_student?""+id_student:null);
+    params.set('id_course', id_course?""+id_course:null)
+
+    let myOption: RequestOptions = this.options;
+    myOption.search = params;
+
+    return this.http.get(this.urlGetStudentGroups, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }
@@ -409,10 +179,17 @@ export class UploadService {
     id_indicator?: number,
     period?: string
   ): Observable<CourseIndicator[]> {
-    var urlParams = this.concatenateParamsForGetCourseIndicators(id, id_course, id_indicator, period);
-    let url = `${urlParams}`;
 
-    return this.http.get(url)
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('id',  id?""+id:null);
+    params.set('id_course',  id_course?""+id_course:null);
+    params.set('id_indicator', id_indicator?""+id_indicator:null);
+    params.set('period', period?""+period:null)
+
+    let myOption: RequestOptions = this.options;
+    myOption.search = params;
+
+    return this.http.get(this.urlGetCourseIndicators, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }
@@ -421,10 +198,17 @@ export class UploadService {
     id_evaluation?: number,
     type_activity?: string,
     id_course_indicator?: number): Observable<Evaluation[]> {
-    var urlParams = this.concatenateParamsForGetEvaluations(id_evaluation, type_activity, id_course_indicator);
-    let url = `${urlParams}`;
 
-    return this.http.get(url)
+
+      let params: URLSearchParams = new URLSearchParams();
+      params.set('id',  id_evaluation?""+id_evaluation:null);
+      params.set('type',  type_activity?""+type_activity:null);
+      params.set('id_asig_ind', id_course_indicator?""+id_course_indicator:null)
+    
+      let myOption: RequestOptions = this.options;
+      myOption.search = params;
+
+    return this.http.get(this.urlGetEvaluations, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }
@@ -435,10 +219,17 @@ export class UploadService {
     description?: string,
     id_evaluation?: number
   ): Observable<Activity[]> {
-    var urlParams = this.concatenateParamsForGetActivities(id, type, description, id_evaluation);
-    let url = `${urlParams}`;
 
-    return this.http.get(url)
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('id',  id_evaluation?""+id_evaluation:null);
+    params.set('type',  type?""+type:null);
+    params.set('description', description?""+description:null);
+    params.set('id_evaluation', id_evaluation?""+id_evaluation:null)
+
+    let myOption: RequestOptions = this.options;
+    myOption.search = params;
+
+    return this.http.get(this.urlGetActivities, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }
@@ -454,26 +245,28 @@ export class UploadService {
     observation,
     urlEvidence
   ): Observable<Grade[]> {
-    var urlParams = this.concatenateParamsForGetGrades(
-      id,
-      idStudentGroup,
-      idActivity,
-      grade,
-      descriptionGrade,
-      creationDate,
-      modificationDate,
-      observation,
-      urlEvidence
-    );
 
-    let url = `${urlParams}`;
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('id',  id?""+id:null);
+    params.set('idStudentGroup',  idStudentGroup?""+idStudentGroup:null);
+    params.set('idActivity', idActivity?""+idActivity:null);
+    params.set('grade', grade?""+grade:null);
+    params.set('descriptionGrade', descriptionGrade?""+descriptionGrade:null);
+    params.set('creationDate', creationDate?""+creationDate:null);
+    params.set('modificationDate', modificationDate?""+modificationDate:null);
+    params.set('modificationDate', modificationDate?""+modificationDate:null);
+    params.set('observation', observation?""+observation:null);
+    params.set('urlEvidence', urlEvidence?""+urlEvidence:null);
 
-    return this.http.get(url)
+    let myOption: RequestOptions = this.options;
+    myOption.search = params;
+
+    return this.http.get(this.urlGetGrades, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }
 
-  
+
   getDataVerification(
     period?,
     id_indicator?,
@@ -488,24 +281,25 @@ export class UploadService {
     observation?,
     urlEvidence?
   ): Observable<Grade[]> {
-    var urlParams = this.concatenateParamsForDataVerification(
-      period,
-      id_indicator,
-      id_course,
-      id_group,
-      type_evaluation,
-      type_activity,
-      document,
-      name,
-      email,
-      grade,
-      observation,
-      urlEvidence
-    );
 
-    let url = `${urlParams}`;
-    
-    return this.http.get(url)
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('period',  period?""+period:null);
+    params.set('id_indicator',  id_indicator?""+id_indicator:null);
+    params.set('id_course', id_course?""+id_course:null);
+    params.set('id_group', id_group?""+id_group:null);
+    params.set('evaluation_type', type_evaluation?""+type_evaluation:null);
+    params.set('activity_type', type_activity?""+type_activity:null);
+    params.set('document', document?""+document:null);
+    params.set('name', name?""+name:null);
+    params.set('email', email?""+email:null);
+    params.set('grade', grade?""+grade:null);
+    params.set('observation', observation?""+observation:null);
+    params.set('urlEvidence', urlEvidence?""+urlEvidence:null)
+   
+    let myOption: RequestOptions = this.options;
+    myOption.search = params;
+  
+    return this.http.get(this.urlVDataCalification, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }
@@ -517,7 +311,8 @@ export class UploadService {
     let iJson = JSON.stringify(student);
     console.log("HACIENDO EL ADD de Students", iJson);
 
-    return this.http.post(url, iJson, { headers: this.headers })
+    // return this.http.post(url, iJson, { headers: this.headers })
+    return this.http.post(url, iJson, this.options)
       .map(r => r.json)
       .catch(this.handleError)
   }
@@ -527,7 +322,7 @@ export class UploadService {
     let iJson = JSON.stringify(studentGroup);
     console.log("HACIENDO EL ADD de StudentsGrpups", iJson);
 
-    return this.http.post(url, iJson, { headers: this.headers })
+    return this.http.post(url, iJson, this.options)
 
       .map((r: Response) => {
         r.json
@@ -546,7 +341,7 @@ export class UploadService {
     let iJson = JSON.stringify(courseIndicator);
     console.log("HACIENDO EL ADD de courseIndicators", iJson);
 
-    return this.http.post(url, iJson, { headers: this.headers })
+    return this.http.post(url, iJson, this.options)
       .map(r => r.json)
       .catch(this.handleError)
   }
@@ -556,7 +351,7 @@ export class UploadService {
     let iJson = JSON.stringify(evaluation);
     console.log("HACIENDO EL ADD de evaluacion", iJson);
 
-    return this.http.post(url, iJson, { headers: this.headers })
+    return this.http.post(url, iJson, this.options)
       .map(r => r.json)
       .catch(this.handleError)
   }
@@ -566,7 +361,7 @@ export class UploadService {
     let iJson = JSON.stringify(activity);
     console.log("HACIENDO EL ADD de actividad", iJson);
 
-    return this.http.post(url, iJson, { headers: this.headers })
+    return this.http.post(url, iJson, this.options)
       .map(r => r.json)
       .catch(this.handleError)
   }
@@ -576,7 +371,7 @@ export class UploadService {
     let iJson = JSON.stringify(grade);
     console.log("HACIENDO EL ADD de calificaciones", iJson);
 
-    return this.http.post(url, iJson, { headers: this.headers })
+    return this.http.post(url, iJson, this.options)
       .map(r => r.json)
       .catch(this.handleError)
   }

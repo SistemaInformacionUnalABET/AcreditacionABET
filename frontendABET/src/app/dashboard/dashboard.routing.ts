@@ -12,10 +12,18 @@ import { DetailsByCourseAverageComponent } from '../statistics/graphics/byCourse
 import { GraphicsByIndicatorAverageComponent } from '../statistics/graphics/byIndicator/graphics-by-indicator-average/graphics-by-indicator-average.component';
 import { DetailsByIndicatorAverageComponent } from '../statistics/graphics/byIndicator/details-by-indicator-average/details-by-indicator-average.component';
 
+import { AuthGuard } from './../auth/auth/auth-login/auth-guard'
+import { AuthLoginComponent } from '../auth/auth/auth-login/auth-login.component';
+
 const routes: Routes = [
-  { path: 'upload', component: uploadDataItemsComponent },
+  {
+    path: 'upload', component: uploadDataItemsComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'statistics', component: StatisticsItemsComponent,
+    canActivate: [AuthGuard],
+
     children: [
       // {path: '', redirectTo: 'graphic', pathMatch: 'full'},
       {
@@ -40,7 +48,8 @@ const routes: Routes = [
     ]
 
   },
-  { path: 'notifications', component: NotificationsItemsComponent }
+  { path: 'notifications', component: NotificationsItemsComponent },
+  { path: 'login', component: AuthLoginComponent }
 ];
 
 @NgModule({

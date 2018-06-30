@@ -10,6 +10,9 @@ import { NotificationsModule } from '../notifications/notifications/notification
 import { DashboardItemsComponent } from './dashboard-items/dashboard-items.component';
 import { GraphicsModule } from '../statistics/graphics/graphics.module';
 
+// import {AuthLoginComponent} from './../auth/auth/auth-login/auth-login.component';
+import {AuthModule} from './../auth/auth/auth.module';
+import { AuthService } from '../auth/auth/auth.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,8 +21,10 @@ import { GraphicsModule } from '../statistics/graphics/graphics.module';
     UploadModule,
     StatisticsModule,
     GraphicsModule,
-    NotificationsModule
+    NotificationsModule,
+    AuthModule 
   ],
+  providers: [AuthService],
   declarations: [DashboardItemsComponent],
   exports: [DashboardItemsComponent]
 })

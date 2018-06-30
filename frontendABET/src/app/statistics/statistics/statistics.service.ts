@@ -1,5 +1,5 @@
 import { Injectable, group } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http'
+import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http'
 
 import { Observable } from 'rxjs/Observable';
 import { Indicator } from './../statistics/entities/indicator'
@@ -12,78 +12,20 @@ import 'rxjs/add/operator/catch'
 
 @Injectable()
 export class StatisticsServices {
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  // private headers = new Headers({ 'Content-Type': 'application/json' });
 
+  private options;
   private urlVCompleteGradesByParams = 'http://localhost:8000/vCompleteGrades/';
 
 
-  constructor(private http: Http) { }
-
-  concatenateParamsForViewCompleteGrades(
-    id_course?: number,
-    group_number?: number,
-    id_indicator?:number,
-    identificator_indicator?: string,
-    type_evaluation?: string,
-    type_activity?: string,
-    document?: string,
-    grade?: number,
-    descriptionGrade?: string,
-    period?: string,
-    creationDate?: string,
-    modificationDate?: string,
-    observation?: string,
-    urlEvidence?: string
-  ){
-    var newUrl = this.urlVCompleteGradesByParams + "?"
-
-    if (id_course) {
-      newUrl = newUrl + "&id_course=" + id_course;
-    }
-    if (group_number) {
-      newUrl = newUrl + "&group_number=" + group_number;
-    }
-    if (id_indicator) {
-      newUrl = newUrl + "&id_indicator=" + id_indicator;
-    }
-    if (identificator_indicator) {
-      newUrl = newUrl + "&indicator_identificator="+ "\"" + identificator_indicator+ "\"";
-    }
-    if (type_evaluation) {
-      newUrl = newUrl + "&evaluation_type=" + "\""+ type_evaluation+ "\"";
-    }
-    if (type_activity) {
-      newUrl = newUrl + "&activity_type="+ "\"" + type_activity+ "\"";
-    }
-    if (document) {
-      newUrl = newUrl + "&document="+ "\"" + document+ "\"";
-    }
-    if (grade) {
-      newUrl = newUrl + "&grade" + grade;
-    }
-    if (descriptionGrade) {
-      newUrl = newUrl + "&description" + "\""+ descriptionGrade+ "\"";
-    }
-    if (period) {
-      newUrl = newUrl + "&period" + "\""+ period+ "\"";
-    }
-    if (creationDate) {
-      newUrl = newUrl + "&creation_date" + "\""+ creationDate+ "\"";
-    }
-    if (modificationDate) {
-      newUrl = newUrl + "&modify_date=" + "\""+ modificationDate+ "\"";
-    }
-    if (observation) {
-      newUrl = newUrl + "&observation=" + "\""+ observation+ "\"";
-    }
-    if (urlEvidence) {
-      newUrl = newUrl + "&url_evidence=" + "\""+ urlEvidence+ "\"";
-    }
-    console.log(">>>>>>>>", newUrl);
-
-    return newUrl
-    
-  }
+  constructor(private http: Http) {
+    let token = localStorage.getItem('token');
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer' + ' ' + token
+    });
+    this.options = new RequestOptions({ headers: headers });
+   }
 
   getViewCompleteGradesByParams(
     id_course?: number,
@@ -102,25 +44,30 @@ export class StatisticsServices {
     urlEvidence?: string
   ): Observable<ViewCompleteGrade[]> {
 
-    var urlParams = this.concatenateParamsForViewCompleteGrades(
-      id_course,
-      group_number,
-      id_indicator,
-      identificator_indicator,
-      type_evaluation,
-      type_activity,
-      document,
-      grade,
-      descriptionGrade,
-      period,
-      creationDate,
-      modificationDate,
-      observation,
-      urlEvidence 
-    );
-    let url = `${urlParams}`;
 
-    return this.http.get(url)
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('id_course',  id_course?""+id_course:null);
+    params.set('group_number',  group_number?""+group_number:null);
+    params.set('id_indicator', id_indicator?""+id_indicator:null);
+    params.set('indicator_identificator', identificator_indicator?""+identificator_indicator:null);
+    params.set('evaluation_type', type_evaluation?""+type_evaluation:null);
+    params.set('activity_type', type_activity?""+type_activity:null);
+    params.set('document', document?""+document:null);
+    params.set('grade', grade?""+grade:null);
+    params.set('description', descriptionGrade?""+descriptionGrade:null);
+    params.set('period', period?""+period:null);
+    params.set('creation_date', creationDate?""+creationDate:null);
+    params.set('modify_date', modificationDate?""+modificationDate:null);
+    params.set('observation', observation?""+observation:null);
+    params.set('url_evidence', urlEvidence?""+urlEvidence:null)
+
+
+    let myOption: RequestOptions = this.options;
+    myOption.search = params;
+
+
+    return this.http.get(this.urlVCompleteGradesByParams, this.options )
+
       .map(r => r.json())
       .catch(this.handleError);
   }

@@ -11,6 +11,6 @@ import { AuthLoginComponent } from '../auth/auth/auth-login/auth-login.component
 
 export const WelcomeRoutingModule: Routes = [
   { path: '', component: IndexComponent },
-  { path: 'dashboard', component: DashboardItemsComponent },
-  { path: 'login', component: AuthLoginComponent }
+  { path: 'dashboard', component: DashboardItemsComponent }
+  // { path: 'login', component: AuthLoginComponent }
 ]
