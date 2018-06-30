@@ -1,9 +1,25 @@
 var express = require('express');
 var bodyparser = require('body-parser');
 
+//Para autenticación con token
+var expressjwt = require('express-jwt');
+var cors = require('cors');
+
 var app = express();
+app.use(cors());
+
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
+
+
+//Usar la libreria cors
+
+app.use(expressjwt({ secret: 'secreto' })
+    .unless({
+        path: [
+            '/auth/login'
+        ]
+    }));
 
 var connection = require('./connection');
 
@@ -22,7 +38,8 @@ var routesGetsGrades = require('./Routes/Grades.routes/gets-grades-routes');
 var routesGetsVCompleteGrades = require('./Routes/VCompleteGrades/gets-vCompleteGrades-routes');
 var routesGetsVDataVerification = require('./Routes/vDataVerification/gets-vDataVerification-routes');
 
-
+//Authentication with token jwt
+var routesLoginAuthentication = require('./Routes/Authentication.routes/login-authentication-routes')
 
 
 
@@ -35,39 +52,19 @@ var routesPostsActivities = require('./Routes/Activities.routes/posts-activities
 var routesPostsGrades = require('./Routes/Grades.routes/posts-grades-routes');
 
 
-// var routesPostsIndicators = require('./Routes/Indicators.routes/posts-indicators-routers');
-// var routesPostsCommons = require('./Routes/Commons.routes/posts-commons-routes');
-
-
-//Methods Puts
-// var routesPutsStudents = require('./Routes/Students.routes/puts-students-routes');
-
-//Methods Delete
-// var routesDeletesStudents = require('./Routes/Students.routes/deletes-students-routes');
-
-
-///LA PRUEBA LECTURA>
-//lectura 
-//**var routesLectura = require('./Business/read-files');
-
-//////PRUEBA
-
-
-
-var cors = require('./cors');
-
-app.use(cors.permisos);
+//Permisos de acceso al servidor manuales
+// var cors = require('./cors');
+// app.use(cors.permisos);
 
 
 //Iniciar la conexion con la bd mysql
 connection.start();
+var routesLoginAuthentication = require('./Routes/Authentication.routes/login-authentication-routes')
 
 //Methods Gets
 routesGetsStudents.configure(app);
 routesGetsIndicators.configure(app);
 routesGetsCourses.configure(app);
-// routesGetsVGrades.configure(app);
-// routesGetsCommons.configure(app);
 routesGetsGoals.configure(app);
 routesGetsEvaluations.configure(app);
 routesGetsActivities.configure(app);
@@ -79,8 +76,7 @@ routesGetsGrades.configure(app);
 routesGetsVCompleteGrades.configure(app);
 routesGetsVDataVerification.configure(app);
 
-
-//Methods Pots
+// //Methods Pots
 routesPostsStudents.configure(app);
 routesPostsStudentGroups.configure(app);
 routesPostsCourseIndicators.configure(app);
@@ -88,23 +84,11 @@ routesPostsEvaluations.configure(app);
 routesPostsActivities.configure(app);
 routesPostsGrades.configure(app);
 
-
-// routesPostsIndicators.configure(app);
-// routesPostsCommons.configure(app);
-
-//Methods Puts
-// routesPutsStudents.configure(app);
-
-//Methods Deletes
-// routesDeletesStudents.configure(app);
+//Authentication with token jwt
+routesLoginAuthentication.configure(app);
 
 
-///PRUEBA>
-////LEER
-//***routesLectura.configure(app);
-///PRUEBA>
-////LEER
+var server = app.listen(8000, function () {
+    console.log("OK   begin with ", server.address().port);
 
-var server = app.listen(8000, function(){
-    console.log("Escuchando en el puerto ", server.address().port);
 })

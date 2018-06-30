@@ -5,7 +5,7 @@ function http() {
 
         app.get('/students/', function (request, response) {
             db.selectQuery(request.query, response);
-            // console.log("CLASE ",db.getPol(3, 4).alto)
+             console.log("CLASE ")
         })
  
 
