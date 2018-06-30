@@ -11,7 +11,10 @@ export class GradesIndicatorsAvg{
 
     setArrayPeriods(array){
         this.arrayPeriods = array;
-        
+
+        this.arrayAVG = new Map();
+        this.arrayGradesCount = new Map();
+
         this.arrayPeriods.forEach(p => {
             this.arrayAVG.set(p, 0);            
             this.arrayGradesCount.set(p, 0);            
@@ -26,12 +29,12 @@ export class GradesIndicatorsAvg{
         var newAvg = ((this.arrayAVG.get(period) * this.arrayGradesCount.get(period)) + calification) / (this.arrayGradesCount.get(period) + 1)
         this.arrayAVG.set(period, newAvg);
         this.arrayGradesCount.set(period, this.arrayGradesCount.get(period) + 1);
-        
       }     
     }
 
     getArrayAvg(){
-        console.log(this.arrayAVG);
+        console.log(">>>>>  obteniendo ArrayAvg", Array.from(this.arrayAVG.values()));
         return Array.from(this.arrayAVG.values());
     }
+
 }

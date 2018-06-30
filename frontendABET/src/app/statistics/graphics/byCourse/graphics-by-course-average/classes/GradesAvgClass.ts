@@ -11,6 +11,9 @@ export class GradesAvg{
 
     setArrayPeriods(array){
         this.arrayPeriods = array;
+
+        this.indicatorsAVG = new Map();
+        this.indicatorsGradesCount = new Map();
         
         this.arrayPeriods.forEach(p => {
             this.indicatorsAVG.set(p, 0);            

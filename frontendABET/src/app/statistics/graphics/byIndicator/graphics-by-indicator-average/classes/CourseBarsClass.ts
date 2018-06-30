@@ -28,6 +28,8 @@ export class CourseBars{
 
     setArrayPeriods(array){
         this.arrayPeriods = array;
+        this.indicatorMatrixAVG = new Map();
+        this.indicatorMatrixCount = new Map();
     }
 
     addGrade(period:string, indicator:string, grade:number){

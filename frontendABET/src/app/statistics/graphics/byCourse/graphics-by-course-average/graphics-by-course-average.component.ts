@@ -44,6 +44,7 @@ export class GraphicsByCourseAverageComponent implements OnInit {
   courseList: Course[];
   courseSelected: Course;
 
+  currentEvent:MatRadioChange;
   controlCourse: FormControl;
   filteredOptionsForCourse: Observable<string[]>;
 
@@ -68,13 +69,15 @@ export class GraphicsByCourseAverageComponent implements OnInit {
    
     this.controlCourse = new FormControl();
     // this.graphicsService.changeMessage(this.completeGradesList);
-
+    this.currentEvent=null;
     this.arrayRadioButtons = ['bar-graphic', 'percent-graphic', 'multiple-bar-graphic'];
 
   }
 
   radioChange(event: MatRadioChange) {
 
+    this.currentEvent=event;
+    
     if (event.value == 'bar-graphic') {
       this.paintGraphic(Array.from(this.arrayPeriods), 1);
     } else if (event.value == 'percent-graphic') {
@@ -296,8 +299,10 @@ export class GraphicsByCourseAverageComponent implements OnInit {
             this.calculate();
             this.flagGrades = true;
             // this.graphicsService.changeMessage(this.completeGradesList);
-            this.radioChange;
-            //this.paintGraphic(Array.from(this.indicatorsAVG.keys()), Array.from(this.indicatorsAVG.values()));
+        
+             //el grafico que se refresque si ya se habia seleccionado una opción en el radio boton previamente
+             if(this.currentEvent!=null)
+             this.radioChange(this.currentEvent);          
           } else {
             this.flagGrades = false;
 
@@ -309,6 +314,7 @@ export class GraphicsByCourseAverageComponent implements OnInit {
   calculate() {
     
     //calculo de los elementos del ejeX para las graficas
+    this.arrayPeriods = [];
     this.arrayPeriods = this.calculateArrayX();
 
     this.gradesAvg.setArrayPeriods(this.arrayPeriods);

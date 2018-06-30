@@ -101,7 +101,6 @@ export class GraphicsService {
     if (urlEvidence) {
       newUrl = newUrl + "&url_evidence=" + "\""+ urlEvidence+ "\"";
     }
-    console.log(">>>>>>>>", newUrl);
 
     return newUrl
     

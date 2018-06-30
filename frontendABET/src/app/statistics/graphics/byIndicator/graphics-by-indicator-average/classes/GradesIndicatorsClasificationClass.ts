@@ -40,6 +40,17 @@ export class GradesIndicatorsClasification{
 
     setArrayPeriods(array){
         this.arrayPeriods = array;
+
+        this.percentageMatrix.set("ejemplar", new Map());
+        this.percentageMatrix.set("satisfactorio", new Map());
+        this.percentageMatrix.set("desarrollado", new Map());
+        this.percentageMatrix.set("insatisfactorio", new Map());
+
+        this.countMatrix.set("ejemplar", new Map());
+        this.countMatrix.set("satisfactorio", new Map())
+        this.countMatrix.set("desarrollado", new Map())
+        this.countMatrix.set("insatisfactorio", new Map())
+       
     }
 
     addGrade(period:string, grade:number){
