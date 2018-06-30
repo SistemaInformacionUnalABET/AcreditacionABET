@@ -4,6 +4,8 @@ function http() {
     this.configure = function (app) {
 
         app.post('/students/', function (request, response) {
+            console.log(request.body);
+            
             db.insert(request.body, response);
         })
 

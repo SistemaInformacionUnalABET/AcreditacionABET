@@ -8,6 +8,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
  
 import {MatButtonModule, MatCheckboxModule, MatGridListModule, MatInputModule, MatIconModule} from '@angular/material';
+import { AuthGuard } from './auth-login/auth-guard';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ import {MatButtonModule, MatCheckboxModule, MatGridListModule, MatInputModule, M
     MatGridListModule,
     MatInputModule,
     MatIconModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [AuthLoginComponent],
   exports: [AuthLoginComponent]
