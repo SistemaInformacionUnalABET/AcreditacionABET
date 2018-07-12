@@ -2,71 +2,71 @@ export class CourseBars{
 
     //              | 2017-II   |   2018_I
     //-------------------------------------
-    //indicador1   | promedio      promedio
-    //indicador2   | promedio      promedio
-    //indicador3   | promedio      promedio
+    //course1   | promedio      promedio
+    //course2   | promedio      promedio
+    //course3   | promedio      promedio
 
-    private indicatorMatrixAVG; //{ "key":indicador, "elements":["key":201X-X,"promedioNotas"]  }
+    private courseMatrixAVG; //{ "key":indicador, "elements":["key":201X-X,"promedioNotas"]  }
 
 
     //              | 2017-II   |   2018_I
     //-------------------------------------
-    //indicador1   |   count      count
-    //indicador2   |   count      count
-    //indicador3   |   count      count
+    //course1   |   count      count
+    //course2   |   count      count
+    //course3   |   count      count
 
 
-    private indicatorMatrixCount; //{ "key":indicador, "elements":["key":201X-X,"count"]  }
+    private courseMatrixCount; //{ "key":indicador, "elements":["key":201X-X,"count"]  }
 
     private arrayPeriods;
 
     constructor(){
-        this.indicatorMatrixAVG = new Map();
-        this.indicatorMatrixCount = new Map();
+        this.courseMatrixAVG = new Map();
+        this.courseMatrixCount = new Map();
         this.arrayPeriods = [];
     }
 
     setArrayPeriods(array){
         this.arrayPeriods = array;
-        this.indicatorMatrixAVG = new Map();
-        this.indicatorMatrixCount = new Map();
+        this.courseMatrixAVG = new Map();
+        this.courseMatrixCount = new Map();
     }
 
-    addGrade(period:string, indicator:string, grade:number){
+    addGrade(period:string, course:string, grade:number){
         
-        //agrega los periodos a la matriz para un nuevo indicador
-        if(this.indicatorMatrixAVG.get(indicator) == null){   
-            this.indicatorMatrixAVG.set(indicator,new Map());            
-            this.indicatorMatrixCount.set(indicator,new Map());
+        //agrega los periodos a la matriz para un nuevo curso
+        if(this.courseMatrixAVG.get(course) == null){   
+            this.courseMatrixAVG.set(course,new Map());            
+            this.courseMatrixCount.set(course,new Map());
 
             this.arrayPeriods.forEach(p => {
-                this.indicatorMatrixAVG.get(indicator).set(p, 0);            
-                this.indicatorMatrixCount.get(indicator).set(p, 0);            
+                this.courseMatrixAVG.get(course).set(p, 0);            
+                this.courseMatrixCount.get(course).set(p, 0);            
             });    
         }
 
-        if(this.indicatorMatrixAVG.get(indicator).get(period) == 0){
-            this.indicatorMatrixAVG.get(indicator).set(period,grade);
-            this.indicatorMatrixCount.get(indicator).set( period, 1 );
+        if(this.courseMatrixAVG.get(course).get(period) == 0){
+            this.courseMatrixAVG.get(course).set(period,grade);
+            this.courseMatrixCount.get(course).set( period, 1 );
         }else{
-            var currentAvg = this.indicatorMatrixAVG.get(indicator).get(period);
-            var newCount = this.indicatorMatrixCount.get(indicator).get(period) + 1;
-            var newAvg = ((currentAvg * this.indicatorMatrixCount.get(indicator).get(period)) + grade) / newCount;
+            var currentAvg = this.courseMatrixAVG.get(course).get(period);
+            var newCount = this.courseMatrixCount.get(course).get(period) + 1;
+            var newAvg = ((currentAvg * this.courseMatrixCount.get(course).get(period)) + grade) / newCount;
 
-            this.indicatorMatrixAVG.get(indicator).set(period,Math.round(newAvg*100)/100);
-            this.indicatorMatrixCount.get(indicator).set( period,  newCount);            
+            this.courseMatrixAVG.get(course).set(period,Math.round(newAvg*100)/100);
+            this.courseMatrixCount.get(course).set( period,  newCount);            
         } 
     }
 
     getSeries(){
         
         var series = []
-        var keys = Array.from(this.indicatorMatrixAVG.keys());
+        var keys = Array.from(this.courseMatrixAVG.keys());
 
         keys.forEach(k => {            
             series.push({
                 name: k,
-                data: Array.from(this.indicatorMatrixAVG.get(k).values())
+                data: Array.from(this.courseMatrixAVG.get(k).values())
               });              
         });
   

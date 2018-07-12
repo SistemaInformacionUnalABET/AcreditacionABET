@@ -27,14 +27,12 @@ export class GradesAvg{
         this.indicatorsGradesCount.set(period, 1);
       } else {
         var newAvg = ((this.indicatorsAVG.get(period) * this.indicatorsGradesCount.get(period)) + calification) / (this.indicatorsGradesCount.get(period) + 1)
-        this.indicatorsAVG.set(period, newAvg);
+        this.indicatorsAVG.set(period, Math.round(newAvg*100)/100);
         this.indicatorsGradesCount.set(period, this.indicatorsGradesCount.get(period) + 1);
-        
       }     
     }
 
     getArrayAvg(){
-        console.log(this.indicatorsAVG);
         return Array.from(this.indicatorsAVG.values());
     }
 }
