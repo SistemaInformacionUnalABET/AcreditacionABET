@@ -230,21 +230,24 @@ export class uploadDataNewComponent implements OnInit {
     this.periodSelected = period;
   }
 
-  saveGoalSelected(goal) {
-    this.goalSelected = goal;
+  saveGoalSelected(value) {
+    var stringIdentificator = value.split(" ")[0];
+    this.goalSelected = this.goalList.find(goal => goal.identificador_meta === stringIdentificator);
     this.fillIndicatorSelector();
   }
-  saveIndicatorSelected(indicator) {
-    this.indicatorSelected = indicator;
+  saveIndicatorSelected(value) {
+    var stringIdentificator = value.split(" ")[0];
+    this.indicatorSelected = this.indicatorList.find(indicator => indicator.identificador_indicador === stringIdentificator);
   }
 
-  saveCourseSelected(course) {
-    this.courseSelected = course;
+  saveCourseSelected(value) {
+    var stringCode = value.split(" ")[0];
+    this.courseSelected = this.courseList.find(course => course.codigo === stringCode);
     this.fillGroupSelector();
   }
 
-  saveGroupSelected(group) {
-    this.groupSelected = group;
+  saveGroupSelected(value) {
+    this.groupSelected = this.groupList.find(group => group.numero_grupo === value);
   }
 
   saveEvaluationSelected(evaluationType) {

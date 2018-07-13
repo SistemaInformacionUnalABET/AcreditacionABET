@@ -30,24 +30,12 @@ export class uploadDataListComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+      
   }
 
   ngOnChanges(){
-    console.log(">>> datos en OnChange");
-
-    console.log(
-      this.courseId,     
-      this.groupId,
-      this.indicatorId,
-      this.periodType,
-      this.evaluationType,
-      this.activityType);
     
-
-
     if(this.courseId != null && this.groupId != null && this.indicatorId != null && this.periodType != null && this.evaluationType != null && this.activityType != null){
-      console.log(">>>>>>>>  calcula la tabla");
       this.service.getDataVerification(this.periodType, this.indicatorId, this.courseId, this.groupId, this.evaluationType,this.activityType)
       .subscribe(
         rs => this.gradesList = rs,
@@ -62,11 +50,6 @@ export class uploadDataListComponent implements OnInit {
 
         })
     }
-
-    
-    
   }
-
-  
 
 }
