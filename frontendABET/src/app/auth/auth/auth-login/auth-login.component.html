@@ -29,9 +29,9 @@
                                 <mat-form-field class="justifier" floatPlaceholder="never">
                                     <input type="text" class="form-control" id="user" formControlName="user" matInput placeholder="Usuario">
                                     <div *ngIf="form.controls.user.errors && form.controls.user.touched">
-                                        <div class="aler alert-danger" *ngIf="form.controls.user.errors.required">
+                                        <!-- <div class="aler alert-danger" *ngIf="form.controls.user.errors.required">
                                             El usuario es requerido
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </mat-form-field>
 
@@ -49,9 +49,9 @@
                                 <mat-form-field class="justifier" floatPlaceholder="never">
                                     <input type="password" class="form-control" id="pass" formControlName="pass" matInput placeholder="Contraseña">
                                     <div *ngIf="form.controls.pass.errors && form.controls.pass.touched">
-                                        <div class="aler alert-danger" *ngIf="form.controls.pass.errors.required">
+                                        <!-- <div class="aler alert-danger" *ngIf="form.controls.pass.errors.required">
                                             La contraseña es requerida
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </mat-form-field>
                             </mat-grid-tile>
@@ -59,13 +59,16 @@
                         <!-- Markup for getting Password ends -->
                     </div>
 
-                    <div class="alert alert-danger" *ngIf="error">
-                        El nombre de usuario o la contraseña son incorrectos
-                    </div>
-
                     <button mat-raised-button class="login-button" (click)="login(form.value)">
                         <mat-icon>input</mat-icon> Login
                     </button>
+                    <br>
+                    <br>
+                    <div class="alert alert-danger" *ngIf="error">
+                        El nombre de usuario o la contraseña son incorrectos
+                    </div>
+                    <br>
+                    <br>
                 </form>
             </div>
             <!-- Template Body ends -->

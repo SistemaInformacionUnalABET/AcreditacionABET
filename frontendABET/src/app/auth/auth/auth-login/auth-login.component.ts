@@ -57,7 +57,7 @@ export class AuthLoginComponent implements OnInit {
   }
 
   goStatisticsItems(){
-    let link = ['/statistics'];
+    let link = ['/dashboard'];
     this.router.navigate(link);
   }
 
