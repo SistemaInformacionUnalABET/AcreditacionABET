@@ -79,9 +79,9 @@ export class UploadService {
       let params: URLSearchParams = new URLSearchParams();
       params.set('id',  id?""+id:null);
       params.set('goal',  goal?""+goal:null);
-      params.set('identificator', identificator?""+identificator:null);
-      params.set('name', name?""+name:null);
-      params.set('description', description?""+description:null)
+      params.set('identificator', identificator?""+"\""+identificator+"\"":null);
+      params.set('name', name?""+"\""+name+"\"":null);
+      params.set('description', description?""+"\""+description+"\"":null)
 
       let myOption: RequestOptions = this.options;
       myOption.search = params;
@@ -101,8 +101,8 @@ export class UploadService {
     let params: URLSearchParams = new URLSearchParams();
     params.set('id',  id_course?""+id_course:null);
     params.set('code',  code?""+code:null);
-    params.set('name', name?""+name:null);
-    params.set('description', description?""+description:null)
+    params.set('name', name?""+"\""+name+"\"":null);
+    params.set('description', description?""+"\""+description+"\"":null)
 
     let myOption: RequestOptions = this.options;
     myOption.search = params;
@@ -140,9 +140,9 @@ export class UploadService {
 
       let params: URLSearchParams = new URLSearchParams();
       params.set('id',  id?""+id:null);
-      params.set('document',  document?""+document:null);
-      params.set('name', name?""+name:null);
-      params.set('email', email?""+email:null)
+      params.set('document',  document?""+"\""+document+"\"":null);
+      params.set('name', name?""+"\""+name+"\"":null);
+      params.set('email', email?""+"\""+email+"\"":null)
 
       let myOption: RequestOptions = this.options;
       myOption.search = params;
@@ -184,7 +184,7 @@ export class UploadService {
     params.set('id',  id?""+id:null);
     params.set('id_course',  id_course?""+id_course:null);
     params.set('id_indicator', id_indicator?""+id_indicator:null);
-    params.set('period', period?""+period:null)
+    params.set('period', period?""+"\""+period+"\"":null)
 
     let myOption: RequestOptions = this.options;
     myOption.search = params;
@@ -202,7 +202,7 @@ export class UploadService {
 
       let params: URLSearchParams = new URLSearchParams();
       params.set('id',  id_evaluation?""+id_evaluation:null);
-      params.set('type',  type_activity?""+type_activity:null);
+      params.set('type',  type_activity?""+"\""+type_activity+"\"":null);
       params.set('id_asig_ind', id_course_indicator?""+id_course_indicator:null)
     
       let myOption: RequestOptions = this.options;
@@ -221,9 +221,9 @@ export class UploadService {
   ): Observable<Activity[]> {
 
     let params: URLSearchParams = new URLSearchParams();
-    params.set('id',  id_evaluation?""+id_evaluation:null);
-    params.set('type',  type?""+type:null);
-    params.set('description', description?""+description:null);
+    params.set('id',  id?""+id:null);
+    params.set('type',  type?""+"\""+type+"\"":null);
+    params.set('description', description?""+"\""+description+"\"":null);
     params.set('id_evaluation', id_evaluation?""+id_evaluation:null)
 
     let myOption: RequestOptions = this.options;
@@ -235,15 +235,15 @@ export class UploadService {
   }
 
   getGradesByParams(
-    id,
-    idStudentGroup,
-    idActivity,
-    grade,
-    descriptionGrade,
-    creationDate,
-    modificationDate,
-    observation,
-    urlEvidence
+    id?: number,
+    idStudentGroup?: number,
+    idActivity?: number,
+    grade?: number,
+    descriptionGrade?: string,
+    creationDate?: string,
+    modificationDate?: string,
+    observation?: string,
+    urlEvidence?: string
   ): Observable<Grade[]> {
 
     let params: URLSearchParams = new URLSearchParams();
@@ -251,12 +251,11 @@ export class UploadService {
     params.set('idStudentGroup',  idStudentGroup?""+idStudentGroup:null);
     params.set('idActivity', idActivity?""+idActivity:null);
     params.set('grade', grade?""+grade:null);
-    params.set('descriptionGrade', descriptionGrade?""+descriptionGrade:null);
-    params.set('creationDate', creationDate?""+creationDate:null);
-    params.set('modificationDate', modificationDate?""+modificationDate:null);
-    params.set('modificationDate', modificationDate?""+modificationDate:null);
-    params.set('observation', observation?""+observation:null);
-    params.set('urlEvidence', urlEvidence?""+urlEvidence:null);
+    params.set('descriptionGrade', descriptionGrade?""+"\""+descriptionGrade+"\"":null);
+    params.set('creationDate', creationDate?""+"\""+creationDate+"\"":null);
+    params.set('modificationDate', modificationDate?""+"\""+modificationDate+"\"":null);
+    params.set('observation', observation?""+"\""+observation+"\"":null);
+    params.set('urlEvidence', urlEvidence?""+"\""+urlEvidence+"\"":null);
 
     let myOption: RequestOptions = this.options;
     myOption.search = params;
@@ -268,33 +267,33 @@ export class UploadService {
 
 
   getDataVerification(
-    period?,
-    id_indicator?,
-    id_course?,
-    id_group?,
-    type_evaluation?,
-    type_activity?,
-    document?,
-    name?,
-    email?,
-    grade?,
-    observation?,
-    urlEvidence?
+    period?: string,
+    id_indicator?: number,
+    id_course?: number,
+    id_group?: number,
+    type_evaluation?: string,
+    type_activity?: string,
+    document?: string,
+    name?: string,
+    email?: string,
+    grade?: number,
+    observation?: string,
+    urlEvidence?: string
   ): Observable<Grade[]> {
 
     let params: URLSearchParams = new URLSearchParams();
-    params.set('period',  period?""+period:null);
+    params.set('period',  period?""+"\""+period+"\"":null);
     params.set('id_indicator',  id_indicator?""+id_indicator:null);
     params.set('id_course', id_course?""+id_course:null);
     params.set('id_group', id_group?""+id_group:null);
-    params.set('evaluation_type', type_evaluation?""+type_evaluation:null);
-    params.set('activity_type', type_activity?""+type_activity:null);
-    params.set('document', document?""+document:null);
-    params.set('name', name?""+name:null);
-    params.set('email', email?""+email:null);
+    params.set('evaluation_type', type_evaluation?""+"\""+type_evaluation+"\"":null);
+    params.set('activity_type', type_activity?""+"\""+type_activity+"\"":null);
+    params.set('document', document?""+"\""+document+"\"":null);
+    params.set('name', name?""+"\""+name+"\"":null);
+    params.set('email', email?""+"\""+email+"\"":null);
     params.set('grade', grade?""+grade:null);
-    params.set('observation', observation?""+observation:null);
-    params.set('urlEvidence', urlEvidence?""+urlEvidence:null)
+    params.set('observation', observation?""+"\""+observation+"\"":null);
+    params.set('urlEvidence', urlEvidence?""+"\""+urlEvidence+"\"":null)
    
     let myOption: RequestOptions = this.options;
     myOption.search = params;

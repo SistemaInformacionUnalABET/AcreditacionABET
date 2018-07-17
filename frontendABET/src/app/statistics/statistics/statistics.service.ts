@@ -49,17 +49,17 @@ export class StatisticsServices {
     params.set('id_course',  id_course?""+id_course:null);
     params.set('group_number',  group_number?""+group_number:null);
     params.set('id_indicator', id_indicator?""+id_indicator:null);
-    params.set('indicator_identificator', identificator_indicator?""+identificator_indicator:null);
-    params.set('evaluation_type', type_evaluation?""+type_evaluation:null);
-    params.set('activity_type', type_activity?""+type_activity:null);
-    params.set('document', document?""+document:null);
+    params.set('indicator_identificator', identificator_indicator?""+"\""+identificator_indicator+"\"":null);
+    params.set('evaluation_type', type_evaluation?""+"\""+type_evaluation+"\"":null);
+    params.set('activity_type', type_activity?""+"\""+type_activity+"\"":null);
+    params.set('document', document?""+"\""+document+"\"":null);
     params.set('grade', grade?""+grade:null);
-    params.set('description', descriptionGrade?""+descriptionGrade:null);
-    params.set('period', period?""+period:null);
-    params.set('creation_date', creationDate?""+creationDate:null);
-    params.set('modify_date', modificationDate?""+modificationDate:null);
-    params.set('observation', observation?""+observation:null);
-    params.set('url_evidence', urlEvidence?""+urlEvidence:null)
+    params.set('description', descriptionGrade?""+"\""+descriptionGrade+"\"":null);
+    params.set('period', period?""+"\""+period+"\"":null);
+    params.set('creation_date', creationDate?""+"\""+creationDate+"\"":null);
+    params.set('modify_date', modificationDate?""+"\""+modificationDate+"\"":null);
+    params.set('observation', observation?""+"\""+observation+"\"":null);
+    params.set('url_evidence', urlEvidence?""+"\""+urlEvidence+"\"":null)
 
 
     let myOption: RequestOptions = this.options;

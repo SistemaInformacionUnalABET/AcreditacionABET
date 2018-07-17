@@ -16,9 +16,9 @@ export class uploadDataListComponent implements OnInit {
   @Input() courseId: number;
   @Input() groupId: number;
   @Input() indicatorId: number;
-  @Input() periodType: String;
-  @Input() evaluationType: String;
-  @Input() activityType: String;
+  @Input() periodType: string;
+  @Input() evaluationType: string;
+  @Input() activityType: string;
 
   flagGrades = false;
   gradesList;

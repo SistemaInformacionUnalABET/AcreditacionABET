@@ -13,7 +13,7 @@ import { uploadDataEditComponent } from './uploadData-edit/uploadData-edit.compo
 import { uploadDataItemsComponent } from './uploadData-items/uploadData-items.component';
 import { MaterialModule } from '../../app.material';
 
-import { NvD3Module } from 'ng2-nvd3';
+//import { NvD3Module } from 'ng2-nvd3';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
@@ -32,7 +32,7 @@ import 'hammerjs';
     uploadDataRoutingModule,
     BrowserModule,
     MaterialModule,
-    NvD3Module,
+    //NvD3Module,
     FormsModule, 
     ReactiveFormsModule,
     BrowserAnimationsModule,

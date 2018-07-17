@@ -20,7 +20,7 @@ import { UploadService } from '../../uploadData/uploadData/uploadData.service';
 import { GraphicsService } from '../graphics/graphics.service';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { NvD3Module } from 'ng2-nvd3';
+// import { NvD3Module } from 'ng2-nvd3';
 import { MaterialModule } from '../../app.material';
 
 //import { platformBrowserDynamic }  from '@angular/platform-browser-dynamic';
@@ -43,7 +43,7 @@ import { GraphicsByCourseAverageComponent } from '../graphics/byCourse/graphics-
     HttpClientModule,
     HttpModule,
     BrowserModule,
-    NvD3Module,
+    // NvD3Module,
     MatCardModule,
     FormsModule,
     ReactiveFormsModule,

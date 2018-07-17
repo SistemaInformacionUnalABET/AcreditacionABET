@@ -528,6 +528,8 @@ export class uploadDataNewComponent implements OnInit {
                                   this.service.getActivitiesByParams(null, this.activitySelected.tipo_actividad, this.activitySelected.descripcion, this.activitySelected.id_evaluacion)
                                     .subscribe(
                                       result11 => {
+                                        console.log("result 11 -->"+result11[0])
+                                        console.log("id_actividad -->"+result11[0].id_actividad)
                                         this.activitySelected.id_actividad = result11[0].id_actividad;
 
                                         //Inserta cada estudiante a la tabla estudiantes
