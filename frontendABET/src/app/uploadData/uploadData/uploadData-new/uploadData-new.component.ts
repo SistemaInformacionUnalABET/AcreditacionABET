@@ -585,11 +585,30 @@ export class uploadDataNewComponent implements OnInit {
       var worksheet = workbook.Sheets[first_sheet_name];
       console.log("esto> ", XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       if (XLSX.utils.sheet_to_json(worksheet, { raw: true }).length > 0) {
+           
+          //El ususario debe confirmar si los datos ingresados en el formulario son los correctos
+          var confirmation = confirm(
+            "Por favor verifique que la información ingresada sea la correcta.\n"+
+            "Los datos a ingresar al sistema son: \n\n"+
+        
+            "Periodo: " + this.periodSelected + "\n" +
+            "Meta: " + this.goalSelected.identificador_meta + " " + this.goalSelected.nombre_meta + "\n" +
+            "Indicador: " + this.indicatorSelected.identificador_indicador + " " + this.indicatorSelected.nombre_indicador + "\n" +
+            "Asignatura: " + this.courseSelected.codigo +" "+ this.courseSelected.nombre_asignatura + "\n" +
+            "Grupo: " + this.groupSelected.numero_grupo + "\n" +
+            "Evaluación: " + this.evaluationSelected.tipo_evaluacion + "\n" +
+            "Actividad: " + this.activitySelected.tipo_actividad+"\n"+
+            "Se agregarán " + XLSX.utils.sheet_to_json(worksheet, { raw: true }).length + " calificaciones" + "\n\n" +
 
-        this.excelDatas = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+            "*Nota: Al subir la información no es posible eliminarla ni modificarla posteriormente \n" +
+            "¿Está seguro de continuar con la operación?"
+          );
 
-        this.insertFormInformation();
-
+          if(confirmation){
+            this.excelDatas = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+            this.insertFormInformation();    
+          }
+        
       }else{
        alert("Documento vacío o no valido"); 
       }
