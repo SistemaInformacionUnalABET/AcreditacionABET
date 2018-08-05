@@ -370,7 +370,9 @@ export class uploadDataNewComponent implements OnInit {
 
   insertGrade(studentGroupObject, gradeObject) {
 
-    this.service.getStudentGroupsByParams(null, studentGroupObject.id_grupo, studentGroupObject.id_estudiante, studentGroupObject.id_asignatura)
+    console.log("Objeto a buscar ", studentGroupObject);
+    
+    this.service.getStudentGroupsByParams(null, studentGroupObject.id_grupo, studentGroupObject.id_estudiante, studentGroupObject.id_asignatura, studentGroupObject.periodo)
       .subscribe(
         result4 => {
 
@@ -450,8 +452,8 @@ export class uploadDataNewComponent implements OnInit {
                 currentStudentGroup.id_grupo = this.groupSelected.id_grupo;
                 currentStudentGroup.id_estudiante = result2[0].id_estudiante;
                 currentStudentGroup.id_asignatura = this.courseSelected.id_asignatura;
-                currentStudentGroup.id_period = this.periodSelected;
-
+                currentStudentGroup.periodo = this.periodSelected;
+                
                 this.service.getStudentGroupsByParams(null, null, result2[0].id_estudiante, this.courseSelected.id_asignatura, this.periodSelected)
                   .subscribe(
                     result0 => {
