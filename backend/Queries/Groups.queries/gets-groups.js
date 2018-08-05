@@ -10,7 +10,7 @@ function MethodsDB() {
         connection.obtain(function (er, cn) {
             cn.query('select * from grupos where (id_grupo = '+id+' or '+id+' is NULL ) AND ' + 
             '(id_asignatura = '+id_course+' or '+id_course+' is NULL ) AND ' +
-            '(numero_grupo = '+number_group+' or '+number_group+' is NULL )',
+            '(numero_grupo = '+number_group+' or '+number_group+' is NULL ) ORDER BY numero_grupo',
                 function (error, result) {
                 cn.release();
                 if (error) {
