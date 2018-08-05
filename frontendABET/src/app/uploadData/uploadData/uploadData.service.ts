@@ -165,7 +165,7 @@ export class UploadService {
     params.set('id_group',  id_group?""+id_group:null);
     params.set('id_student', id_student?""+id_student:null);
     params.set('id_course', id_course?""+id_course:null);
-    params.set('period', period?""+period:null);
+    params.set('period', period?""+"\""+period+"\"":null);
 
     let myOption: RequestOptions = this.options;
     myOption.search = params;
