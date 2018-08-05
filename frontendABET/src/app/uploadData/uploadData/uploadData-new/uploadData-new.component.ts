@@ -86,6 +86,7 @@ export class uploadDataNewComponent implements OnInit {
   isFile = false;
   flagStudentGroup = false;
   flagUpload = true;
+  isChargeComplete:boolean;
   excelDatas: any;
 
   constructor(
@@ -115,6 +116,7 @@ export class uploadDataNewComponent implements OnInit {
     //this.grade = new Grade(null, null, null, null, null, null, null, null, null, null);
 
     this.excelDatas = null;
+    this.isChargeComplete = true;
     this.goalList = [];
     this.indicatorList = [];
     this.courseList = [];
@@ -438,7 +440,7 @@ export class uploadDataNewComponent implements OnInit {
       .subscribe(
         result => {
 
-          var currentStudentGroup = new StudentGroup(null, null, null, null);
+          var currentStudentGroup = new StudentGroup(null, null, null, null,null);
           this.service.getStudentsByParams(null, studentObject.documento, null, null)
             .subscribe(
               result2 => {
@@ -448,15 +450,16 @@ export class uploadDataNewComponent implements OnInit {
                 currentStudentGroup.id_grupo = this.groupSelected.id_grupo;
                 currentStudentGroup.id_estudiante = result2[0].id_estudiante;
                 currentStudentGroup.id_asignatura = this.courseSelected.id_asignatura;
+                currentStudentGroup.id_period = this.periodSelected;
 
-                this.service.getStudentGroupsByParams(null, null, result2[0].id_estudiante, this.courseSelected.id_asignatura)
+                this.service.getStudentGroupsByParams(null, null, result2[0].id_estudiante, this.courseSelected.id_asignatura, this.periodSelected)
                   .subscribe(
                     result0 => {
 
 
                       if (result0.length > 0) {
 
-                        if (result0[0].id_grupo == this.groupSelected.id_grupo) { //Si el estuduante ya se encuentra asociado al grupo seleccionado
+                        if (result0[0].id_grupo == this.groupSelected.id_grupo ) { //Si el estuduante ya se encuentra asociado al grupo seleccionado
                           console.log(">>>  El estudinte ", studentObject.nombre_completo, " ya se encuentra registrado en el grupo: ", result0[0].id_grupo);
                           console.log(
                             "id_Estudiante_grupo:  ", currentStudentGroup.id_estudiante_grupo,
@@ -466,7 +469,7 @@ export class uploadDataNewComponent implements OnInit {
                           this.insertGrade(currentStudentGroup, gradeObject);
 
                         } else {
-                          alert("El estudiante: " + studentObject.documento + " ya se encuentra inscrito a un grupo de la asignatura: " +
+                          alert("El estudiante: " + studentObject.documento +" "+ studentObject.nombre_completo + " ya se encuentra inscrito en el grupo " + result0[0].id_grupo + " de la asignatura: " +
                             this.courseSelected.nombre_asignatura);
                         }
                       } else { //si el estudiante NO se encuentra asociado a un grupo, se agrega a la tabla
@@ -535,6 +538,7 @@ export class uploadDataNewComponent implements OnInit {
                                         //Inserta cada estudiante a la tabla estudiantes
                                         const insertStudentsFormExcel = async () => {
                                           await this.asyncForEach(this.excelDatas, async (object) => {
+
                                             var currentStudent = new Student(null, null, null, null);
                                             currentStudent.documento = object['documento'];
                                             currentStudent.nombre_completo = object['nombre_completo'];
@@ -549,8 +553,9 @@ export class uploadDataNewComponent implements OnInit {
                                           })
 
                                         }
-
+                                        this.isChargeComplete = false;
                                         insertStudentsFormExcel();
+                                        this.isChargeComplete = true;
 
                                       });
 

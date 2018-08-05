@@ -156,14 +156,16 @@ export class UploadService {
     id?: number,
     id_group?: number,
     id_student?: number,
-    id_course?: number
+    id_course?: number,
+    id_period?: string
   ): Observable<StudentGroup[]> {
 
     let params: URLSearchParams = new URLSearchParams();
     params.set('id',  id?""+id:null);
     params.set('id_group',  id_group?""+id_group:null);
     params.set('id_student', id_student?""+id_student:null);
-    params.set('id_course', id_course?""+id_course:null)
+    params.set('id_course', id_course?""+id_course:null);
+    params.set('id_period', id_period?""+id_period:null);
 
     let myOption: RequestOptions = this.options;
     myOption.search = params;

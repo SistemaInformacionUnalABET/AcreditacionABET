@@ -19,36 +19,42 @@ export class uploadDataListComponent implements OnInit {
   @Input() periodType: string;
   @Input() evaluationType: string;
   @Input() activityType: string;
+  @Input() isChargeComplete: boolean; //indica cuando un listado de notas ha terminado de cargar para repintar el listado de notas.
 
+  
   flagGrades = false;
   gradesList;
 
   constructor(
     private service: UploadService
-  ) { 
+  ) {
+    this.isChargeComplete = true;
     this.gradesList = [];
   }
 
   ngOnInit() {
-      
+
   }
 
-  ngOnChanges(){
-    
-    if(this.courseId != null && this.groupId != null && this.indicatorId != null && this.periodType != null && this.evaluationType != null && this.activityType != null){
-      this.service.getDataVerification(this.periodType, this.indicatorId, this.courseId, this.groupId, this.evaluationType,this.activityType)
-      .subscribe(
-        rs => this.gradesList = rs,
-        er => console.log(er),
-        () => {
-            console.log(this.gradesList);
-            if(this.gradesList.length > 0){
-              this.flagGrades = true;
-            }else{
-              this.flagGrades = false;
-            }
+  ngOnChanges() {
+    if (this.isChargeComplete) {
 
-        })
+
+      if (this.courseId != null && this.groupId != null && this.indicatorId != null && this.periodType != null && this.evaluationType != null && this.activityType != null) {
+        this.service.getDataVerification(this.periodType, this.indicatorId, this.courseId, this.groupId, this.evaluationType, this.activityType)
+          .subscribe(
+            rs => this.gradesList = rs,
+            er => console.log(er),
+            () => {
+              console.log(this.gradesList);
+              if (this.gradesList.length > 0) {
+                this.flagGrades = true;
+              } else {
+                this.flagGrades = false;
+              }
+
+            })
+      }
     }
   }
 
