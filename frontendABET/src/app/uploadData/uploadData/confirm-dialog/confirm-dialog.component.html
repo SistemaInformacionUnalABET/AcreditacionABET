@@ -1,0 +1,31 @@
+
+<div mat-dialog-title><h1>¡Advertencia!</h1></div>
+<div mat-dialog-content>
+  <p>Por favor verifique que la información ingresada sea la correcta.<br>
+      Los datos a ingresar al sistema son:</p>
+
+  <h4>Periodo:</h4><p>{{data.periodSelected}}</p>
+  <h4>Meta:</h4><p>{{data.goalSelectedIdentificador}} {{data.goalSelectedName}}</p>
+  <h4>Indicador:</h4><p>{{data.indicatorSelectedIdentificador}} {{data.indicatorSelectedName}}</p>
+  <h4>Asignatura:</h4><p>{{data.courseSelectedCode}}  {{data.courseSelectedName}}</p>
+  <h4>Grupo:</h4><p>{{data.groupSelected}}</p>
+  <h4>Evaluación:</h4><p>{{data.evaluationSelected}}</p>
+  <h4>Actividad:</h4><p>{{data.activitySelected}}</p>
+  <h4>Se agregarán: </h4><p>{{data.count}} calificaciones</p>
+
+  
+  <p>*Nota: Al subir la información no es posible eliminarla ni modificarla posteriormente<br>
+  <p>¿Está seguro de continuar con la operación?</p>
+</div>
+
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button cdkFocusInitial (click)="confirm()">Confirmar</button>
+</div>
+
+
+
+<!-- Copyright 2018 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

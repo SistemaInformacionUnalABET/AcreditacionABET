@@ -13,6 +13,7 @@ import { uploadDataEditComponent } from './uploadData-edit/uploadData-edit.compo
 import { uploadDataItemsComponent } from './uploadData-items/uploadData-items.component';
 import { MaterialModule } from '../../app.material';
 
+
 //import { NvD3Module } from 'ng2-nvd3';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -22,6 +23,7 @@ import 'hammerjs';
 import 'd3';
 import 'nvd3';
 import 'hammerjs';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   imports: [
@@ -38,7 +40,8 @@ import 'hammerjs';
     BrowserAnimationsModule,
     //NvD3Module
   ],
-  declarations: [uploadDataListComponent, uploadDataNewComponent, uploadDataEditComponent, uploadDataItemsComponent],
-  exports: [uploadDataListComponent, uploadDataNewComponent, uploadDataEditComponent, uploadDataItemsComponent]
+  declarations: [uploadDataListComponent, uploadDataNewComponent, uploadDataEditComponent, uploadDataItemsComponent, ConfirmDialogComponent],
+  exports: [uploadDataListComponent, uploadDataNewComponent, uploadDataEditComponent, uploadDataItemsComponent],
+  entryComponents: [ConfirmDialogComponent]
 })
 export class UploadModule { }

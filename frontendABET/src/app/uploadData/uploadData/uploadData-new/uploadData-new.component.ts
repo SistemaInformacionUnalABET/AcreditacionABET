@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import * as XLSX from 'ts-xlsx';
 import { UploadService } from './../uploadData.service'
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -13,6 +14,7 @@ import { Activity } from '../../../statistics/statistics/entities/activity';
 import { StudentGroup } from '../../../statistics/statistics/entities/studentGroup';
 import { CourseIndicator } from '../../../statistics/statistics/entities/courseIndicator'
 import { Grade } from '../../../statistics/statistics/entities/grade'
+import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component'
 
 
 import { FormBuilder, FormControl, FormGroup, Validators, COMPOSITION_BUFFER_MODE } from '@angular/forms';
@@ -93,8 +95,8 @@ export class uploadDataNewComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private service: UploadService,
-    private fb: FormBuilder
-
+    private fb: FormBuilder,
+    public dialog: MatDialog
   ) {
 
     this.myControl = new FormControl();
@@ -471,7 +473,7 @@ export class uploadDataNewComponent implements OnInit {
                           this.insertGrade(currentStudentGroup, gradeObject);
 
                         } else {
-                          alert("El estudiante: " + studentObject.documento +" "+ studentObject.nombre_completo + " ya se encuentra inscrito en el grupo " + result0[0].id_grupo + " de la asignatura: " +
+                          alert("El estudiante: " + studentObject.documento +" "+ studentObject.nombre_completo + " ya se encuentra inscrito en otro grupo " + " de la asignatura: " +
                             this.courseSelected.nombre_asignatura);
                         }
                       } else { //si el estudiante NO se encuentra asociado a un grupo, se agrega a la tabla
@@ -583,6 +585,7 @@ export class uploadDataNewComponent implements OnInit {
     );
 
     let fileReader = new FileReader();
+
     fileReader.onload = (e) => {
       this.arrayBuffer = fileReader.result;
       var data = new Uint8Array(this.arrayBuffer);
@@ -594,30 +597,30 @@ export class uploadDataNewComponent implements OnInit {
       var worksheet = workbook.Sheets[first_sheet_name];
       console.log("esto> ", XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       if (XLSX.utils.sheet_to_json(worksheet, { raw: true }).length > 0) {
+
+          this.excelDatas = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+
            
           //El ususario debe confirmar si los datos ingresados en el formulario son los correctos
-          var confirmation = confirm(
-            "Por favor verifique que la información ingresada sea la correcta.\n"+
-            "Los datos a ingresar al sistema son: \n\n"+
-        
-            "Periodo: " + this.periodSelected + "\n" +
-            "Meta: " + this.goalSelected.identificador_meta + " " + this.goalSelected.nombre_meta + "\n" +
-            "Indicador: " + this.indicatorSelected.identificador_indicador + " " + this.indicatorSelected.nombre_indicador + "\n" +
-            "Asignatura: " + this.courseSelected.codigo +" "+ this.courseSelected.nombre_asignatura + "\n" +
-            "Grupo: " + this.groupSelected.numero_grupo + "\n" +
-            "Evaluación: " + this.evaluationSelected.tipo_evaluacion + "\n" +
-            "Actividad: " + this.activitySelected.tipo_actividad+"\n"+
-            "Se agregarán " + XLSX.utils.sheet_to_json(worksheet, { raw: true }).length + " calificaciones" + "\n\n" +
-
-            "*Nota: Al subir la información no es posible eliminarla ni modificarla posteriormente \n" +
-            "¿Está seguro de continuar con la operación?"
-          );
-
-          if(confirmation){
-            this.excelDatas = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-            this.insertFormInformation();    
+          var messageObj =  {
+            
+            periodSelected: this.periodSelected,
+            goalSelectedIdentificador: this.goalSelected.identificador_meta,
+            goalSelectedName: this.goalSelected.nombre_meta,
+            indicatorSelectedIdentificador: this.indicatorSelected.identificador_indicador,
+            indicatorSelectedName: this.indicatorSelected.nombre_indicador,
+            courseSelectedCode: this.courseSelected.codigo,
+            courseSelectedName: this.courseSelected.nombre_asignatura,
+            groupSelected: this.groupSelected.numero_grupo,
+            evaluationSelected:this.evaluationSelected.tipo_evaluacion,
+            activitySelected: this.activitySelected.tipo_actividad,
+            count: XLSX.utils.sheet_to_json(worksheet, { raw: true }).length
           }
-        
+          
+          this.openDialog(messageObj);
+         
+
+          
       }else{
        alert("Documento vacío o no valido"); 
       }
@@ -625,6 +628,22 @@ export class uploadDataNewComponent implements OnInit {
 
     fileReader.readAsArrayBuffer(this.file);
 
+  }
+
+  openDialog(message:any): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '750px',
+      data: message
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      
+      if(result){
+        this.insertFormInformation();    
+      }
+    
+    });
   }
 
 
