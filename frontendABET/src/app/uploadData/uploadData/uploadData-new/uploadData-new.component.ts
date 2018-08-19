@@ -27,6 +27,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
 
 import { logging } from 'selenium-webdriver';
+import { LoadingDialogComponent } from '../loading-dialog/loading-dialog.component';
 
 
 @Component({
@@ -39,7 +40,6 @@ import { logging } from 'selenium-webdriver';
 })
 
 export class uploadDataNewComponent implements OnInit {
-
 
   ///// Para borrar ///////
   common: Commons;
@@ -90,6 +90,7 @@ export class uploadDataNewComponent implements OnInit {
   flagUpload = true;
   isChargeComplete:boolean;
   excelDatas: any;
+  countStudentsInserted = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -251,7 +252,7 @@ export class uploadDataNewComponent implements OnInit {
   }
 
   saveGroupSelected(value) {
-    this.groupSelected = this.groupList.find(group => group.numero_grupo === value);
+    this.groupSelected = value;
   }
 
   saveEvaluationSelected(evaluationType) {
@@ -370,7 +371,7 @@ export class uploadDataNewComponent implements OnInit {
     }
   }
 
-  insertGrade(studentGroupObject, gradeObject) {
+  insertGrade(studentGroupObject, gradeObject, indexStudent) {
 
     console.log("Objeto a buscar ", studentGroupObject);
     
@@ -430,6 +431,15 @@ export class uploadDataNewComponent implements OnInit {
                         result13[0].observacion,
                         result13[0].id_estudiante_grupo);
 
+                        this.countStudentsInserted++;
+
+                        console.log(">>>> Index and lenght", indexStudent, this.excelDatas.length-1);
+                        console.log(">>>> Count and lenght", this.countStudentsInserted, this.excelDatas.length-1);
+                        if(this.countStudentsInserted==this.excelDatas.length){
+                          this.openLoadingDialog(); 
+                          this.dialog.closeAll();
+                        }
+
                     });
               });
 
@@ -439,7 +449,7 @@ export class uploadDataNewComponent implements OnInit {
 
   }
 
-  insertStudent(studentObject, gradeObject) {
+  insertStudent(studentObject, gradeObject, indexStudent) {
     this.service.addStudents(studentObject)
       .subscribe(
         result => {
@@ -470,7 +480,7 @@ export class uploadDataNewComponent implements OnInit {
                             "Estudiante:  ", currentStudentGroup.id_estudiante,
                             "Grupo; ", currentStudentGroup.id_grupo);
 
-                          this.insertGrade(currentStudentGroup, gradeObject);
+                          this.insertGrade(currentStudentGroup, gradeObject, indexStudent);
 
                         } else {
                           alert("El estudiante: " + studentObject.documento +" "+ studentObject.nombre_completo + " ya se encuentra inscrito en otro grupo " + " de la asignatura: " +
@@ -489,7 +499,7 @@ export class uploadDataNewComponent implements OnInit {
                                 console.log(result3);
                                 
                                 
-                              this.insertGrade(currentStudentGroup, gradeObject);
+                              this.insertGrade(currentStudentGroup, gradeObject, indexStudent);
                             });
 
                       }
@@ -543,7 +553,7 @@ export class uploadDataNewComponent implements OnInit {
 
                                         //Inserta cada estudiante a la tabla estudiantes
                                         const insertStudentsFormExcel = async () => {
-                                          await this.asyncForEach(this.excelDatas, async (object) => {
+                                          await this.asyncForEach(this.excelDatas, async (object, index) => {
 
                                             var currentStudent = new Student(null, null, null, null);
                                             currentStudent.documento = object['documento'];
@@ -554,14 +564,14 @@ export class uploadDataNewComponent implements OnInit {
                                             currentGrade.calificacion = object['nota'];
                                             currentGrade.observacion = object['observacion'];
                                             currentGrade.evidencia_url = object['evidencia_url'];
-
-                                            await this.insertStudent(currentStudent, currentGrade);
+                                            
+                                            
+                                            await this.insertStudent(currentStudent, currentGrade, index);
                                           })
 
                                         }
-                                        this.isChargeComplete = false;
+
                                         insertStudentsFormExcel();
-                                        this.isChargeComplete = true;
 
                                       });
 
@@ -585,6 +595,7 @@ export class uploadDataNewComponent implements OnInit {
     );
 
     let fileReader = new FileReader();
+    this.countStudentsInserted = 0;
 
     fileReader.onload = (e) => {
       this.arrayBuffer = fileReader.result;
@@ -618,8 +629,6 @@ export class uploadDataNewComponent implements OnInit {
           }
           
           this.openDialog(messageObj);
-         
-
           
       }else{
        alert("Documento vacío o no valido"); 
@@ -640,9 +649,21 @@ export class uploadDataNewComponent implements OnInit {
       console.log('The dialog was closed', result);
       
       if(result){
-        this.insertFormInformation();    
+        this.openLoadingDialog(); 
+        this.insertFormInformation();   
       }
     
+    });
+  }
+
+  openLoadingDialog(): void {
+    const dialogRef = this.dialog.open(LoadingDialogComponent, {
+      width: '550px',
+      data: null
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      alert("*** Proceso finalizado con éxito ***  \n Verique que la información esté actualizada en la tabla");
     });
   }
 

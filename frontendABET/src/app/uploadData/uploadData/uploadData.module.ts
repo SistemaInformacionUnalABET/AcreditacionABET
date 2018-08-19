@@ -24,6 +24,7 @@ import 'd3';
 import 'nvd3';
 import 'hammerjs';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 
 @NgModule({
   imports: [
@@ -40,8 +41,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     BrowserAnimationsModule,
     //NvD3Module
   ],
-  declarations: [uploadDataListComponent, uploadDataNewComponent, uploadDataEditComponent, uploadDataItemsComponent, ConfirmDialogComponent],
+  declarations: [uploadDataListComponent, uploadDataNewComponent, uploadDataEditComponent, uploadDataItemsComponent, ConfirmDialogComponent, LoadingDialogComponent],
   exports: [uploadDataListComponent, uploadDataNewComponent, uploadDataEditComponent, uploadDataItemsComponent],
-  entryComponents: [ConfirmDialogComponent]
+  entryComponents: [ConfirmDialogComponent, LoadingDialogComponent]
 })
 export class UploadModule { }

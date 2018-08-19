@@ -102,37 +102,33 @@
               </mat-card-content>
             </mat-card>
 
-            <div *ngIf="variableCourse">
+            <div *ngIf="variableCourse">                         
               <mat-card>
                 <mat-card-content>
                   <div class="example-container">
-
-                    <mat-form-field class="example-full-width">
-                      <input type="text" placeholder="Grupo" aria-label="Number" matInput [formControl]="controlGroup" [matAutocomplete]="autoGroup">
-                      <mat-autocomplete #autoGroup="matAutocomplete" (optionSelected) = "saveGroupSelected($event.option.value)">
-                        <mat-option *ngFor="let group of filteredOptionsForGroups | async" [value]="group.numero_grupo" >
-                          {{group.numero_grupo}}
+                    <mat-form-field>
+                      <mat-select placeholder="Grupo">
+                        <mat-option *ngFor="let group of groupList" [value]="group.numero_grupo" (click)="saveGroupSelected(group)">
+                          {{ group.numero_grupo }}
                         </mat-option>
-                      </mat-autocomplete>
+                      </mat-select>
                     </mat-form-field>
                   </div>
                 </mat-card-content>
-
-              </mat-card>
+              </mat-card>                          
             </div>
 
             <div *ngIf="!variableCourse">
               <mat-card>
                 <mat-card-content>
                   <div class="example-container">
+                    <mat-form-field>
+                      <mat-select placeholder="Grupo">
 
-                    <mat-form-field class="example-full-width">
-                      <input type="text" placeholder="Grupo" aria-label="Number" matInput [formControl]="controlGroup">
-
+                      </mat-select>
                     </mat-form-field>
                   </div>
                 </mat-card-content>
-
               </mat-card>
             </div>
 
@@ -143,7 +139,7 @@
                     <input type="text" placeholder="Evaluación" aria-label="Number" matInput [formControl]="controlEvaluationType" [matAutocomplete]="autoEvaluationType">
                     <mat-autocomplete #autoEvaluationType="matAutocomplete" (optionSelected)="saveEvaluationSelected($event.option.value)">
 
-                      <mat-option *ngFor="let evaluationType of filteredOptionsForEvaluationsType | async" [value]="evaluationType" >
+                      <mat-option *ngFor="let evaluationType of filteredOptionsForEvaluationsType | async" [value]="evaluationType">
 
                         {{evaluationType}}
                       </mat-option>
@@ -153,7 +149,7 @@
                 </div>
               </mat-card-content>
             </mat-card>
-            
+
             <mat-card>
               <mat-card-content>
                 <div class="example-container">
@@ -188,16 +184,10 @@
   </div>
 
   <div class="col-7">
-    <app-uploadData-list 
-    [courseId]="courseSelected.id_asignatura" 
-    [groupId]="groupSelected.id_grupo"
-    [indicatorId]= "indicatorSelected.id_indicador"
-    [periodType]= "periodSelected"
-    [evaluationType]="evaluationSelected.tipo_evaluacion"
-    [activityType]="activitySelected.tipo_actividad"
-    [isChargeComplete]="isChargeComplete"
-    >
-    
+    <app-uploadData-list [courseId]="courseSelected.id_asignatura" [groupId]="groupSelected.id_grupo" [indicatorId]="indicatorSelected.id_indicador"
+      [periodType]="periodSelected" [evaluationType]="evaluationSelected.tipo_evaluacion" [activityType]="activitySelected.tipo_actividad"
+      [isChargeComplete]="isChargeComplete">
+
     </app-uploadData-list>
   </div>
 
