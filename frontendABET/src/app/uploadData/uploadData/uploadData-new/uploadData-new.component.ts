@@ -71,7 +71,7 @@ export class uploadDataNewComponent implements OnInit {
   myControl: FormControl;
   controlIndicator: FormControl;
   controlCourse: FormControl;
-  controlGroup: FormControl;
+  controlGroup: FormControl;ss
   controlEvaluationType: FormControl;
   controlActivityType: FormControl;
 
@@ -266,6 +266,7 @@ export class uploadDataNewComponent implements OnInit {
   fillIndicatorSelector() {
 
     this.variable = true;
+    this.controlIndicator.setValue("");
     var goalId = this.goalSelected.id_meta;
 
     this.service.getIndicatorsByParams(null, goalId)
@@ -285,6 +286,7 @@ export class uploadDataNewComponent implements OnInit {
       )
   }
 
+  
   fillGroupSelector() {
 
     this.variableCourse = true;
@@ -295,14 +297,7 @@ export class uploadDataNewComponent implements OnInit {
         rs => this.groupList = rs,
         er => console.log(er),
         () => {
-
-          //Filtra los GRUPOS que aparecen en el formulario para el campo grupo
-          //Nota: propio de Angular Material
-          this.filteredOptionsForGroups = this.controlGroup.valueChanges
-            .pipe(
-              startWith(''),
-              map(val => this.filterGroups(val))
-            );
+          
         }
       )
   }
@@ -326,13 +321,6 @@ export class uploadDataNewComponent implements OnInit {
   filterIndicators(val): any[] {
     return this.indicatorList.filter(element =>
       (String(element.identificador_indicador).toLowerCase() + " " + String(element.nombre_indicador).toLowerCase()).indexOf(val.toLowerCase()) !== -1);
-  }
-
-  //Filtro de campo Indicador
-  //Nota: Propio de Angular Material
-  filterGroups(val): any[] {
-    return this.groupList.filter(element =>
-      ((String(element.numero_grupo)).toLowerCase()).indexOf((String(val)).toLowerCase()) !== -1);
   }
 
   //Filtro de campo Evaluacion
@@ -436,6 +424,7 @@ export class uploadDataNewComponent implements OnInit {
                         console.log(">>>> Index and lenght", indexStudent, this.excelDatas.length-1);
                         console.log(">>>> Count and lenght", this.countStudentsInserted, this.excelDatas.length-1);
                         if(this.countStudentsInserted==this.excelDatas.length){
+                          this.isChargeComplete=true;
                           this.openLoadingDialog(); 
                           this.dialog.closeAll();
                         }
@@ -483,6 +472,8 @@ export class uploadDataNewComponent implements OnInit {
                           this.insertGrade(currentStudentGroup, gradeObject, indexStudent);
 
                         } else {
+                          this.dialog.closeAll();
+
                           alert("El estudiante: " + studentObject.documento +" "+ studentObject.nombre_completo + " ya se encuentra inscrito en otro grupo " + " de la asignatura: " +
                             this.courseSelected.nombre_asignatura);
                         }
@@ -596,6 +587,8 @@ export class uploadDataNewComponent implements OnInit {
 
     let fileReader = new FileReader();
     this.countStudentsInserted = 0;
+    this.isChargeComplete = false;
+
 
     fileReader.onload = (e) => {
       this.arrayBuffer = fileReader.result;

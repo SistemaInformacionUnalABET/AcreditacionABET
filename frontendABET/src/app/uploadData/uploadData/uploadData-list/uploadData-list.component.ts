@@ -28,7 +28,6 @@ export class uploadDataListComponent implements OnInit {
   constructor(
     private service: UploadService
   ) {
-    this.isChargeComplete = true;
     this.gradesList = [];
   }
 
