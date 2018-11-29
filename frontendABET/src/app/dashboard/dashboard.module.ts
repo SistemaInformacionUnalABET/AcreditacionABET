@@ -13,6 +13,7 @@ import { GraphicsModule } from '../statistics/graphics/graphics.module';
 // import {AuthLoginComponent} from './../auth/auth/auth-login/auth-login.component';
 import {AuthModule} from './../auth/auth/auth.module';
 import { AuthService } from '../auth/auth/auth.service';
+import { MatCardModule } from '@angular/material';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,7 +23,8 @@ import { AuthService } from '../auth/auth/auth.service';
     StatisticsModule,
     GraphicsModule,
     NotificationsModule,
-    AuthModule 
+    AuthModule, 
+    MatCardModule
   ],
   providers: [AuthService],
   declarations: [DashboardItemsComponent],
