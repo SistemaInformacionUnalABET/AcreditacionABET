@@ -1,0 +1,69 @@
+<br>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Promedios de Indicadores
+        </div>
+
+        <mat-card>
+            <mat-card-content>
+                <div class="example-container">
+
+                    <mat-form-field class="example-full-width" style="width: 95%;">
+
+                        <input type="text" placeholder="Indicador" aria-label="Number" matInput [formControl]="controlIndicator" [matAutocomplete]="autoIndicator">
+                        <mat-autocomplete #autoIndicator="matAutocomplete" (optionSelected)="saveIndicatorSelected($event.option.value)">
+
+                            <mat-option *ngFor="let indicator of filteredOptionsForIndicator | async" [value]="indicator.identificador_indicador+ emptyString +indicator.nombre_indicador">
+                                {{indicator.identificador_indicador}} {{indicator.nombre_indicador}}
+                            </mat-option>
+
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+<div class="container">
+
+    <div *ngIf="flagGrades">
+        <br>
+        <button class="btn btn-primary" (click)="isGraphic = !isGraphic">{{isGraphic?"Detalle":"Graphic"}}</button>
+
+        <div *ngIf="isGraphic">
+            <br>
+
+            <mat-card>
+                <mat-card-content>
+                    <h2 class="example-h2">Tipo de gráfica por Indicador</h2>
+                    <section class="example-section">
+                        <!-- <label class="example-margin">Gráficas indicador: </label> -->
+                        <mat-radio-group [(ngModel)]="seleted">
+                            <mat-radio-button *ngFor="let a of arrayRadioButtons" [value]="a" (change)="radioChange($event) ">
+                                {{a}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </section>
+                </mat-card-content>
+            </mat-card>
+            <br>
+            <br>
+
+            <div [chart]="chart"></div>
+        </div>
+        <div *ngIf="!isGraphic && courseCod != null">
+            <app-details-by-indicator-average [course]="courseCod"></app-details-by-indicator-average>
+
+        </div>
+
+    </div>
+
+    <div *ngIf="!flagGrades">
+        <div class="alert alert-info" role="alert">
+            No se encuentran notas registradas para este indicador
+
+        </div>
+    </div>
+</div>
+<!-- <router-outlet></router-outlet> -->

@@ -1,0 +1,85 @@
+<!-- <div class="app-header">
+    <h1 class="app-heading">{{titles}}</h1>
+</div> -->
+<mat-grid-list cols="3">
+    <mat-grid-tile></mat-grid-tile>
+
+    <!-- Writing markup for login starts -->
+    <mat-grid-tile class='login-element'>
+        <div class="login-container">
+
+            <!-- Template Header starts -->
+            <div class="login-box-header">
+                <h3>Acreditación ABET</h3>
+            </div>
+            <!-- Template Header ends -->
+
+            <!-- Template Body starts -->
+            <div class="login-box-body">
+                <form novalidate [formGroup]="form">
+
+                    <div class="form-group">
+                        <!-- Markup for getting Username starts -->
+                        <mat-grid-list cols="9" rowHeight="75px">
+                            <mat-grid-tile [rowspan]="1" class="login-icon">
+                                <mat-icon>account_box</mat-icon>
+                            </mat-grid-tile>
+                            <mat-grid-tile [colspan]="7">
+
+                                <mat-form-field class="justifier" floatPlaceholder="never">
+                                    <input type="text" class="form-control" id="user" formControlName="user" matInput placeholder="Usuario">
+                                    <div *ngIf="form.controls.user.errors && form.controls.user.touched">
+                                        <!-- <div class="aler alert-danger" *ngIf="form.controls.user.errors.required">
+                                            El usuario es requerido
+                                        </div> -->
+                                    </div>
+                                </mat-form-field>
+
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- Markup for getting Password starts -->
+                        <mat-grid-list cols="9" rowHeight="100px">
+                            <mat-grid-tile [rowspan]="1" class="login-icon">
+                                <mat-icon>lock</mat-icon>
+                            </mat-grid-tile>
+                            <mat-grid-tile [colspan]="7">
+                                <mat-form-field class="justifier" floatPlaceholder="never">
+                                    <input type="password" class="form-control" id="pass" formControlName="pass" matInput placeholder="Contraseña">
+                                    <div *ngIf="form.controls.pass.errors && form.controls.pass.touched">
+                                        <!-- <div class="aler alert-danger" *ngIf="form.controls.pass.errors.required">
+                                            La contraseña es requerida
+                                        </div> -->
+                                    </div>
+                                </mat-form-field>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                        <!-- Markup for getting Password ends -->
+                    </div>
+
+                    <button mat-raised-button class="login-button" (click)="login(form.value)">
+                        <mat-icon>input</mat-icon> Login
+                    </button>
+                    <br>
+                    <br>
+                    <div class="alert alert-danger" *ngIf="error">
+                        El nombre de usuario o la contraseña son incorrectos
+                    </div>
+                    <br>
+                    <br>
+                </form>
+            </div>
+            <!-- Template Body ends -->
+
+        </div>
+    </mat-grid-tile>
+    <!-- Writing markup for login ends -->
+    <mat-grid-tile></mat-grid-tile>
+
+</mat-grid-list>
+
+<!-- <mat-form-field class="example-full-width">
+    <input matInput placeholder="Numero de Documento">
+  </mat-form-field> -->

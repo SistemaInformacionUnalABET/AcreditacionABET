@@ -1,0 +1,13 @@
+.center{
+    width: 70%;
+    margin: 10px auto;
+    /* align-items: center;
+    align-content: center;
+    justify-content: center;      */
+    /* margin-right: 8px;   */
+}
+
+.main-div{
+    justify-content: center; 
+    align-items: center;
+}

@@ -1,0 +1,2 @@
+estudiante, cedula
+marcos, 1022
