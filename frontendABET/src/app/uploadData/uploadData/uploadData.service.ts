@@ -25,29 +25,29 @@ import { Grade } from '../../statistics/statistics/entities/grade';
 export class UploadService {
 
   // private headers = new Headers({ 'Content-Type': 'application/json' });
-  private url = 'http://localhost:8000/indicadores/';
-  private url2 = 'http://localhost:8000/comunes/';
-  private url3 = 'http://localhost:8000/comunes/';
+  private url = 'http://localhost:8077/indicadores/';
+  private url2 = 'http://localhost:8077/comunes/';
+  private url3 = 'http://localhost:8077/comunes/';
 
-  private urlGetGoals = 'http://localhost:8000/goals/';
-  private urlGetIndicators = 'http://localhost:8000/indicators/';
-  private urlGetCourses = 'http://localhost:8000/courses/';
-  private urlGetGroups = 'http://localhost:8000/groups/';
-  private urlGetEvaluations = 'http://localhost:8000/Evaluations/';
-  private urlGetStudents = 'http://localhost:8000/students/';
-  private urlGetStudentGroups = 'http://localhost:8000/studentGroups/';
-  private urlGetCourseIndicators = 'http://localhost:8000/courseIndicators/'
-  private urlGetActivities = 'http://localhost:8000/activities/'
-  private urlGetGrades = 'http://localhost:8000/grades/'
-  private urlVDataCalification = 'http://localhost:8000/vDataVerification/'
+  private urlGetGoals = 'http://localhost:8077/goals/';
+  private urlGetIndicators = 'http://localhost:8077/indicators/';
+  private urlGetCourses = 'http://localhost:8077/courses/';
+  private urlGetGroups = 'http://localhost:8077/groups/';
+  private urlGetEvaluations = 'http://localhost:8077/Evaluations/';
+  private urlGetStudents = 'http://localhost:8077/students/';
+  private urlGetStudentGroups = 'http://localhost:8077/studentGroups/';
+  private urlGetCourseIndicators = 'http://localhost:8077/courseIndicators/'
+  private urlGetActivities = 'http://localhost:8077/activities/'
+  private urlGetGrades = 'http://localhost:8077/grades/'
+  private urlVDataCalification = 'http://localhost:8077/vDataVerification/'
 
   //Urls Post
-  private urlPostStudents = 'http://localhost:8000/students/';
-  private urlPostStudentGroups = 'http://localhost:8000/studentGroups/';
-  private urlPostCourseIndicators = 'http://localhost:8000/courseIndicators/';
-  private urlPostEvaluations = 'http://localhost:8000/evaluations/';
-  private urlPostActivities = 'http://localhost:8000/activities/';
-  private urlPostGrades = 'http://localhost:8000/grades/';
+  private urlPostStudents = 'http://localhost:8077/students/';
+  private urlPostStudentGroups = 'http://localhost:8077/studentGroups/';
+  private urlPostCourseIndicators = 'http://localhost:8077/courseIndicators/';
+  private urlPostEvaluations = 'http://localhost:8077/evaluations/';
+  private urlPostActivities = 'http://localhost:8077/activities/';
+  private urlPostGrades = 'http://localhost:8077/grades/';
 
   private options;
 

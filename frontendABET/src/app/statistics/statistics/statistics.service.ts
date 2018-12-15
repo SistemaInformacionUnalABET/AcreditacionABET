@@ -15,7 +15,7 @@ export class StatisticsServices {
   // private headers = new Headers({ 'Content-Type': 'application/json' });
 
   private options;
-  private urlVCompleteGradesByParams = 'http://localhost:8000/vCompleteGrades/';
+  private urlVCompleteGradesByParams = 'http://localhost:8077/vCompleteGrades/';
 
 
   constructor(private http: Http) {

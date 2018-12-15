@@ -9,7 +9,7 @@ export class AuthService {
 
   userName: string;
   loggedIn: boolean;
-  url = "http://localhost:8000/auth";
+  url = "http://localhost:8077/auth";
 
   constructor(private http: Http) {
     this.userName = '';
