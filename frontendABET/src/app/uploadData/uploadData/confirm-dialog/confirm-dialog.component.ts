@@ -19,10 +19,10 @@ export class ConfirmDialogComponent {
       
     }
 
-  onNoClick(confirm): void {
+  onNoClick(): void {
     this.dialogRef.close(false);
   }
-  confirm(confirm): void {
+  confirm(): void {
     this.dialogRef.close(true);
   }
 
