@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as XLSX from 'ts-xlsx';
 import { UploadService } from './../uploadData.service'
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -14,7 +14,7 @@ import { Activity } from '../../../statistics/statistics/entities/activity';
 import { StudentGroup } from '../../../statistics/statistics/entities/studentGroup';
 import { CourseIndicator } from '../../../statistics/statistics/entities/courseIndicator'
 import { Grade } from '../../../statistics/statistics/entities/grade'
-import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component'
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component'
 
 
 import { FormBuilder, FormControl, FormGroup, Validators, COMPOSITION_BUFFER_MODE } from '@angular/forms';
@@ -34,17 +34,12 @@ import { LoadingDialogComponent } from '../loading-dialog/loading-dialog.compone
   selector: 'app-uploadData-new',
   templateUrl: './uploadData-new.component.html',
   providers: [UploadService],
-  //styleUrls: ['./orders-new.component.css'],
   styleUrls: ['./uploadData-new.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 
 export class uploadDataNewComponent implements OnInit {
 
-  ///// Para borrar ///////
-  common: Commons;
-  lists: Commons[];
-  /////////////////////
 
   goalList: Goal[];
   indicatorList: Indicator[];
@@ -54,7 +49,6 @@ export class uploadDataNewComponent implements OnInit {
   activityTypeList: String[];
   periodList: String[];
 
-  //student: Student;
   periodSelected: string;
   goalSelected: Goal;
   indicatorSelected: Indicator;
@@ -62,16 +56,10 @@ export class uploadDataNewComponent implements OnInit {
   groupSelected: Group;
   evaluationSelected: Evaluation;
   activitySelected: Activity;
-  //studentGroup: StudentGroup;
   courseIndicator: CourseIndicator;
-  //grade: Grade;
 
   form: FormGroup;
-
-  myControl: FormControl;
-  controlIndicator: FormControl;
-  controlCourse: FormControl;
-  controlGroup: FormControl;ss
+  controlGroup: FormControl;
   controlEvaluationType: FormControl;
   controlActivityType: FormControl;
 
@@ -83,12 +71,10 @@ export class uploadDataNewComponent implements OnInit {
   filteredOptionsForActivitiesType: Observable<String[]>;
 
   emptyString = " ";
-  variable = false;
-  variableCourse = false;
   isFile = false;
   flagStudentGroup = false;
   flagUpload = true;
-  isChargeComplete:boolean;
+  isChargeComplete: boolean;
   excelDatas: any;
   countStudentsInserted = 0;
 
@@ -100,9 +86,6 @@ export class uploadDataNewComponent implements OnInit {
     public dialog: MatDialog
   ) {
 
-    this.myControl = new FormControl();
-    this.controlIndicator = new FormControl();
-    this.controlCourse = new FormControl();
     this.controlGroup = new FormControl();
     this.controlEvaluationType = new FormControl();
     this.controlActivityType = new FormControl();
@@ -115,7 +98,7 @@ export class uploadDataNewComponent implements OnInit {
     this.activitySelected = new Activity(null, null, null, null);
     //this.student = new Student(null, null, null, null);
     //this.studentGroup = new StudentGroup(null, null, null, null);
-    this.courseIndicator = new CourseIndicator(null, null, null,null);
+    this.courseIndicator = new CourseIndicator(null, null, null, null);
     //this.grade = new Grade(null, null, null, null, null, null, null, null, null, null);
 
     this.excelDatas = null;
@@ -172,17 +155,14 @@ export class uploadDataNewComponent implements OnInit {
       "2028-II",
       "2029-I",
       "2029-II",
-    ]
+    ];
+
+    this.createContols();
+    this.logChange();
 
   }
 
-
-
   ngOnInit() {
-    //Nota: comento este codigo porque con el no me funciona, pregutar a daniel.
-    //let id = this.route.snapshot.params['id'];
-    //if (!id) return;
-    //console.log(id);
 
     this.service.getAllGoals()
       .subscribe(
@@ -192,7 +172,7 @@ export class uploadDataNewComponent implements OnInit {
 
           //Filtra las metas que aparecen en el formulario para el campo Meta
           //Nota: propio de Angular Material
-          this.filteredOptions = this.myControl.valueChanges
+          this.filteredOptions = this.form.controls['goal'].valueChanges
             .pipe(
               startWith(''),
               map(val => this.filter(val))
@@ -206,7 +186,7 @@ export class uploadDataNewComponent implements OnInit {
         () => {
           //Filtra las Asignaturas que aparecen en el formulario para el campo Asignatura
           //Nota: propio de Angular Material
-          this.filteredOptionsForCourse = this.controlCourse.valueChanges
+          this.filteredOptionsForCourse = this.form.controls['subject'].valueChanges
             .pipe(
               startWith(''),
               map(val => this.filterCourses(val))
@@ -231,44 +211,106 @@ export class uploadDataNewComponent implements OnInit {
       );
   }
 
-  savePeriodSelected(period){
-    this.periodSelected = period;
+  createContols() {
+    this.form = this.fb.group({
+      'period': ['', [Validators.required]],
+      'goal': ['', [Validators.required]],
+      'indicator': [{ value: '', disabled: true }, [Validators.required]],
+      'subject': ['', [Validators.required]],
+      'group': [{ value: '', disabled: true }, [Validators.required]],
+      'evaluation': ['', [Validators.required]],
+      'activity': ['', [Validators.required]],
+    });
   }
 
-  saveGoalSelected(value) {
-    var stringIdentificator = value.split(" ")[0];
-    this.goalSelected = this.goalList.find(goal => goal.identificador_meta === stringIdentificator);
-    this.fillIndicatorSelector();
-  }
-  saveIndicatorSelected(value) {
-    var stringIdentificator = value.split(" ")[0];
-    this.indicatorSelected = this.indicatorList.find(indicator => indicator.identificador_indicador === stringIdentificator);
-  }
+  logChange() {
+    const period = this.form.controls['period'];
+    period.valueChanges.subscribe(value => {
+      console.log("period => " + value);
+      this.periodSelected = value;
+    });
 
-  saveCourseSelected(value) {
-    var stringCode = value.split(" ")[0];
-    this.courseSelected = this.courseList.find(course => course.codigo === stringCode);
-    this.fillGroupSelector();
-  }
+    const goal = this.form.controls['goal'];
+    goal.valueChanges.subscribe(value => {
+      console.log('goal => ', value);
 
-  saveGroupSelected(value) {
-    this.groupSelected = value;
-  }
+      this.form.patchValue({
+        'indicator': ''
+      });
+      this.indicatorList = [];
 
-  saveEvaluationSelected(evaluationType) {
-    this.evaluationSelected.tipo_evaluacion = evaluationType;
-  }
-  saveActivitySelected(activityType) {
-    this.activitySelected.tipo_actividad = activityType;
-  }
+      if (value != undefined && value != null && String(value) != '') {
+        var stringIdentificator = value.split(" ")[0];
+        this.goalSelected = this.goalList.find(goal => goal.identificador_meta === stringIdentificator);
 
+        if (this.goalSelected != undefined && this.goalSelected != null && this.goalSelected['id_meta'] != undefined && this.goalSelected['id_meta'] != null) {
+          this.form.controls['indicator'].enable();
+          this.fillIndicatorSelector();
+        } else {
+          this.form.controls['indicator'].disable();
+        }
+      }
+
+    });
+
+    const indicator = this.form.controls['indicator'];
+    indicator.valueChanges.subscribe(value => {
+      console.log('indicator => ', value);
+
+      var stringIdentificator = value.split(" ")[0];
+      this.indicatorSelected = this.indicatorList.find(indicator => indicator.identificador_indicador === stringIdentificator);
+
+    });
+
+    const subject = this.form.controls['subject'];
+    subject.valueChanges.subscribe(value => {
+      console.log('subject => ', value);
+      this.form.patchValue({
+        'group': ''
+      });
+      this.groupList = [];
+
+      if (value != undefined && value != null && String(value) != '') {
+        var stringCode = value.split(" ")[0];
+        this.courseSelected = this.courseList.find(course => course.codigo === stringCode);
+
+        if (this.courseSelected != undefined && this.courseSelected != null && this.courseSelected['id_asignatura'] != undefined && this.courseSelected['id_asignatura'] != null) {
+          this.form.controls['group'].enable();
+          this.fillGroupSelector();
+        } else {
+          this.form.controls['group'].disable();
+        }
+      }
+    });
+
+    const group = this.form.controls['group'];
+    group.valueChanges.subscribe(value => {
+      console.log('group => ', value);
+      if (value != undefined && value != null && String(value) != '') {
+        this.groupSelected = value;
+      }
+    });
+
+    const evaluation = this.form.controls['evaluation'];
+    evaluation.valueChanges.subscribe(value => {
+      console.log('evaluation => ', value);
+      if (value != undefined && value != null && String(value) != '') {
+        this.evaluationSelected.tipo_evaluacion = value;
+      }
+    });
+
+    const activity = this.form.controls['activity'];
+    activity.valueChanges.subscribe(value => {
+      console.log('activity => ', value);
+      if (value != undefined && value != null && String(value) != '') {
+        this.activitySelected.tipo_actividad = value;
+      }
+    });
+  }
 
   fillIndicatorSelector() {
 
-    this.variable = true;
-    this.controlIndicator.setValue("");
     var goalId = this.goalSelected.id_meta;
-
     this.service.getIndicatorsByParams(null, goalId)
       .subscribe(
         rs => this.indicatorList = rs,
@@ -277,7 +319,7 @@ export class uploadDataNewComponent implements OnInit {
 
           //Filtra los INDICADORES que aparecen en el formulario para el campo Indicador
           //Nota: propio de Angular Material
-          this.filteredOptionsForIndicators = this.controlIndicator.valueChanges
+          this.filteredOptionsForIndicators = this.form.controls['indicator'].valueChanges
             .pipe(
               startWith(''),
               map(val => this.filterIndicators(val))
@@ -286,10 +328,9 @@ export class uploadDataNewComponent implements OnInit {
       )
   }
 
-  
+
   fillGroupSelector() {
 
-    this.variableCourse = true;
     var courseId = this.courseSelected.id_asignatura;
 
     this.service.getGroupByParams(null, courseId, null)
@@ -297,7 +338,7 @@ export class uploadDataNewComponent implements OnInit {
         rs => this.groupList = rs,
         er => console.log(er),
         () => {
-          
+
         }
       )
   }
@@ -362,7 +403,7 @@ export class uploadDataNewComponent implements OnInit {
   insertGrade(studentGroupObject, gradeObject, indexStudent) {
 
     console.log("Objeto a buscar ", studentGroupObject);
-    
+
     this.service.getStudentGroupsByParams(null, studentGroupObject.id_grupo, studentGroupObject.id_estudiante, studentGroupObject.id_asignatura, studentGroupObject.periodo)
       .subscribe(
         result4 => {
@@ -419,15 +460,15 @@ export class uploadDataNewComponent implements OnInit {
                         result13[0].observacion,
                         result13[0].id_estudiante_grupo);
 
-                        this.countStudentsInserted++;
+                      this.countStudentsInserted++;
 
-                        console.log(">>>> Index and lenght", indexStudent, this.excelDatas.length-1);
-                        console.log(">>>> Count and lenght", this.countStudentsInserted, this.excelDatas.length-1);
-                        if(this.countStudentsInserted==this.excelDatas.length){
-                          this.isChargeComplete=true;
-                          this.openLoadingDialog(); 
-                          this.dialog.closeAll();
-                        }
+                      console.log(">>>> Index and lenght", indexStudent, this.excelDatas.length - 1);
+                      console.log(">>>> Count and lenght", this.countStudentsInserted, this.excelDatas.length - 1);
+                      if (this.countStudentsInserted == this.excelDatas.length) {
+                        this.isChargeComplete = true;
+                        this.openLoadingDialog();
+                        this.dialog.closeAll();
+                      }
 
                     });
               });
@@ -443,18 +484,18 @@ export class uploadDataNewComponent implements OnInit {
       .subscribe(
         result => {
 
-          var currentStudentGroup = new StudentGroup(null, null, null, null,null);
+          var currentStudentGroup = new StudentGroup(null, null, null, null, null);
           this.service.getStudentsByParams(null, studentObject.documento, null, null)
             .subscribe(
               result2 => {
 
-                
+
                 currentStudentGroup.id_estudiante_grupo = null;
                 currentStudentGroup.id_grupo = this.groupSelected.id_grupo;
                 currentStudentGroup.id_estudiante = result2[0].id_estudiante;
                 currentStudentGroup.id_asignatura = this.courseSelected.id_asignatura;
                 currentStudentGroup.periodo = this.periodSelected;
-                
+
                 this.service.getStudentGroupsByParams(null, null, result2[0].id_estudiante, this.courseSelected.id_asignatura, this.periodSelected)
                   .subscribe(
                     result0 => {
@@ -462,7 +503,7 @@ export class uploadDataNewComponent implements OnInit {
 
                       if (result0.length > 0) {
 
-                        if (result0[0].id_grupo == this.groupSelected.id_grupo ) { //Si el estuduante ya se encuentra asociado al grupo seleccionado
+                        if (result0[0].id_grupo == this.groupSelected.id_grupo) { //Si el estuduante ya se encuentra asociado al grupo seleccionado
                           console.log(">>>  El estudinte ", studentObject.nombre_completo, " ya se encuentra registrado en el grupo: ", result0[0].id_grupo);
                           console.log(
                             "id_Estudiante_grupo:  ", currentStudentGroup.id_estudiante_grupo,
@@ -474,11 +515,11 @@ export class uploadDataNewComponent implements OnInit {
                         } else {
                           this.dialog.closeAll();
 
-                          alert("El estudiante: " + studentObject.documento +" "+ studentObject.nombre_completo + " ya se encuentra inscrito en otro grupo " + " de la asignatura: " +
+                          alert("El estudiante: " + studentObject.documento + " " + studentObject.nombre_completo + " ya se encuentra inscrito en otro grupo " + " de la asignatura: " +
                             this.courseSelected.nombre_asignatura);
                         }
                       } else { //si el estudiante NO se encuentra asociado a un grupo, se agrega a la tabla
-                        
+
                         this.service.addStudentGroups(currentStudentGroup)
                           .subscribe(
 
@@ -487,9 +528,9 @@ export class uploadDataNewComponent implements OnInit {
                               console.log(">>>> SE INSCRIBIÓ UN ESTUDIANTE GRUPO",
                                 "Estudiante:  ", currentStudentGroup.id_estudiante,
                                 "Grupo; ", currentStudentGroup.id_grupo);
-                                console.log(result3);
-                                
-                                
+                              console.log(result3);
+
+
                               this.insertGrade(currentStudentGroup, gradeObject, indexStudent);
                             });
 
@@ -538,8 +579,8 @@ export class uploadDataNewComponent implements OnInit {
                                   this.service.getActivitiesByParams(null, this.activitySelected.tipo_actividad, this.activitySelected.descripcion, this.activitySelected.id_evaluacion)
                                     .subscribe(
                                       result11 => {
-                                        console.log("result 11 -->"+result11[0])
-                                        console.log("id_actividad -->"+result11[0].id_actividad)
+                                        console.log("result 11 -->" + result11[0])
+                                        console.log("id_actividad -->" + result11[0].id_actividad)
                                         this.activitySelected.id_actividad = result11[0].id_actividad;
 
                                         //Inserta cada estudiante a la tabla estudiantes
@@ -555,8 +596,8 @@ export class uploadDataNewComponent implements OnInit {
                                             currentGrade.calificacion = object['nota'];
                                             currentGrade.observacion = object['observacion'];
                                             currentGrade.evidencia_url = object['evidencia_url'];
-                                            
-                                            
+
+
                                             await this.insertStudent(currentStudent, currentGrade, index);
                                           })
 
@@ -602,29 +643,29 @@ export class uploadDataNewComponent implements OnInit {
       console.log("esto> ", XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       if (XLSX.utils.sheet_to_json(worksheet, { raw: true }).length > 0) {
 
-          this.excelDatas = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+        this.excelDatas = XLSX.utils.sheet_to_json(worksheet, { raw: true });
 
-           
-          //El ususario debe confirmar si los datos ingresados en el formulario son los correctos
-          var messageObj =  {
-            
-            periodSelected: this.periodSelected,
-            goalSelectedIdentificador: this.goalSelected.identificador_meta,
-            goalSelectedName: this.goalSelected.nombre_meta,
-            indicatorSelectedIdentificador: this.indicatorSelected.identificador_indicador,
-            indicatorSelectedName: this.indicatorSelected.nombre_indicador,
-            courseSelectedCode: this.courseSelected.codigo,
-            courseSelectedName: this.courseSelected.nombre_asignatura,
-            groupSelected: this.groupSelected.numero_grupo,
-            evaluationSelected:this.evaluationSelected.tipo_evaluacion,
-            activitySelected: this.activitySelected.tipo_actividad,
-            count: XLSX.utils.sheet_to_json(worksheet, { raw: true }).length
-          }
-          
-          this.openDialog(messageObj);
-          
-      }else{
-       alert("Documento vacío o no valido"); 
+
+        //El ususario debe confirmar si los datos ingresados en el formulario son los correctos
+        var messageObj = {
+
+          periodSelected: this.periodSelected,
+          goalSelectedIdentificador: this.goalSelected.identificador_meta,
+          goalSelectedName: this.goalSelected.nombre_meta,
+          indicatorSelectedIdentificador: this.indicatorSelected.identificador_indicador,
+          indicatorSelectedName: this.indicatorSelected.nombre_indicador,
+          courseSelectedCode: this.courseSelected.codigo,
+          courseSelectedName: this.courseSelected.nombre_asignatura,
+          groupSelected: this.groupSelected.numero_grupo,
+          evaluationSelected: this.evaluationSelected.tipo_evaluacion,
+          activitySelected: this.activitySelected.tipo_actividad,
+          count: XLSX.utils.sheet_to_json(worksheet, { raw: true }).length
+        }
+
+        this.openDialog(messageObj);
+
+      } else {
+        alert("Documento vacío o no valido");
       }
     }
 
@@ -632,7 +673,7 @@ export class uploadDataNewComponent implements OnInit {
 
   }
 
-  openDialog(message:any): void {
+  openDialog(message: any): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '750px',
       data: message
@@ -640,12 +681,12 @@ export class uploadDataNewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
-      
-      if(result){
-        this.openLoadingDialog(); 
-        this.insertFormInformation();   
+
+      if (result) {
+        this.openLoadingDialog();
+        this.insertFormInformation();
       }
-    
+
     });
   }
 
