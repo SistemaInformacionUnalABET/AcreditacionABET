@@ -8,6 +8,7 @@ import { ViewCompleteGrade } from './../statistics/entities/viewCompleteGrade'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/catch'
+import { url_backend } from '../../../assets/urls/urls';
 
 
 @Injectable()
@@ -15,7 +16,7 @@ export class StatisticsServices {
   // private headers = new Headers({ 'Content-Type': 'application/json' });
 
   private options;
-  private urlVCompleteGradesByParams = 'http://localhost:8077/vCompleteGrades/';
+  private urlVCompleteGradesByParams = 'http://'+ url_backend+'/vCompleteGrades/';
 
 
   constructor(private http: Http) {

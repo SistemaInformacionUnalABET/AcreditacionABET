@@ -3,13 +3,14 @@ import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/map'
+import { url_backend } from '../../../assets/urls/urls';
 
 @Injectable()
 export class AuthService {
 
   userName: string;
   loggedIn: boolean;
-  url = "http://localhost:8077/auth";
+  url = 'http://'+ url_backend+'/auth';
 
   constructor(private http: Http) {
     this.userName = '';

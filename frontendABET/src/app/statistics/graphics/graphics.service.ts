@@ -10,6 +10,7 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/catch'
 
 import { BehaviorSubject } from 'rxjs';
+import { url_backend } from '../../../assets/urls/urls';
 
 
 
@@ -18,7 +19,7 @@ export class GraphicsService {
 
   private options;
 
-  private urlVCompleteGradesByParams = 'http://localhost:8077/vCompleteGrades/';
+  private urlVCompleteGradesByParams = 'http://'+ url_backend+'/vCompleteGrades/';
 
 
   constructor(private http: Http) {

@@ -19,35 +19,36 @@ import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/retryWhen'
 import { Activity } from '../../statistics/statistics/entities/activity';
 import { Grade } from '../../statistics/statistics/entities/grade';
+import { url_backend } from '../../../assets/urls/urls';
 
 
 @Injectable()
 export class UploadService {
 
   // private headers = new Headers({ 'Content-Type': 'application/json' });
-  private url = 'http://localhost:8077/indicadores/';
-  private url2 = 'http://localhost:8077/comunes/';
-  private url3 = 'http://localhost:8077/comunes/';
+  private url = 'http://'+ url_backend+'/indicadores/';
+  private url2 = 'http://'+ url_backend+'/comunes/';
+  private url3 = 'http://'+ url_backend+'/comunes/';
 
-  private urlGetGoals = 'http://localhost:8077/goals/';
-  private urlGetIndicators = 'http://localhost:8077/indicators/';
-  private urlGetCourses = 'http://localhost:8077/courses/';
-  private urlGetGroups = 'http://localhost:8077/groups/';
-  private urlGetEvaluations = 'http://localhost:8077/Evaluations/';
-  private urlGetStudents = 'http://localhost:8077/students/';
-  private urlGetStudentGroups = 'http://localhost:8077/studentGroups/';
-  private urlGetCourseIndicators = 'http://localhost:8077/courseIndicators/'
-  private urlGetActivities = 'http://localhost:8077/activities/'
-  private urlGetGrades = 'http://localhost:8077/grades/'
-  private urlVDataCalification = 'http://localhost:8077/vDataVerification/'
+  private urlGetGoals = 'http://'+ url_backend+'/goals/';
+  private urlGetIndicators = 'http://'+ url_backend+'/indicators/';
+  private urlGetCourses = 'http://'+ url_backend+'/courses/';
+  private urlGetGroups = 'http://'+ url_backend+'/groups/';
+  private urlGetEvaluations = 'http://'+ url_backend+'/Evaluations/';
+  private urlGetStudents = 'http://'+ url_backend+'/students/';
+  private urlGetStudentGroups = 'http://'+ url_backend+'/studentGroups/';
+  private urlGetCourseIndicators = 'http://'+ url_backend+'/courseIndicators/'
+  private urlGetActivities = 'http://'+ url_backend+'/activities/'
+  private urlGetGrades = 'http://'+ url_backend+'/grades/'
+  private urlVDataCalification = 'http://'+ url_backend+'/vDataVerification/'
 
   //Urls Post
-  private urlPostStudents = 'http://localhost:8077/students/';
-  private urlPostStudentGroups = 'http://localhost:8077/studentGroups/';
-  private urlPostCourseIndicators = 'http://localhost:8077/courseIndicators/';
-  private urlPostEvaluations = 'http://localhost:8077/evaluations/';
-  private urlPostActivities = 'http://localhost:8077/activities/';
-  private urlPostGrades = 'http://localhost:8077/grades/';
+  private urlPostStudents = 'http://'+ url_backend+'/students/';
+  private urlPostStudentGroups = 'http://'+ url_backend+'/studentGroups/';
+  private urlPostCourseIndicators = 'http://'+ url_backend+'/courseIndicators/';
+  private urlPostEvaluations = 'http://'+ url_backend+'/evaluations/';
+  private urlPostActivities = 'http://'+ url_backend+'/activities/';
+  private urlPostGrades = 'http://'+ url_backend+'/grades/';
 
   private options;
 
