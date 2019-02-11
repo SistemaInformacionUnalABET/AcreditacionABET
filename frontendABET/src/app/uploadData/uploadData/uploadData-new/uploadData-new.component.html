@@ -98,10 +98,14 @@
                 </div>
               </mat-card-content>
 
-              <div>
+              <div class="row">
+                <div class="col-6">
                   <input type="file" style="display: inline-block;" (change)="incomingfile($event)"
                     placeholder="Cargar Lista" accept=".xlsx">
+                </div>
+                <div class="col-6">
                   <button type="submit" class="btn btn-info" [disabled]="!isFile " (click)="upload()">Enviar</button>
+                </div>
               </div>
 
             </form>
