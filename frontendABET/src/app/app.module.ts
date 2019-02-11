@@ -54,4 +54,3 @@ import { MenuComponent } from './menu/menu.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-platformBrowserDynamic().bootstrapModule(AppModule);
