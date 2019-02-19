@@ -60,6 +60,7 @@
 
                     </mat-autocomplete>
                   </mat-form-field>
+
                   <mat-form-field>
                     <mat-select placeholder="Grupo" formControlName="group">
                       <mat-option *ngFor="let group of groupList" [value]="group">
@@ -68,59 +69,46 @@
                     </mat-select>
                   </mat-form-field>
 
-                  <mat-form-field class="example-full-width">
-                    <input type="text" placeholder="Evaluación" aria-label="Number" matInput
-                      formControlName="evaluation" [matAutocomplete]="autoEvaluationType">
-                    <mat-autocomplete #autoEvaluationType="matAutocomplete">
-
-                      <mat-option *ngFor="let evaluationType of filteredOptionsForEvaluationsType | async"
-                        [value]="evaluationType">
-
-                        {{evaluationType}}
+                  <mat-form-field>
+                    <mat-select placeholder="Evaluación" formControlName='evaluation'>
+                      <mat-option *ngFor="let evaluationType of evaluationTypeList" [value]="evaluationType">
+                        {{ evaluationType }}
                       </mat-option>
-
-                    </mat-autocomplete>
+                    </mat-select>
                   </mat-form-field>
 
-                  <mat-form-field class="example-full-width">
-                    <input type="text" placeholder="Actividad" aria-label="Number" matInput
-                      formControlName="activity" [matAutocomplete]="autoActivityType">
-                    <mat-autocomplete #autoActivityType="matAutocomplete"
-                      >
-
-                      <mat-option *ngFor="let activityType of filteredOptionsForActivitiesType | async"
-                        [value]="activityType">
-                        {{activityType}}
+                  <mat-form-field>
+                    <mat-select placeholder="Actividad" formControlName='activity'>
+                      <mat-option *ngFor="let activityType of activityTypeList" [value]="activityType">
+                        {{ activityType }}
                       </mat-option>
-
-                    </mat-autocomplete>
+                    </mat-select>
                   </mat-form-field>
+                
                 </div>
               </mat-card-content>
 
               <div>
                   <input type="file" style="display: inline-block;" (change)="incomingfile($event)"
                     placeholder="Cargar Lista" accept=".xlsx">
-                  <button type="submit" class="btn btn-info" [disabled]="!isFile " (click)="upload()">Enviar</button>
+                  <button type="submit" mat-raised-button color="primary" [disabled]="!(isFile && form.valid)" (click)="upload()">Enviar</button>
               </div>
 
             </form>
           </mat-card>
 
-
-         
         </div>
       </mat-card-content>
     </mat-card>
 
   </div>
 
-  <!--  <div class="col-7">
-    <app-uploadData-list [courseId]="courseSelected.id_asignatura" [groupId]="groupSelected.id_grupo"
-      [indicatorId]="indicatorSelected.id_indicador" [periodType]="periodSelected"
+  <div class="col-7">
+    <app-uploadData-list [course]="courseSelected" [group]="groupSelected"
+      [indicator]="indicatorSelected" [periodType]="periodSelected"
       [evaluationType]="evaluationSelected.tipo_evaluacion" [activityType]="activitySelected.tipo_actividad"
       [isChargeComplete]="isChargeComplete">
     </app-uploadData-list>
-  </div> -->
+  </div>
 
 </div>

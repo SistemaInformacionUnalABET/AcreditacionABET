@@ -59,16 +59,12 @@ export class uploadDataNewComponent implements OnInit {
   courseIndicator: CourseIndicator;
 
   form: FormGroup;
-  controlGroup: FormControl;
-  controlEvaluationType: FormControl;
   controlActivityType: FormControl;
 
   filteredOptions: Observable<string[]>;
   filteredOptionsForIndicators: Observable<string[]>;
   filteredOptionsForCourse: Observable<string[]>;
   filteredOptionsForGroups: Observable<string[]>;
-  filteredOptionsForEvaluationsType: Observable<String[]>;
-  filteredOptionsForActivitiesType: Observable<String[]>;
 
   emptyString = " ";
   isFile = false;
@@ -86,8 +82,6 @@ export class uploadDataNewComponent implements OnInit {
     public dialog: MatDialog
   ) {
 
-    this.controlGroup = new FormControl();
-    this.controlEvaluationType = new FormControl();
     this.controlActivityType = new FormControl();
 
     this.goalSelected = new Goal(null, null, null, null);
@@ -193,31 +187,15 @@ export class uploadDataNewComponent implements OnInit {
             );
         })
 
-
-    //Filtra las Evaluaciones que aparecen en el formulario para el campo Evaluacion
-    //Nota: propio de Angular Material
-    this.filteredOptionsForEvaluationsType = this.controlEvaluationType.valueChanges
-      .pipe(
-        startWith(''),
-        map(val => this.filterEvaluationsType(val))
-      );
-
-    //Filtra las Actividades que aparecen en el formulario para el campo Actividad
-    //Nota: propio de Angular Material
-    this.filteredOptionsForActivitiesType = this.controlActivityType.valueChanges
-      .pipe(
-        startWith(''),
-        map(val => this.filterActivitiesType(val))
-      );
   }
 
   createContols() {
     this.form = this.fb.group({
       'period': ['', [Validators.required]],
       'goal': ['', [Validators.required]],
-      'indicator': [{ value: '', disabled: true }, [Validators.required]],
+      'indicator': ['', [Validators.required]],
       'subject': ['', [Validators.required]],
-      'group': [{ value: '', disabled: true }, [Validators.required]],
+      'group': ['', [Validators.required]],
       'evaluation': ['', [Validators.required]],
       'activity': ['', [Validators.required]],
     });
@@ -243,11 +221,8 @@ export class uploadDataNewComponent implements OnInit {
         var stringIdentificator = value.split(" ")[0];
         this.goalSelected = this.goalList.find(goal => goal.identificador_meta === stringIdentificator);
 
-        if (this.goalSelected != undefined && this.goalSelected != null && this.goalSelected['id_meta'] != undefined && this.goalSelected['id_meta'] != null) {
-          this.form.controls['indicator'].enable();
+        if (this.goalSelected != undefined && this.goalSelected != null && this.goalSelected['id_meta'] != undefined && this.goalSelected['id_meta'] != null) {         
           this.fillIndicatorSelector();
-        } else {
-          this.form.controls['indicator'].disable();
         }
       }
 
@@ -275,10 +250,7 @@ export class uploadDataNewComponent implements OnInit {
         this.courseSelected = this.courseList.find(course => course.codigo === stringCode);
 
         if (this.courseSelected != undefined && this.courseSelected != null && this.courseSelected['id_asignatura'] != undefined && this.courseSelected['id_asignatura'] != null) {
-          this.form.controls['group'].enable();
           this.fillGroupSelector();
-        } else {
-          this.form.controls['group'].disable();
         }
       }
     });
@@ -364,12 +336,6 @@ export class uploadDataNewComponent implements OnInit {
       (String(element.identificador_indicador).toLowerCase() + " " + String(element.nombre_indicador).toLowerCase()).indexOf(val.toLowerCase()) !== -1);
   }
 
-  //Filtro de campo Evaluacion
-  //Nota: Propio de Angular Material
-  filterEvaluationsType(val): String[] {
-    return this.evaluationTypeList.filter(element =>
-      (String(element).toLowerCase()).indexOf((String(val)).toLowerCase()) !== -1);
-  }
   //Filtro de campo Actividad
   //Nota: Propio de Angular Material
   filterActivitiesType(val): String[] {
@@ -382,7 +348,12 @@ export class uploadDataNewComponent implements OnInit {
   file: File;
   incomingfile(event) {
     this.file = event.target.files[0];
-    this.isFile = true;
+    console.log("Archivo=>", this.file);
+    if (this.file != undefined) {
+      this.isFile = true;
+    }else{
+      this.isFile = false;
+    }
   }
 
   twoDigits(d) {
@@ -665,7 +636,7 @@ export class uploadDataNewComponent implements OnInit {
         this.openDialog(messageObj);
 
       } else {
-        alert("Documento vacío o no valido");
+        alert("Documento vacío o inválido");
       }
     }
 

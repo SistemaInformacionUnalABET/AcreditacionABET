@@ -6,7 +6,41 @@
 <h6>activityType: {{activityType}}</h6>
 <h6>isChargeComplete: {{isChargeComplete}}</h6>
 
+<div class="card-block">
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+
+        <th>Asignatura</th>
+        <th>Grupo</th>
+        <th>Indicador</th>
+        <th>Periodo</th>
+        <th>Evaluación</th>
+        <th>Actividad</th>
+      </tr>
+
+
+    </thead>
+    <tbody>
+      <tr>
+
+        <td>{{course.nombre_asignatura}}</td>
+        <td>{{group.numero_grupo}}</td>
+        <td>{{indicator.identificador_indicador}}</td>
+        <td>{{periodType}}</td>
+        <td>{{evaluationType}}</td>
+        <td>{{activityType}}</td>
+
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>
+
 <div *ngIf="flagGrades">
+
+  
 
   <div class="card-block">
     <table class="table table-hover">
@@ -39,16 +73,30 @@
 
   </div>
 </div>
-<div *ngIf="!flagGrades">
+<div *ngIf="flagFullInfo && !flagGrades ">
   <br>
   <br>
   <br>
   <div class="row">
     <div class="col-1"></div>
     <div class="alert alert-info col-10" role="alert">
-      No se encuentran notas registradas
+      No se encuentran calificaciones registradas para los valores seleccionados.
     </div>
     <div class="col-1"></div>
   </div>
-  
+
+</div>
+
+<div *ngIf="!flagFullInfo">
+  <br>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="alert alert-info col-10" role="alert">
+      Seleccione un valor en todos los campos del formulario.
+    </div>
+    <div class="col-1"></div>
+  </div>
+
 </div>
