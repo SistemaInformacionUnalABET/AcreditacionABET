@@ -108,6 +108,5 @@ export class StatisticsItemsComponent implements OnInit {
     console.log("LO que seleccionó: = ", this.filterSelected)
     this.flagFilters = true;
 
-    // var stringCode = value.split(" ")[0];
   }
 }
