@@ -73,6 +73,7 @@ export class uploadDataNewComponent implements OnInit {
   isChargeComplete: boolean;
   excelDatas: any;
   countStudentsInserted = 0;
+  excelTemplate: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -150,7 +151,7 @@ export class uploadDataNewComponent implements OnInit {
       "2029-I",
       "2029-II",
     ];
-
+    this.excelTemplate = 'assets/data/excelTemplate.xlsx';
     this.createContols();
     this.logChange();
 
@@ -222,7 +223,7 @@ export class uploadDataNewComponent implements OnInit {
         var stringIdentificator = value.split(" ")[0];
         this.goalSelected = this.goalList.find(goal => goal.identificador_meta === stringIdentificator);
 
-        if (this.goalSelected != undefined && this.goalSelected != null && this.goalSelected['id_meta'] != undefined && this.goalSelected['id_meta'] != null) {         
+        if (this.goalSelected != undefined && this.goalSelected != null && this.goalSelected['id_meta'] != undefined && this.goalSelected['id_meta'] != null) {
           this.fillIndicatorSelector();
         }
       }
@@ -241,7 +242,7 @@ export class uploadDataNewComponent implements OnInit {
     const subject = this.form.controls['subject'];
     subject.valueChanges.subscribe(value => {
       console.log('subject => ', value);
-      
+
       this.form.patchValue({
         'group': ''
       });
@@ -352,10 +353,12 @@ export class uploadDataNewComponent implements OnInit {
   incomingfile(event) {
     this.file = event.target.files[0];
     console.log("Archivo=>", this.file);
-    if (this.file != undefined) {
-      this.isFile = true;
-    }else{
+    if (this.file.type != "application/vnd.ms-excel" &&
+      this.file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
       this.isFile = false;
+
+    } else if (this.file != undefined) {
+      this.isFile = true;
     }
   }
 
@@ -673,6 +676,13 @@ export class uploadDataNewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       alert("*** Proceso finalizado con éxito ***  \n Verique que la información esté actualizada en la tabla");
     });
+  }
+
+
+  public dowbloadTemplate() {
+
+    window.open(this.excelTemplate, "_blank");
+
   }
 
 
