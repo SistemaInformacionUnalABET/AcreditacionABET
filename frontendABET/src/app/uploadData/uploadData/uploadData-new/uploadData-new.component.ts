@@ -216,6 +216,7 @@ export class uploadDataNewComponent implements OnInit {
         'indicator': ''
       });
       this.indicatorList = [];
+      this.indicatorSelected = null;
 
       if (value != undefined && value != null && String(value) != '') {
         var stringIdentificator = value.split(" ")[0];
@@ -240,10 +241,12 @@ export class uploadDataNewComponent implements OnInit {
     const subject = this.form.controls['subject'];
     subject.valueChanges.subscribe(value => {
       console.log('subject => ', value);
+      
       this.form.patchValue({
         'group': ''
       });
       this.groupList = [];
+      this.groupSelected = null;
 
       if (value != undefined && value != null && String(value) != '') {
         var stringCode = value.split(" ")[0];
