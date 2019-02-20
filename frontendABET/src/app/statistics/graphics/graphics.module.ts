@@ -23,9 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 
 import { Http } from '@angular/http';
-import { GraphicsButtonsComponent } from './byCourse/graphics-buttons/graphics-buttons.component';
 import { GraphicsByIndicatorAverageComponent } from './byIndicator/graphics-by-indicator-average/graphics-by-indicator-average.component';
-import { GraphicsButtonsIndicatorsComponent } from './byIndicator/graphics-buttons-indicators/graphics-buttons-indicators.component';
 import { DetailsByIndicatorAverageComponent } from './byIndicator/details-by-indicator-average/details-by-indicator-average.component';
 
 //import { platformBrowserDynamic }  from '@angular/platform-browser-dynamic';
@@ -63,8 +61,8 @@ declare var require: any;
     UploadService
     
   ],
-  declarations: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent, GraphicsButtonsComponent, GraphicsByIndicatorAverageComponent, GraphicsButtonsIndicatorsComponent, DetailsByIndicatorAverageComponent],
-  exports: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent, GraphicsButtonsComponent, GraphicsByIndicatorAverageComponent, GraphicsButtonsIndicatorsComponent, DetailsByIndicatorAverageComponent]
+  declarations: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent, GraphicsByIndicatorAverageComponent,  DetailsByIndicatorAverageComponent],
+  exports: [GraphicsByCourseAverageComponent, DetailsByCourseAverageComponent, GraphicsByIndicatorAverageComponent, DetailsByIndicatorAverageComponent]
 
 })
 export class GraphicsModule { }
