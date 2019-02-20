@@ -26,7 +26,7 @@ var connection = require('./connection');
 //Methods Gets
 var routesGetsStudents = require('./Routes/Students.routes/gets-students-routes');
 var routesGetsIndicators = require('./Routes/Indicators.routes/gets-indicators-routes');
-var routesGetsCourses =  require('./Routes/Courses.routes/gets-courses-routes');
+var routesGetsCourses = require('./Routes/Courses.routes/gets-courses-routes');
 var routesGetsGoals = require('./Routes/Goals.routes/gets-goals-routes');
 var routesGetsEvaluations = require('./Routes/Evaluations.routes/gets-evaluations-routes');
 var routesGetsActivities = require('./Routes/Activities.routes/gets-activities-routes');
@@ -35,6 +35,9 @@ var routesGetsStudentGroups = require('./Routes/StudentGroup.routes/gets-student
 var routesGetsCourseIndicators = require('./Routes/CourseIndicator.routes/gets-CourseIndicators-routes');
 var routesGetsGrades = require('./Routes/Grades.routes/gets-grades-routes');
 
+var routesGetsVAsignaturaAvg = require('./Routes/VAsignaturaAvg/gets-vAsignaturaAvg-routes');
+var routesGetsVAsignaturaClasificacion = require('./Routes/VAsignaturaClasificacion/gets-vAsignaturaClasificacion-routes');
+var routesGetsVAsignaturaIndAvg = require('./Routes/VAsignaturaIndAvg/gets-vAsignaturaIndAvg-routes');
 var routesGetsVCompleteGrades = require('./Routes/VCompleteGrades/gets-vCompleteGrades-routes');
 var routesGetsVDataVerification = require('./Routes/VDataVerification/gets-vDataVerification-routes');
 
@@ -73,6 +76,9 @@ routesGetsStudentGroups.configure(app);
 routesGetsCourseIndicators.configure(app);
 routesGetsGrades.configure(app);
 
+routesGetsVAsignaturaAvg.configure(app);
+routesGetsVAsignaturaClasificacion.configure(app);
+routesGetsVAsignaturaIndAvg.configure(app);
 routesGetsVCompleteGrades.configure(app);
 routesGetsVDataVerification.configure(app);
 

@@ -1,3 +1,4 @@
+
 var connection = require('../../connection');
 
 function MethodsDB() {
