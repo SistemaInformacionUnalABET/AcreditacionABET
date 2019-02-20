@@ -38,6 +38,10 @@ var routesGetsGrades = require('./Routes/Grades.routes/gets-grades-routes');
 var routesGetsVAsignaturaAvg = require('./Routes/VAsignaturaAvg/gets-vAsignaturaAvg-routes');
 var routesGetsVAsignaturaClasificacion = require('./Routes/VAsignaturaClasificacion/gets-vAsignaturaClasificacion-routes');
 var routesGetsVAsignaturaIndAvg = require('./Routes/VAsignaturaIndAvg/gets-vAsignaturaIndAvg-routes');
+var routesGetsVIndicadorAvg = require('./Routes/VIndicadorAvg/gets-vIndicadorAvg-routes');
+var routesGetsVIndicadorClasificacion = require('./Routes/VIndicadorClasificacion/gets-vIndicadorClasificacion-routes');
+var routesGetsVIndicadorAsigAvg = require('./Routes/VIndicadorAsigAvg/gets-vIndicadorAsigAvg-routes');
+
 var routesGetsVCompleteGrades = require('./Routes/VCompleteGrades/gets-vCompleteGrades-routes');
 var routesGetsVDataVerification = require('./Routes/VDataVerification/gets-vDataVerification-routes');
 
@@ -79,6 +83,11 @@ routesGetsGrades.configure(app);
 routesGetsVAsignaturaAvg.configure(app);
 routesGetsVAsignaturaClasificacion.configure(app);
 routesGetsVAsignaturaIndAvg.configure(app);
+
+routesGetsVIndicadorAvg.configure(app);
+routesGetsVIndicadorClasificacion.configure(app);
+routesGetsVIndicadorAsigAvg.configure(app);
+
 routesGetsVCompleteGrades.configure(app);
 routesGetsVDataVerification.configure(app);
 
