@@ -12,16 +12,14 @@
         <mat-card>
             <mat-card-content>
                 <div class="example-container">
-                    <mat-form-field class="example-full-width">
-                        <input type="text" placeholder="Filtro gráfica" aria-label="Number" matInput [formControl]="controlFilterTypeList" [matAutocomplete]="autoFilter">
-                        <mat-autocomplete #autoFilter="matAutocomplete" (optionSelected)="saveFilterSelected($event.option.value)">
-
-                            <mat-option *ngFor="let filterType of filteredOptionsForFilterTypeList | async" [value]="filterType" (click)="saveFilterSelected(filterType)">
-                                {{filterType}}
-                            </mat-option>
-
-                        </mat-autocomplete>
-                    </mat-form-field>
+ 
+                    <mat-form-field>
+                        <mat-select placeholder="Filtro gráfica" >
+                          <mat-option *ngFor="let filterType of filterTypeList" [value]="filterType" (click)="saveFilterSelected(filterType)">
+                            {{filterType}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                 </div>
             </mat-card-content>
         </mat-card>

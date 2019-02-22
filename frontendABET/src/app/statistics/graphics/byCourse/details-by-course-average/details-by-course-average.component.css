@@ -1,0 +1,7 @@
+#div1 {
+    overflow: auto;
+width: 200px;
+height: 200px; /*establece la altura máxima, lo que no entre quedará por debajo y saldra la barra de scroll*/
+}
+
+

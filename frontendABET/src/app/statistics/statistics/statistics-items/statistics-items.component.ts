@@ -40,7 +40,6 @@ export class StatisticsItemsComponent implements OnInit {
 
   controlFilterTypeList: FormControl;
 
-  filteredOptionsForFilterTypeList: Observable<String[]>;
   filteredOptionsForCourse: Observable<String[]>;
 
   flagFilters = false;
@@ -73,16 +72,7 @@ export class StatisticsItemsComponent implements OnInit {
         rs => this.courseList = rs,
         er => console.log(er),
         () => {
-          //Filtra las Asignaturas que aparecen en el formulario para el campo Asignatura
-          //Nota: propio de Angular Material
-        this.filteredOptionsForFilterTypeList = this.controlFilterTypeList.valueChanges
-        .pipe(
-          startWith(''),
-          map(val => this.filterFilterType(val))
-        );
-      }
-
-    //console.log("Conectando..........");
+        }
     )
   }
 
@@ -105,7 +95,7 @@ export class StatisticsItemsComponent implements OnInit {
 
     }
     
-    console.log("LO que seleccionó: = ", this.filterSelected)
+    console.log("Lo que seleccionó: = ", this.filterSelected)
     this.flagFilters = true;
 
   }

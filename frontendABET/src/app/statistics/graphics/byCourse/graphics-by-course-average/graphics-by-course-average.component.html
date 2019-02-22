@@ -7,18 +7,15 @@
 
         <mat-card>
             <mat-card-content>
-                <div class="example-container">
-                    <mat-form-field class="example-full-width " style="width: 60%;">
-                        <input type="text" placeholder="Asignatura" aria-label="Number" matInput [formControl]="controlCourse" [matAutocomplete]="autoCourse">
-                        <mat-autocomplete #autoCourse="matAutocomplete" (optionSelected)="saveCourseSelected($event.option.value)">
+                <div class="example-container">            
 
-                            <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.codigo+ emptyString +course.nombre_asignatura">
-
-                                {{course.codigo}} {{course.nombre_asignatura}}
-                            </mat-option>
-
-                        </mat-autocomplete>
-                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-select placeholder="Asignatura" >
+                          <mat-option *ngFor="let period of let course of courseList" [value]="course.codigo+ emptyString +course.nombre_asignatura" (click)="saveCourseSelected(course.codigo+ emptyString +course.nombre_asignatura)">
+                            {{course.codigo}} {{course.nombre_asignatura}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                 </div>
             </mat-card-content>
         </mat-card>
@@ -29,13 +26,12 @@
 <div class="container">
     <div *ngIf="flagGrades">
         <!-- <a class="btn btn-primary" [routerLink]="['detail']">Detalle</a> -->
-        <button class="btn btn-primary" (click)="isGraphic = !isGraphic">{{isGraphic?"Detalle":"Grafico"}}</button>
-
+        <button class="btn btn-primary" (click)="isGraphic = !isGraphic">{{isGraphic?"Detalle":"Gráfico"}}</button>
         <div *ngIf="isGraphic">
             <br>
             <mat-card>
                 <mat-card-content>
-                    <h2 class="example-h2">Tipo de gráfica</h2>
+                    <h4 class="example-h2">Tipo de gráfica</h4>
                     <section class="example-section">
                         <!-- <label class="example-margin">Gráficas:  </label> -->
                         <mat-radio-group [(ngModel)]="seleted">
@@ -69,7 +65,6 @@
 
     <div *ngIf="!flagGrades">
         <div class="alert alert-info" role="alert">
-            <!-- <chart [options]="chart"></chart> -->
             No se encuentran notas registradas para esta Asignatura
 
         </div>

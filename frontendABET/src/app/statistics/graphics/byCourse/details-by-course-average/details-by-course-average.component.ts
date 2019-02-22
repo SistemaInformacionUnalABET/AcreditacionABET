@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { ViewCompleteGrade } from './../../../statistics/entities/viewCompleteGrade';
 import { GraphicsService } from '../../graphics.service';
 
@@ -11,7 +11,7 @@ import { MAT_TOOLTIP_SCROLL_STRATEGY } from '@angular/material';
   templateUrl: './details-by-course-average.component.html',
   styleUrls: ['./details-by-course-average.component.css']
 })
-export class DetailsByCourseAverageComponent implements OnInit {
+export class DetailsByCourseAverageComponent implements OnInit, OnChanges {
 
   @Input() course: number;
 
@@ -31,17 +31,10 @@ export class DetailsByCourseAverageComponent implements OnInit {
   }
   ngOnInit() {
 
-    alert(this.course);
 
-    // this.graphicsService.currentMessage.subscribe(listComplete => {
-    //   this.completeGradesList = listComplete
-    //   if (this.completeGradesList.length > 0) {
-    //     this.flagGrades = true;
-    //   } else {
-    //     this.flagGrades = false;
-    //   }
-    // })
 
+  }
+  ngOnChanges(){
     if (this.course != null || this.course != undefined) {
 
       this.graphicsService.getViewCompleteGradesByParams(this.course)
@@ -54,7 +47,6 @@ export class DetailsByCourseAverageComponent implements OnInit {
         }
       })
     }
-
   }
 
   iteratecompleteGradesList() {

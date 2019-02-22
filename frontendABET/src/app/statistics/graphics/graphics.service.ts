@@ -13,6 +13,7 @@ import { BehaviorSubject } from 'rxjs';
 import { url_backend } from '../../../assets/urls/urls';
 import {  ViewCourseAvg } from '../statistics/entities/viewCourseAvg';
 import { ViewCourseClasification } from '../statistics/entities/viewCourseClasification';
+import { ViewCourseIndicatorAvg } from '../statistics/entities/viewCourseIndicatorAvg';
 
 
 
@@ -24,6 +25,7 @@ export class GraphicsService {
   private urlVCompleteGradesByParams = 'http://' + url_backend + '/vCompleteGrades/';
   private urlVCourseAvgParams = 'http://' + url_backend + '/vAsignaturaAvg/';
   private urlVCourseClasificationParams = 'http://' + url_backend + '/vAsignaturaClasificacion/';
+  private urlVCourseIndicatorAvgParams = 'http://' + url_backend + '/vAsignaturaIndAvg/';
 
 
   constructor(private http: Http) {
@@ -106,6 +108,21 @@ export class GraphicsService {
     myOption.search = params;
 
     return this.http.get(this.urlVCourseClasificationParams, this.options)
+      .map(r => r.json())
+      .catch(this.handleError);
+  }
+
+  getViewCourseIndicatorAvgByParams(
+    id_course?: number,
+  ): Observable<ViewCourseIndicatorAvg[]> {
+
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('id_course', id_course ? "" + id_course : null);
+    
+    let myOption: RequestOptions = this.options;
+    myOption.search = params;
+
+    return this.http.get(this.urlVCourseIndicatorAvgParams, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }
