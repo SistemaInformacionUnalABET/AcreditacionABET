@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { ViewCompleteGrade } from './../../../statistics/entities/viewCompleteGrade';
 import { GraphicsService } from '../../graphics.service';
 
@@ -9,7 +9,7 @@ import * as XLSX from 'xlsx';
   templateUrl: './details-by-indicator-average.component.html',
   styleUrls: ['./details-by-indicator-average.component.css']
 })
-export class DetailsByIndicatorAverageComponent implements OnInit {
+export class DetailsByIndicatorAverageComponent implements OnInit, OnChanges {
 
 
 
@@ -22,23 +22,22 @@ export class DetailsByIndicatorAverageComponent implements OnInit {
 
   completeGradesList: ViewCompleteGrade[];
 
-  @Input() course: number;
+  @Input() indicator: number;
 
   constructor(private graphicsService: GraphicsService) {
     this.completeGradesList = [];
     this.dataForExport = [];
-    this.course = null;
+    this.indicator = null;
   }
   ngOnInit() {
 
+  }
 
-    alert(this.course + "ALERT by indicator");
+  ngOnChanges(){
+    if (this.indicator != null || this.indicator != undefined) {
 
-
-
-    if (this.course != null || this.course != undefined) {
-
-      this.graphicsService.getViewCompleteGradesByParams(this.course).subscribe(listComplete => {
+      this.graphicsService.getViewCompleteGradesByParams(null,null,this.indicator)
+      .subscribe(listComplete => {
         this.completeGradesList = listComplete
         if (this.completeGradesList.length > 0) {
           this.flagGrades = true;
@@ -46,6 +45,21 @@ export class DetailsByIndicatorAverageComponent implements OnInit {
           this.flagGrades = false;
         }
       })
+    }
+  }
+
+
+
+  iteratecompleteGradesList() {
+
+    this.dataForExport.push(["id_asignatura", "numero_grupo", "id_indicador", "identificador_indicador", "tipo_evaluacion", "tipo_actividad",
+      "documento", "calificacion", "descripcion_calificacion", "periodo", "fecha_creacion", "fecha_modificacion", "observacion", "evidencia_url"])
+
+    for (let element of this.completeGradesList) {
+      this.dataForExport.push([element.id_asignatura, element.numero_grupo, element.id_indicador, element.identificador_indicador,
+      element.tipo_evaluacion, element.tipo_actividad, element.documento, element.calificacion, element.descripcion_calificacion,
+      element.periodo, element.fecha_creacion, element.fecha_modificacion, element.observacion, element.evidencia_url
+      ])
     }
   }
 
@@ -65,19 +79,6 @@ export class DetailsByIndicatorAverageComponent implements OnInit {
 
     /* save to file */
     XLSX.writeFile(wb, this.fileName);
-  }
-
-  iteratecompleteGradesList() {
-
-    this.dataForExport.push(["id_asignatura", "numero_grupo", "id_indicador", "identificador_indicador", "tipo_evaluacion", "tipo_actividad",
-      "documento", "calificacion", "descripcion_calificacion", "periodo", "fecha_creacion", "fecha_modificacion", "observacion", "evidencia_url"])
-
-    for (let element of this.completeGradesList) {
-      this.dataForExport.push([element.id_asignatura, element.numero_grupo, element.id_indicador, element.identificador_indicador,
-      element.tipo_actividad, element.tipo_actividad, element.documento, element.calificacion, element.descripcion_calificacion,
-      element.periodo, element.fecha_creacion, element.fecha_modificacion, element.observacion, element.evidencia_url
-      ])
-    }
   }
 
 }

@@ -14,6 +14,9 @@ import { url_backend } from '../../../assets/urls/urls';
 import {  ViewCourseAvg } from '../statistics/entities/viewCourseAvg';
 import { ViewCourseClasification } from '../statistics/entities/viewCourseClasification';
 import { ViewCourseIndicatorAvg } from '../statistics/entities/viewCourseIndicatorAvg';
+import { ViewIndicatorAvg } from '../statistics/entities/viewIndicatorAvg';
+import { ViewIndicatorClasification } from '../statistics/entities/viewIndicatorClasification';
+import { ViewIndicatorCourseAvg } from '../statistics/entities/ViewIndicatorCourseAvg';
 
 
 
@@ -26,6 +29,9 @@ export class GraphicsService {
   private urlVCourseAvgParams = 'http://' + url_backend + '/vAsignaturaAvg/';
   private urlVCourseClasificationParams = 'http://' + url_backend + '/vAsignaturaClasificacion/';
   private urlVCourseIndicatorAvgParams = 'http://' + url_backend + '/vAsignaturaIndAvg/';
+  private urlVIndicatorAvgParams = 'http://' + url_backend + '/vIndicadorAvg/';
+  private urlVIndicatorClasificationParams = 'http://' + url_backend + '/vIndicadorClasificacion/';
+  private urlVIndicatorCourseAvgParams = 'http://' + url_backend + '/vIndicadorAsigAvg/';
 
 
   constructor(private http: Http) {
@@ -123,6 +129,52 @@ export class GraphicsService {
     myOption.search = params;
 
     return this.http.get(this.urlVCourseIndicatorAvgParams, this.options)
+      .map(r => r.json())
+      .catch(this.handleError);
+  }
+
+  
+  getViewIndicatorAvgByParams(
+    id_indicator?: number,
+  ): Observable<ViewIndicatorAvg[]> {
+
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('id_indicator', id_indicator ? "" + id_indicator : null);
+    
+    let myOption: RequestOptions = this.options;
+    myOption.search = params;
+
+    return this.http.get(this.urlVIndicatorAvgParams, this.options)
+      .map(r => r.json())
+      .catch(this.handleError);
+  }
+
+  getViewIndicatorClasificationByParams(
+    id_indicator?: number,
+  ): Observable<ViewIndicatorClasification[]> {
+
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('id_indicator', id_indicator ? "" + id_indicator : null);
+    
+    let myOption: RequestOptions = this.options;
+    myOption.search = params;
+
+    return this.http.get(this.urlVIndicatorClasificationParams, this.options)
+      .map(r => r.json())
+      .catch(this.handleError);
+  }
+
+  getViewIndicatorCourseAvgByParams(
+    id_indicator?: number,
+  ): Observable<ViewIndicatorCourseAvg[]> {
+
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('id_indicator', id_indicator ? "" + id_indicator : null);
+    
+    let myOption: RequestOptions = this.options;
+    myOption.search = params;
+
+    return this.http.get(this.urlVIndicatorCourseAvgParams, this.options)
       .map(r => r.json())
       .catch(this.handleError);
   }

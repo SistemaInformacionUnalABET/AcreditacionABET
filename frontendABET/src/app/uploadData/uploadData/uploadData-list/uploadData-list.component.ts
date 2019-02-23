@@ -47,19 +47,19 @@ export class uploadDataListComponent implements OnInit {
   ngOnChanges() {
     if (this.course != undefined && this.course != null && this.course.id_asignatura != undefined && this.course.id_asignatura != null) {
       this.courseId = this.course.id_asignatura
-    }else{
+    } else {
       this.course = null;
     }
 
     if (this.group != undefined && this.group != null && this.group.id_grupo != undefined && this.group.id_grupo != null) {
       this.groupId = this.group.id_grupo;
-    }else{
+    } else {
       this.group = null;
     }
 
     if (this.indicator != undefined && this.indicator != null && this.indicator.id_indicador != undefined && this.indicator.id_indicador != null) {
       this.indicatorId = this.indicator.id_indicador;
-    }else{
+    } else {
       this.indicator = null;
     }
 
@@ -75,7 +75,6 @@ export class uploadDataListComponent implements OnInit {
             rs => this.gradesList = rs,
             er => console.log(er),
             () => {
-              console.log(this.gradesList);
               if (this.gradesList.length > 0) {
                 this.flagGrades = true;
               } else {
@@ -85,9 +84,28 @@ export class uploadDataListComponent implements OnInit {
             })
       } else {
         this.flagFullInfo = false;
-        
+
       }
     }
+  }
+
+  deleteCurrentList() {
+
+    if (this.flagGrades == true && this.gradesList.length > 0) {
+      var gradesIdList = this.gradesList.map(value => {
+        return value['id_calificacion'];
+      });
+      
+      this.service.deleteGradeList(gradesIdList.toString())
+        .subscribe(
+          rs => console.log(rs),
+          er => console.log(er),
+          () => {
+              this.ngOnChanges();
+          })
+    }
+
+
   }
 
 }

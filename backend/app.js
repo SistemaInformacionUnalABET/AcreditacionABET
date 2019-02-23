@@ -58,6 +58,9 @@ var routesPostsEvaluations = require('./Routes/Evaluations.routes/posts-evaluati
 var routesPostsActivities = require('./Routes/Activities.routes/posts-activities-routes');
 var routesPostsGrades = require('./Routes/Grades.routes/posts-grades-routes');
 
+//Methods Deletes
+
+var routesDeleteGrades = require('./Routes/Grades.routes/deletes-grades-routes');
 
 //Permisos de acceso al servidor manuales
 // var cors = require('./cors');
@@ -99,6 +102,9 @@ routesPostsEvaluations.configure(app);
 routesPostsActivities.configure(app);
 routesPostsGrades.configure(app);
 
+//Methos Delete
+routesDeleteGrades.configure(app);
+
 //Authentication with token jwt
 routesLoginAuthentication.configure(app);
 
@@ -107,3 +113,4 @@ var server = app.listen(8077, function () {
     console.log("OK   begin with ", server.address().port);
 
 })
+

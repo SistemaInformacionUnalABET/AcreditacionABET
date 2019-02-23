@@ -56,7 +56,7 @@ export class DetailsByCourseAverageComponent implements OnInit, OnChanges {
 
     for (let element of this.completeGradesList) {
       this.dataForExport.push([element.id_asignatura, element.numero_grupo, element.id_indicador, element.identificador_indicador,
-      element.tipo_actividad, element.tipo_actividad, element.documento, element.calificacion, element.descripcion_calificacion,
+      element.tipo_evaluacion, element.tipo_actividad, element.documento, element.calificacion, element.descripcion_calificacion,
       element.periodo, element.fecha_creacion, element.fecha_modificacion, element.observacion, element.evidencia_url
       ])
     }

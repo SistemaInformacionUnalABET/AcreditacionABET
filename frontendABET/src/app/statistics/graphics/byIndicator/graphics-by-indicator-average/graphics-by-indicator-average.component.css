@@ -1,4 +1,38 @@
-.mat-radio-button  ~  .mat-radio-button {
+/* #container {
+    min-width: 320px;
+    max-width: 600px;
+    margin: 0 auto;
+  } */
+
+  chart {
+    display: block;
+  }
+
+  .example-h2 {
+    margin: 10px;
+  }
+  
+  .example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .example-margin {
+    margin: 0 10px;
+  }
+  
+  .mat-radio-button ~ .mat-radio-button {
     /* padding-right: 16px; */
     padding-left: 16px;
+  }
+
+  .example-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .example-container > * {
+    width: 100%;
   }

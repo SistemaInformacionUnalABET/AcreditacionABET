@@ -50,6 +50,10 @@ export class UploadService {
   private urlPostActivities = 'http://'+ url_backend+'/activities/';
   private urlPostGrades = 'http://'+ url_backend+'/grades/';
 
+  //Urls Delete
+
+  private urlDeleteGrades = 'http://'+ url_backend+'/gradeList/';
+
   private options;
 
   constructor(private http: Http) {
@@ -378,36 +382,20 @@ export class UploadService {
       .catch(this.handleError)
   }
 
-  /*
-  
-    getCommons():Observable<Commons[]>{
-      let url = `${this.url3}`;
-      return this.http.get(url)
-        .map(r => r.json())
-        .catch(this.handleError);
-    }
-  
-  
-    addIndicators(indicators: Indicator){
-      let url = `${this.url}`;
-      let iJson = JSON.stringify(indicators);
-      console.log("HACIENDO EL ADD ", iJson);
+  deleteGradeList(gradeIdList: any): Observable<any[]> {
+
+      let params: URLSearchParams = new URLSearchParams();
+      params.set('list',  gradeIdList?""+gradeIdList:null);
       
-      return this.http.post(url, iJson,  {headers: this.headers})
-        .map(r => r.json)
-        .catch(this.handleError)
-    }
+      let myOption: RequestOptions = this.options;
+      myOption.search = params;
   
-    addCommons(commons: Commons){
-      let url = `${this.url2}`;
-      let iJson = JSON.stringify(commons);
-      console.log("HACIENDO EL ADD DE CUMUN", iJson);
-      
-      return this.http.post(url, iJson,  {headers: this.headers})
-        .map(r => r.json)
-        .catch(this.handleError)
-    }
-  */
+    return this.http.delete(this.urlDeleteGrades, this.options)
+      .map(r => r.json())
+      .catch(this.handleError);
+  }
+
+
   private handleError(error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {

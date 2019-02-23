@@ -2,24 +2,20 @@
 <div class="container">
     <div class="card">
         <div class="card-header">
-            Promedios de Indicadores
+            Seleccione un indicador
         </div>
 
         <mat-card>
             <mat-card-content>
                 <div class="example-container">
 
-                    <mat-form-field class="example-full-width" style="width: 95%;">
-
-                        <input type="text" placeholder="Indicador" aria-label="Number" matInput [formControl]="controlIndicator" [matAutocomplete]="autoIndicator">
-                        <mat-autocomplete #autoIndicator="matAutocomplete" (optionSelected)="saveIndicatorSelected($event.option.value)">
-
-                            <mat-option *ngFor="let indicator of filteredOptionsForIndicator | async" [value]="indicator.identificador_indicador+ emptyString +indicator.nombre_indicador">
-                                {{indicator.identificador_indicador}} {{indicator.nombre_indicador}}
-                            </mat-option>
-
-                        </mat-autocomplete>
-                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-select placeholder="Indicador" >
+                          <mat-option *ngFor="let indicator of indicatorList" [value]="indicator.identificador_indicador+ emptyString +indicator.nombre_indicador" (click)="saveIndicatorSelected(indicator.identificador_indicador+ emptyString +indicator.nombre_indicador)">
+                            {{indicator.identificador_indicador}} {{indicator.nombre_indicador}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                 </div>
             </mat-card-content>
         </mat-card>
@@ -29,7 +25,7 @@
 
     <div *ngIf="flagGrades">
         <br>
-        <button class="btn btn-primary" (click)="isGraphic = !isGraphic">{{isGraphic?"Detalle":"Graphic"}}</button>
+        <button class="btn btn-primary" (click)="isGraphic = !isGraphic">{{isGraphic?"Detalle":"Gráfico"}}</button>
 
         <div *ngIf="isGraphic">
             <br>
@@ -52,8 +48,8 @@
 
             <div [chart]="chart"></div>
         </div>
-        <div *ngIf="!isGraphic && courseCod != null">
-            <app-details-by-indicator-average [course]="courseCod"></app-details-by-indicator-average>
+        <div *ngIf="!isGraphic && indicatorId != null">
+            <app-details-by-indicator-average [indicator]="indicatorId"></app-details-by-indicator-average>
 
         </div>
 

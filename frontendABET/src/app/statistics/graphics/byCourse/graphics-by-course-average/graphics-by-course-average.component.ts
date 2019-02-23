@@ -95,8 +95,6 @@ export class GraphicsByCourseAverageComponent implements OnInit {
       this.paintGraphic(Array.from(this.arrayPeriods3), 3);
     }
 
-    console.log(event.value);
-
   }
 
   ngOnInit() {
@@ -367,17 +365,10 @@ export class GraphicsByCourseAverageComponent implements OnInit {
         () => {
           if (this.vCourseIndAvgList.length > 0) {
 
-            console.log("vCourseIndAvgList -> ", this.vCourseIndAvgList);
-
             //calculo de los elementos del ejeX para la grafica3
             this.arrayPeriods3 = [];
-            console.log("this.arrayPeriods3 >>> ", this.arrayPeriods3);
-
             this.arrayPeriods3 = this.calculateArrayX(this.vCourseIndAvgList);
-            console.log("this.arrayPeriods3 >>> ", this.arrayPeriods3);
-
             this.indicatorsBars.setArrayPeriods(this.arrayPeriods3);
-
             this.vCourseIndAvgList.forEach(element => {
 
               //// Calculo para la grafica3
@@ -395,8 +386,6 @@ export class GraphicsByCourseAverageComponent implements OnInit {
         });
 
   }
-
-
 
   calculateArrayX(array) {
     var arr = [];

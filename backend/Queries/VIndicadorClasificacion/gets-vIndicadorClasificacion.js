@@ -11,7 +11,7 @@ function MethodsDB() {
 
             cn.query('select * from v_indicador_clasificacion where' +
 
-                ' (id_indicador = ' + id_indicator + ' or ' + id_indicator + ' is NULL )',
+                ' (id_indicador = ' + id_indicator + ' or ' + id_indicator + ' is NULL ) ORDER BY periodo',
                 function (error, result) {
                     cn.release();
                     if (error) {
