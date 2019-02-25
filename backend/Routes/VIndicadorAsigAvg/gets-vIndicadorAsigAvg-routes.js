@@ -1,4 +1,4 @@
-var db = require('../../Queries/vIndicadorAsigAvg/gets-vIndicadorAsigAvg');
+var db = require('../../Queries/VIndicadorAsigAvg/gets-vIndicadorAsigAvg');
 
 function http() {
     this.configure = function (app) {
