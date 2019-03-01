@@ -19,7 +19,9 @@ export class AuthService {
   }
 
   login(userInfo) {
-    let url = `${this.url}/login`;
+    let url = this.url+'/login';
+   
+    
     let iJson = JSON.stringify(userInfo);
 
 
@@ -43,7 +45,9 @@ export class AuthService {
         return this, this.loggedIn;
       });
   }
+
   logout(): void {
+
     localStorage.removeItem('token');
     this.userName = '';
     this.loggedIn = false;

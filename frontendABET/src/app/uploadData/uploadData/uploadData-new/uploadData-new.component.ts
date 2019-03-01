@@ -102,7 +102,7 @@ export class uploadDataNewComponent implements OnInit {
     this.indicatorList = [];
     this.courseList = [];
     this.groupList = [];
-    this.evaluationTypeList = ["autoevaluación", "coevalución", "heteroevaluación"];
+    this.evaluationTypeList = ["Autoevaluación", "Coevalución", "Heteroevaluación"];
     this.activityTypeList = [
       "Cuestionario",
       "Debate",

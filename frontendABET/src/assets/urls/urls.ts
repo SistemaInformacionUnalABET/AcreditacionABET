@@ -1,1 +1,1 @@
-export const url_backend = 'localhost:8077'
+export const url_backend = '168.176.27.64:8077'

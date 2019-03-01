@@ -370,7 +370,7 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
 
             //// Calculo para la grafica3
             //calcula los promedios de los indadores por periodo
-            this.courseBars.addGrade(element.periodo, String(element.id_asignatura), element.avg);
+            this.courseBars.addGrade(element.periodo, String(element.codigo), element.avg);
 
           });
 

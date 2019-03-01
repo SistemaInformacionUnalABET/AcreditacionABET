@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { AuthService } from './../auth.service'
+import { url_backend } from '../../../../assets/urls/urls';
 
 @Component({
   selector: 'app-auth-login',
@@ -25,8 +26,7 @@ export class AuthLoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.titulo = 'Login';
-    this.auth.logout();
+    this.titulo = 'Login';    
     this.createControls();
   }
 
