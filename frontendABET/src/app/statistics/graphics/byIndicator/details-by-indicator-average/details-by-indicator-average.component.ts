@@ -23,6 +23,7 @@ export class DetailsByIndicatorAverageComponent implements OnInit, OnChanges {
   completeGradesList: ViewCompleteGrade[];
 
   @Input() indicator: number;
+  @Input() indicatorObj: any;
 
   constructor(private graphicsService: GraphicsService) {
     this.completeGradesList = [];
@@ -34,6 +35,8 @@ export class DetailsByIndicatorAverageComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(){
+    this.completeGradesList = [];
+
     if (this.indicator != null || this.indicator != undefined) {
 
       this.graphicsService.getViewCompleteGradesByParams(null,null,this.indicator)
@@ -51,12 +54,13 @@ export class DetailsByIndicatorAverageComponent implements OnInit, OnChanges {
 
 
   iteratecompleteGradesList() {
+    this.dataForExport = [];
 
-    this.dataForExport.push(["id_asignatura", "numero_grupo", "id_indicador", "identificador_indicador", "tipo_evaluacion", "tipo_actividad",
+    this.dataForExport.push(["id_asignatura", "codigo","numero_grupo", "id_indicador", "identificador_indicador", "tipo_evaluacion", "tipo_actividad",
       "documento", "calificacion", "descripcion_calificacion", "periodo", "fecha_creacion", "fecha_modificacion", "observacion", "evidencia_url"])
 
     for (let element of this.completeGradesList) {
-      this.dataForExport.push([element.id_asignatura, element.numero_grupo, element.id_indicador, element.identificador_indicador,
+      this.dataForExport.push([element.id_asignatura, element.codigo, element.numero_grupo, element.id_indicador, element.identificador_indicador,
       element.tipo_evaluacion, element.tipo_actividad, element.documento, element.calificacion, element.descripcion_calificacion,
       element.periodo, element.fecha_creacion, element.fecha_modificacion, element.observacion, element.evidencia_url
       ])
@@ -67,16 +71,16 @@ export class DetailsByIndicatorAverageComponent implements OnInit, OnChanges {
     /* generate worksheet */
 
     this.iteratecompleteGradesList();
-    console.log("dataForExport --> = " + this.dataForExport);
-    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(this.dataForExport);
 
-    console.log("complete list = ", );
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(this.dataForExport);
 
 
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
+    if(this.indicatorObj != undefined && this.indicatorObj!=null && this.indicatorObj['identificador_indicador']!=undefined && this.indicatorObj['identificador_indicador']!=null){
+      this.fileName = 'Abet_indicador_'+this.indicatorObj['identificador_indicador']+'.xlsx';
+    }
     /* save to file */
     XLSX.writeFile(wb, this.fileName);
   }

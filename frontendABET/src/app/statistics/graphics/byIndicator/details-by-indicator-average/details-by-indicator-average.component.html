@@ -6,7 +6,7 @@
 
   <div class="card">
     <div class="card-header">
-      Listado de calificaciones del indicador XXXXXXX
+      Listado de calificaciones del indicador: {{indicatorObj?indicatorObj['identificador_indicador']:' '}}
     </div>
 
     <div *ngIf="flagGrades">
@@ -16,6 +16,7 @@
           <thead class="thead-default">
             <tr>
               <th>Id_asignatura</th>
+              <th>codigo</th>
               <th>Numero_grupo</th>
               <th>Id_indicador</th>
               <th>Identificador_indicador</th>
@@ -35,6 +36,7 @@
           <tbody>
             <tr *ngFor="let item of completeGradesList">
               <td>{{item.id_asignatura}}</td>
+              <td>{{item.codigo}}</td>
               <td>{{item.numero_grupo}}</td>
               <td>{{item.id_indicador}}</td>
               <td>{{item.identificador_indicador}}</td>

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { longStackSupport } from 'q';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  constructor(private router: Router) {
+
+  }
+
+  logOut() {
+    localStorage.removeItem('token');
+    let link = ['/login'];
+    this.router.navigate(link);
+  }
 }
+

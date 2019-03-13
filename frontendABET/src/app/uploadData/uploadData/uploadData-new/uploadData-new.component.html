@@ -29,7 +29,8 @@
                       [matAutocomplete]="autoGoal">
                     <mat-autocomplete #autoGoal="matAutocomplete">
 
-                      <mat-option *ngFor="let goal of filteredOptions | async" [value]="goal.identificador_meta+ emptyString +goal.nombre_meta">
+                      <mat-option *ngFor="let goal of filteredOptions | async"
+                        [value]="goal.identificador_meta+ emptyString +goal.nombre_meta">
                         {{goal.identificador_meta}} {{goal.nombre_meta}}
                       </mat-option>
 
@@ -40,7 +41,8 @@
                     <input type="text" placeholder="Indicador" aria-label="Number" matInput formControlName="indicator"
                       [matAutocomplete]="autoIndicator">
                     <mat-autocomplete #autoIndicator="matAutocomplete">
-                      <mat-option *ngFor="let indicator of filteredOptionsForIndicators | async" [value]="indicator.identificador_indicador+ emptyString +indicator.nombre_indicador">
+                      <mat-option *ngFor="let indicator of filteredOptionsForIndicators | async"
+                        [value]="indicator.identificador_indicador+ emptyString +indicator.nombre_indicador">
                         {{indicator.identificador_indicador}} {{indicator.nombre_indicador}}
                       </mat-option>
                     </mat-autocomplete>
@@ -51,7 +53,8 @@
                       [matAutocomplete]="autoCourse">
                     <mat-autocomplete #autoCourse="matAutocomplete">
 
-                      <mat-option *ngFor="let course of filteredOptionsForCourse | async" [value]="course.codigo+ emptyString +course.nombre_asignatura">
+                      <mat-option *ngFor="let course of filteredOptionsForCourse | async"
+                        [value]="course.codigo+ emptyString +course.nombre_asignatura">
                         {{course.codigo}} {{course.nombre_asignatura}}
                       </mat-option>
 
@@ -81,14 +84,13 @@
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-
                 </div>
               </mat-card-content>
 
               <div class="row">
-
                 <div class="col-md-12">
-                  <button mat-stroked-button color="warn" style="background-color:#94b43b; color: #fff;" (click)="dowbloadTemplate()">
+                  <button mat-stroked-button color="warn" style="background-color:#94b43b; color: #fff;"
+                    (click)="dowbloadTemplate()">
                     <mat-icon>archive</mat-icon> Plantilla xlsx
                   </button>
                 </div>
@@ -97,13 +99,14 @@
               <div class="row">
                 <div class="col-md-12">
 
-                  <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Cargar Lista"
-                    accept=".xlsx">
+                  <input type="file" style="display: inline-block;" (change)="incomingfile($event)"
+                    placeholder="Cargar Lista" accept=".xlsx">
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <button type="submit" mat-raised-button color="primary" [disabled]="!(isFile && form.valid)" (click)="upload()">Enviar</button>
+                  <button type="submit" mat-raised-button color="primary" [disabled]="!(isFile && form.valid)"
+                    (click)="upload()">Enviar</button>
                 </div>
 
               </div>
@@ -118,9 +121,9 @@
   </div>
 
   <div class="col-7">
-    <app-uploadData-list [course]="courseSelected" [group]="groupSelected" [indicator]="indicatorSelected" [periodType]="periodSelected"
-      [evaluationType]="evaluationSelected.tipo_evaluacion" [activityType]="activitySelected.tipo_actividad"
-      [isChargeComplete]="isChargeComplete">
+    <app-uploadData-list [course]="courseSelected" [group]="groupSelected" [indicator]="indicatorSelected"
+      [periodType]="periodSelected" [evaluationType]="evaluationSelected.tipo_evaluacion"
+      [activityType]="activitySelected.tipo_actividad" [isChargeComplete]="isChargeComplete">
     </app-uploadData-list>
   </div>
 

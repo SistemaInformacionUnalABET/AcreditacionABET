@@ -49,7 +49,7 @@
             <div [chart]="chart"></div>
         </div>
         <div *ngIf="!isGraphic && indicatorId != null">
-            <app-details-by-indicator-average [indicator]="indicatorId"></app-details-by-indicator-average>
+            <app-details-by-indicator-average [indicator]="indicatorId" [indicatorObj]="indicatorSelected"></app-details-by-indicator-average>
 
         </div>
 

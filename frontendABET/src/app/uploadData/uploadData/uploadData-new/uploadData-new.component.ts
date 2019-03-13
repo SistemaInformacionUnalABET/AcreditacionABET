@@ -159,35 +159,40 @@ export class uploadDataNewComponent implements OnInit {
 
   ngOnInit() {
 
-    this.service.getAllGoals()
-      .subscribe(
-        rs => this.goalList = rs,
-        er => console.log(er),
-        () => {
+    if (localStorage.getItem('token') == null) {
+      let link = ['/login'];
+      this.router.navigate(link);
+    } else {
 
-          //Filtra las metas que aparecen en el formulario para el campo Meta
-          //Nota: propio de Angular Material
-          this.filteredOptions = this.form.controls['goal'].valueChanges
-            .pipe(
-              startWith(''),
-              map(val => this.filter(val))
-            );
-        })
+      this.service.getAllGoals()
+        .subscribe(
+          rs => this.goalList = rs,
+          er => console.log(er),
+          () => {
 
-    this.service.getCourseByParams()
-      .subscribe(
-        rs => this.courseList = rs,
-        er => console.log(er),
-        () => {
-          //Filtra las Asignaturas que aparecen en el formulario para el campo Asignatura
-          //Nota: propio de Angular Material
-          this.filteredOptionsForCourse = this.form.controls['subject'].valueChanges
-            .pipe(
-              startWith(''),
-              map(val => this.filterCourses(val))
-            );
-        })
+            //Filtra las metas que aparecen en el formulario para el campo Meta
+            //Nota: propio de Angular Material
+            this.filteredOptions = this.form.controls['goal'].valueChanges
+              .pipe(
+                startWith(''),
+                map(val => this.filter(val))
+              );
+          })
 
+      this.service.getCourseByParams()
+        .subscribe(
+          rs => this.courseList = rs,
+          er => console.log(er),
+          () => {
+            //Filtra las Asignaturas que aparecen en el formulario para el campo Asignatura
+            //Nota: propio de Angular Material
+            this.filteredOptionsForCourse = this.form.controls['subject'].valueChanges
+              .pipe(
+                startWith(''),
+                map(val => this.filterCourses(val))
+              );
+          })
+    }
   }
 
   createContols() {

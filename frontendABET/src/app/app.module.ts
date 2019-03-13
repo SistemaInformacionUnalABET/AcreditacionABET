@@ -51,6 +51,7 @@ import { MenuComponent } from './menu/menu.component';
     // ChartModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports:[MenuComponent]
 })
 export class AppModule { }

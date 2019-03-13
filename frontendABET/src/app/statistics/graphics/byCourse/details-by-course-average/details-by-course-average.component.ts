@@ -14,6 +14,7 @@ import { MAT_TOOLTIP_SCROLL_STRATEGY } from '@angular/material';
 export class DetailsByCourseAverageComponent implements OnInit, OnChanges {
 
   @Input() course: number;
+  @Input() courseObj: any;
 
   data: any = [[1, 2, 3, 4, 4], [3, 4, 3, 1, 2]];
   dataForExport: any;
@@ -35,6 +36,8 @@ export class DetailsByCourseAverageComponent implements OnInit, OnChanges {
 
   }
   ngOnChanges(){
+    this.completeGradesList = [];
+
     if (this.course != null || this.course != undefined) {
 
       this.graphicsService.getViewCompleteGradesByParams(this.course)
@@ -50,12 +53,13 @@ export class DetailsByCourseAverageComponent implements OnInit, OnChanges {
   }
 
   iteratecompleteGradesList() {
+    this.dataForExport = [];
 
-    this.dataForExport.push(["id_asignatura", "numero_grupo", "id_indicador", "identificador_indicador", "tipo_evaluacion", "tipo_actividad",
+    this.dataForExport.push(["id_asignatura","codigo", "numero_grupo", "id_indicador", "identificador_indicador", "tipo_evaluacion", "tipo_actividad",
       "documento", "calificacion", "descripcion_calificacion", "periodo", "fecha_creacion", "fecha_modificacion", "observacion", "evidencia_url"])
 
     for (let element of this.completeGradesList) {
-      this.dataForExport.push([element.id_asignatura, element.numero_grupo, element.id_indicador, element.identificador_indicador,
+      this.dataForExport.push([element.id_asignatura, element.codigo, element.numero_grupo, element.id_indicador, element.identificador_indicador,
       element.tipo_evaluacion, element.tipo_actividad, element.documento, element.calificacion, element.descripcion_calificacion,
       element.periodo, element.fecha_creacion, element.fecha_modificacion, element.observacion, element.evidencia_url
       ])
@@ -75,6 +79,10 @@ export class DetailsByCourseAverageComponent implements OnInit, OnChanges {
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    if(this.courseObj != undefined && this.courseObj!=null && this.courseObj['codigo']!=undefined && this.courseObj['codigo']!=null){
+      this.fileName = 'Abet_asignatura_'+this.courseObj['codigo']+'.xlsx';
+    }
 
     /* save to file */
     XLSX.writeFile(wb, this.fileName);

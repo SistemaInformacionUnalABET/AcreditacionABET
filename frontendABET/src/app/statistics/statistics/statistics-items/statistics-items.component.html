@@ -3,6 +3,23 @@
 </div>
 <br>
 
+<div class="row">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+        <button mat-stroked-button color="warn" style="background-color:#94b43b; color: #fff;" (click)="getGrades()">
+            <mat-icon>archive</mat-icon> Descargar todas las calificaciones
+        </button>
+    </div>
+    <div class="col-md-4">
+
+    </div>
+    <div>
+
+    </div>
+</div>
+<br>
 <div class="container">
     <div class="card">
         <div class="card-header">
@@ -12,14 +29,15 @@
         <mat-card>
             <mat-card-content>
                 <div class="example-container">
- 
+
                     <mat-form-field>
-                        <mat-select placeholder="Filtro gráfica" >
-                          <mat-option *ngFor="let filterType of filterTypeList" [value]="filterType" (click)="saveFilterSelected(filterType)">
-                            {{filterType}}
-                          </mat-option>
+                        <mat-select placeholder="Filtro gráfica">
+                            <mat-option *ngFor="let filterType of filterTypeList" [value]="filterType"
+                                (click)="saveFilterSelected(filterType)">
+                                {{filterType}}
+                            </mat-option>
                         </mat-select>
-                      </mat-form-field>
+                    </mat-form-field>
                 </div>
             </mat-card-content>
         </mat-card>
