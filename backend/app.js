@@ -61,6 +61,8 @@ var routesPostsGrades = require('./Routes/Grades.routes/posts-grades-routes');
 //Methods Deletes
 
 var routesDeleteGrades = require('./Routes/Grades.routes/deletes-grades-routes');
+var routesDeleteStudentGroup = require('./Routes/StudentGroup.routes/deletes-studentGroup-router');
+
 
 //Permisos de acceso al servidor manuales
 // var cors = require('./cors');
@@ -104,6 +106,7 @@ routesPostsGrades.configure(app);
 
 //Methos Delete
 routesDeleteGrades.configure(app);
+routesDeleteStudentGroup.configure(app);
 
 //Authentication with token jwt
 routesLoginAuthentication.configure(app);
