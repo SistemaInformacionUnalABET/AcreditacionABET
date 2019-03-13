@@ -210,13 +210,11 @@ export class uploadDataNewComponent implements OnInit {
   logChange() {
     const period = this.form.controls['period'];
     period.valueChanges.subscribe(value => {
-      console.log("period => " + value);
       this.periodSelected = value;
     });
 
     const goal = this.form.controls['goal'];
     goal.valueChanges.subscribe(value => {
-      console.log('goal => ', value);
 
       this.form.patchValue({
         'indicator': ''
@@ -237,7 +235,6 @@ export class uploadDataNewComponent implements OnInit {
 
     const indicator = this.form.controls['indicator'];
     indicator.valueChanges.subscribe(value => {
-      console.log('indicator => ', value);
 
       var stringIdentificator = value.split(" ")[0];
       this.indicatorSelected = this.indicatorList.find(indicator => indicator.identificador_indicador === stringIdentificator);
@@ -246,7 +243,6 @@ export class uploadDataNewComponent implements OnInit {
 
     const subject = this.form.controls['subject'];
     subject.valueChanges.subscribe(value => {
-      console.log('subject => ', value);
 
       this.form.patchValue({
         'group': ''
@@ -266,7 +262,6 @@ export class uploadDataNewComponent implements OnInit {
 
     const group = this.form.controls['group'];
     group.valueChanges.subscribe(value => {
-      console.log('group => ', value);
       if (value != undefined && value != null && String(value) != '') {
         this.groupSelected = value;
       }
@@ -282,7 +277,6 @@ export class uploadDataNewComponent implements OnInit {
 
     const activity = this.form.controls['activity'];
     activity.valueChanges.subscribe(value => {
-      console.log('activity => ', value);
       if (value != undefined && value != null && String(value) != '') {
         this.activitySelected.tipo_actividad = value;
       }
@@ -357,7 +351,6 @@ export class uploadDataNewComponent implements OnInit {
   file: File;
   incomingfile(event) {
     this.file = event.target.files[0];
-    console.log("Archivo=>", this.file);
     if (this.file.type != "application/vnd.ms-excel" &&
       this.file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
       this.isFile = false;
@@ -384,7 +377,6 @@ export class uploadDataNewComponent implements OnInit {
 
   insertGrade(studentGroupObject, gradeObject, indexStudent) {
 
-    console.log("Objeto a buscar ", studentGroupObject);
 
     this.service.getStudentGroupsByParams(null, studentGroupObject.id_grupo, studentGroupObject.id_estudiante, studentGroupObject.id_asignatura, studentGroupObject.periodo)
       .subscribe(
@@ -396,20 +388,6 @@ export class uploadDataNewComponent implements OnInit {
           gradeObject.descripcion_calificacion = null;
           gradeObject.fecha_creacion = this.castToMysqlFormat(new Date());
           gradeObject.fecha_modificacion = this.castToMysqlFormat(new Date());
-
-          console.log(
-
-            gradeObject.id_estudiante_grupo,
-            gradeObject.id_actividad,
-            gradeObject.calificacion,
-            gradeObject.descripcion_calificacion,
-            gradeObject.fecha_creacion,
-            gradeObject.fecha_modificacion,
-            gradeObject.periodo,
-            gradeObject.observacion,
-            gradeObject.id_estudiante_grupo
-
-          );
 
           this.service.addGrades(gradeObject)
             .subscribe(
@@ -444,8 +422,6 @@ export class uploadDataNewComponent implements OnInit {
 
                       this.countStudentsInserted++;
 
-                      console.log(">>>> Index and lenght", indexStudent, this.excelDatas.length - 1);
-                      console.log(">>>> Count and lenght", this.countStudentsInserted, this.excelDatas.length - 1);
                       if (this.countStudentsInserted == this.excelDatas.length) {
                         this.isChargeComplete = true;
                         this.openLoadingDialog();
@@ -495,7 +471,13 @@ export class uploadDataNewComponent implements OnInit {
                           this.insertGrade(currentStudentGroup, gradeObject, indexStudent);
 
                         } else {
-                          this.dialog.closeAll();
+                          this.countStudentsInserted++;
+
+                          if (this.countStudentsInserted == this.excelDatas.length) {
+                            this.isChargeComplete = true;
+                            this.openLoadingDialog();
+                            this.dialog.closeAll();
+                          }
 
                           alert("El estudiante: " + studentObject.documento + " " + studentObject.nombre_completo + " ya se encuentra inscrito en otro grupo " + " de la asignatura: " +
                             this.courseSelected.nombre_asignatura);
@@ -561,8 +543,6 @@ export class uploadDataNewComponent implements OnInit {
                                   this.service.getActivitiesByParams(null, this.activitySelected.tipo_actividad, this.activitySelected.descripcion, this.activitySelected.id_evaluacion)
                                     .subscribe(
                                       result11 => {
-                                        console.log("result 11 -->" + result11[0])
-                                        console.log("id_actividad -->" + result11[0].id_actividad)
                                         this.activitySelected.id_actividad = result11[0].id_actividad;
 
                                         //Inserta cada estudiante a la tabla estudiantes
@@ -599,15 +579,6 @@ export class uploadDataNewComponent implements OnInit {
 
   upload() {
 
-    console.log(
-      this.goalSelected.identificador_meta + " " +
-      this.indicatorSelected.identificador_indicador + " " +
-      this.courseSelected.nombre_asignatura + " " +
-      this.groupSelected.numero_grupo + " " +
-      this.evaluationSelected.tipo_evaluacion + " " +
-      this.activitySelected.tipo_actividad
-    );
-
     let fileReader = new FileReader();
     this.countStudentsInserted = 0;
     this.isChargeComplete = false;
@@ -622,7 +593,6 @@ export class uploadDataNewComponent implements OnInit {
       var workbook = XLSX.read(bstr, { type: "binary" });
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
-      console.log("esto> ", XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       if (XLSX.utils.sheet_to_json(worksheet, { raw: true }).length > 0) {
 
         this.excelDatas = XLSX.utils.sheet_to_json(worksheet, { raw: true });

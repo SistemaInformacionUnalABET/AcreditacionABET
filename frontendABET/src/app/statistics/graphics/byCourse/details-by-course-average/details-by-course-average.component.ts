@@ -70,11 +70,7 @@ export class DetailsByCourseAverageComponent implements OnInit, OnChanges {
     /* generate worksheet */
 
     this.iteratecompleteGradesList();
-    console.log("dataForExport --> = " + this.dataForExport);
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(this.dataForExport);
-
-    console.log("complete list = ", );
-
 
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();

@@ -26,12 +26,7 @@ data;
 
   ngOnInit() {
 
-    console.log("GRAFICO DE BIGOTES");
 
-    // let id= this.route.snapshot.params['id'];
-    // if(!id) return;
-
-    //console.log("este es el id ", id);
 
     this.options = {
       chart: {

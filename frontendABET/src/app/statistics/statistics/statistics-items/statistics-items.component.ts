@@ -106,7 +106,6 @@ export class StatisticsItemsComponent implements OnInit {
 
     }
 
-    console.log("Lo que seleccionó: = ", this.filterSelected)
     this.flagFilters = true;
 
   }
@@ -130,10 +129,7 @@ export class StatisticsItemsComponent implements OnInit {
 
     /* generate worksheet */
     this.iteratecompleteGradesList();
-    console.log("dataForExport --> = " + this.dataForExport);
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(this.dataForExport);
-
-    console.log("complete list = ");
 
 
     /* generate workbook and add the worksheet */

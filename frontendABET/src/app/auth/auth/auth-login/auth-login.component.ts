@@ -38,8 +38,7 @@ export class AuthLoginComponent implements OnInit {
   }
 
   login(f) {
-    console.log("FFFF ->> ", f);
-    
+        
     let token: string;
     this.auth.login(f)
       .subscribe(

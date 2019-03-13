@@ -355,17 +355,10 @@ export class GraphicsByIndicatorAverageComponent implements OnInit {
       () => {
         if (this.vIndicatorCourseAvgList.length > 0) {
 
-          console.log("vIndicatorCourseAvgList -> ", this.vIndicatorCourseAvgList);
-
           //calculo de los elementos del ejeX para la grafica3
           this.arrayPeriods3 = [];
-          console.log("this.arrayPeriods3 >>> ", this.arrayPeriods3);
-
           this.arrayPeriods3 = this.calculateArrayX(this.vIndicatorCourseAvgList);
-          console.log("this.arrayPeriods3 >>> ", this.arrayPeriods3);
-
           this.courseBars.setArrayPeriods(this.arrayPeriods3);
-
           this.vIndicatorCourseAvgList.forEach(element => {
 
             //// Calculo para la grafica3

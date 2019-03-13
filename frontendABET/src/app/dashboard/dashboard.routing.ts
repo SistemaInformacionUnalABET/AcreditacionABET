@@ -15,11 +15,11 @@ import { AuthLoginComponent } from '../auth/auth/auth-login/auth-login.component
 const routes: Routes = [
   {
     path: 'upload', component: uploadDataItemsComponent,
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
   },
   {
     path: 'statistics', component: StatisticsItemsComponent,
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
 
     children: [
       {

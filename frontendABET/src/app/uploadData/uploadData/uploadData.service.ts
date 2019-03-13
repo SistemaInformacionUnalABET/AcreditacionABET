@@ -315,7 +315,6 @@ export class UploadService {
   addStudents(student: Student) {
     let url = `${this.urlPostStudents}`;
     let iJson = JSON.stringify(student);
-    console.log("HACIENDO EL ADD de Students", iJson);
 
     // return this.http.post(url, iJson, { headers: this.headers })
     return this.http.post(url, iJson, this.options)
@@ -326,7 +325,6 @@ export class UploadService {
   addStudentGroups(studentGroup: StudentGroup): Observable<Boolean | any> {
     let url = `${this.urlPostStudentGroups}`;
     let iJson = JSON.stringify(studentGroup);
-    console.log("HACIENDO EL ADD de StudentsGrpups", iJson);
 
     return this.http.post(url, iJson, this.options)
 
@@ -345,7 +343,6 @@ export class UploadService {
   addCourseIndicators(courseIndicator: CourseIndicator) {
     let url = `${this.urlPostCourseIndicators}`;
     let iJson = JSON.stringify(courseIndicator);
-    console.log("HACIENDO EL ADD de courseIndicators", iJson);
 
     return this.http.post(url, iJson, this.options)
       .map(r => r.json)
@@ -355,7 +352,6 @@ export class UploadService {
   addEvaluations(evaluation: Evaluation) {
     let url = `${this.urlPostEvaluations}`;
     let iJson = JSON.stringify(evaluation);
-    console.log("HACIENDO EL ADD de evaluacion", iJson);
 
     return this.http.post(url, iJson, this.options)
       .map(r => r.json)
@@ -365,7 +361,6 @@ export class UploadService {
   addActivities(activity: Activity) {
     let url = `${this.urlPostActivities}`;
     let iJson = JSON.stringify(activity);
-    console.log("HACIENDO EL ADD de actividad", iJson);
 
     return this.http.post(url, iJson, this.options)
       .map(r => r.json)
@@ -375,7 +370,6 @@ export class UploadService {
   addGrades(grade: Grade) {
     let url = `${this.urlPostGrades}`;
     let iJson = JSON.stringify(grade);
-    console.log("HACIENDO EL ADD de calificaciones", iJson);
 
     return this.http.post(url, iJson, this.options)
       .map(r => r.json)

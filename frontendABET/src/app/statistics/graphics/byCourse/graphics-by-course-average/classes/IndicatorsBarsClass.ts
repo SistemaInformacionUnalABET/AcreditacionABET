@@ -16,14 +16,12 @@ export class IndicatorsBars{
     }
 
     setArrayPeriods(array){
-        console.log("ejeX >>> ", array );
-        
+       
         this.arrayPeriods = array;
         this.indicatorMatrixAVG = new Map();
     }
 
     addGrade(period:string, indicator:string, avg:number){
-        console.log("elemento a agregar >>> ", period, indicator, avg)
         //agrega los periodos a la matriz para un nuevo indicador
         if(this.indicatorMatrixAVG.get(indicator) == null){   
             this.indicatorMatrixAVG.set(indicator,new Map());            
