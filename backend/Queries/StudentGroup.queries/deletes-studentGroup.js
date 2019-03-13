@@ -19,3 +19,5 @@ function MethodsDB() {
     }
 
 }
+
+module.exports = new MethodsDB();
