@@ -1,33 +1,31 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import * as XLSX from 'ts-xlsx';
-import { UploadService } from './../uploadData.service'
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Indicator } from '../../../statistics/statistics/entities/indicator';
-import { Commons } from '../../../statistics/statistics/entities/commons';
-import { Goal } from '../../../statistics/statistics/entities/goal'
-import { Course } from '../../../statistics/statistics/entities/course'
-import { Group } from '../../../statistics/statistics/entities/group'
-import { Student } from '../../../statistics/statistics/entities/student'
-import { Evaluation } from '../../../statistics/statistics/entities/evaluation';
-import { Activity } from '../../../statistics/statistics/entities/activity';
-import { StudentGroup } from '../../../statistics/statistics/entities/studentGroup';
-import { CourseIndicator } from '../../../statistics/statistics/entities/courseIndicator'
-import { Grade } from '../../../statistics/statistics/entities/grade'
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component'
-
-
-import { FormBuilder, FormControl, FormGroup, Validators, COMPOSITION_BUFFER_MODE } from '@angular/forms';
-
-import { Observable } from 'rxjs/Observable';
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators/map';
-
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
-
-import { logging } from 'selenium-webdriver';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators/map';
+import { startWith } from 'rxjs/operators/startWith';
+import * as XLSX from 'ts-xlsx';
+import { Activity } from '../../../statistics/statistics/entities/activity';
+import { Course } from '../../../statistics/statistics/entities/course';
+import { CourseIndicator } from '../../../statistics/statistics/entities/courseIndicator';
+import { Evaluation } from '../../../statistics/statistics/entities/evaluation';
+import { Goal } from '../../../statistics/statistics/entities/goal';
+import { Grade } from '../../../statistics/statistics/entities/grade';
+import { Group } from '../../../statistics/statistics/entities/group';
+import { Indicator } from '../../../statistics/statistics/entities/indicator';
+import { Student } from '../../../statistics/statistics/entities/student';
+import { StudentGroup } from '../../../statistics/statistics/entities/studentGroup';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { LoadingDialogComponent } from '../loading-dialog/loading-dialog.component';
+import { UploadService } from './../uploadData.service';
+
+
+
+
+
 
 
 @Component({
