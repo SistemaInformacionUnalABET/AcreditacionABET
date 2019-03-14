@@ -63,12 +63,9 @@ export class uploadDataListComponent implements OnInit, OnChanges {
       this.indicator = null;
     }
 
-console.log("cambios..");
 
     if (this.isChargeComplete) {
-      console.log("cambios....");
       if (this.courseId != null && this.groupId != null && this.indicatorId != null && this.periodType != null && this.evaluationType != null && this.activityType != null) {
-        console.log("cambios.....");
         this.flagFullInfo = true;
 
         this.service.getDataVerification(this.periodType, this.indicatorId, this.courseId, this.groupId, this.evaluationType, this.activityType)
@@ -76,7 +73,6 @@ console.log("cambios..");
             rs => this.gradesList = rs,
             er => console.log(er),
             () => {
-              console.log('>> this.gradesList', this.gradesList);
               
               if (this.gradesList.length > 0) {
                 this.flagGrades = true;
@@ -104,7 +100,16 @@ console.log("cambios..");
           rs => console.log(rs),
           er => console.log(er),
           () => {
-              this.ngOnChanges();
+
+            this.service.deleteEmptyStudentGroup()
+            .subscribe(
+              rs => console.log(rs),
+              er => console.log(er),
+              () => {
+
+                this.ngOnChanges();
+
+              })
           })
     }
 

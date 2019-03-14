@@ -53,6 +53,7 @@ export class UploadService {
   //Urls Delete
 
   private urlDeleteGrades = 'http://'+ url_backend+'/gradeList/';
+  private urlDeleteEmptyStudentGroup = 'http://'+ url_backend+'/emptyStudentGroup/';
 
   private options;
 
@@ -389,6 +390,12 @@ export class UploadService {
       .catch(this.handleError);
   }
 
+  deleteEmptyStudentGroup(): Observable<any[]> {
+    
+  return this.http.delete(this.urlDeleteEmptyStudentGroup, this.options)
+    .map(r => r.json())
+    .catch(this.handleError);
+}
 
   private handleError(error: Response | any) {
     let errMsg: string;
